@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
@@ -31,20 +33,104 @@ class MyApp extends StatelessWidget {
 }
 
 class Home extends StatelessWidget {
+  final player = AudioCache();
+
+  void playNote(int noteNumber) {
+    player.play('note$noteNumber.wav');
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: SafeArea(
-          child: Center(
-            child: TextButton(
-              onPressed: () {
-                final player = AudioCache();
-                player.play('note1.wav');
-                print('pressed');
-              },
-              child: Text('Click Here'),
-            ),
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            children: [
+              TextButton(
+                onPressed: () {
+                  playNote(1);
+                },
+                child: SizedBox(
+                  width: 500,
+                  height: 50,
+                  child: Container(
+                    color: Colors.red,
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  playNote(2);
+                },
+                child: SizedBox(
+                  width: 500,
+                  height: 50,
+                  child: Container(
+                    color: Colors.orange,
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  playNote(3);
+                },
+                child: SizedBox(
+                  width: 500,
+                  height: 50,
+                  child: Container(
+                    color: Colors.yellow,
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  playNote(4);
+                },
+                child: SizedBox(
+                  width: 500,
+                  height: 50,
+                  child: Container(
+                    color: Colors.green,
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  playNote(5);
+                },
+                child: SizedBox(
+                  width: 500,
+                  height: 50,
+                  child: Container(
+                    color: Colors.teal,
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  playNote(6);
+                },
+                child: SizedBox(
+                  width: 500,
+                  height: 50,
+                  child: Container(
+                    color: Colors.blue,
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  playNote(7);
+                },
+                child: SizedBox(
+                  width: 500,
+                  height: 50,
+                  child: Container(
+                    color: Colors.purple,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
