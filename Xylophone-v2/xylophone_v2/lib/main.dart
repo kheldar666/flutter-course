@@ -39,97 +39,38 @@ class Home extends StatelessWidget {
     player.play('note$noteNumber.wav');
   }
 
+  Widget buildKey({required int note, required Color keyColor}) {
+    return Expanded(
+      child: TextButton(
+        style: TextButton.styleFrom(
+          padding: EdgeInsets.zero,
+        ),
+        onPressed: () {
+          playNote(note);
+        },
+        child: Container(
+          color: keyColor,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: Center(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              TextButton(
-                onPressed: () {
-                  playNote(1);
-                },
-                child: SizedBox(
-                  width: 500,
-                  height: 50,
-                  child: Container(
-                    color: Colors.red,
-                  ),
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  playNote(2);
-                },
-                child: SizedBox(
-                  width: 500,
-                  height: 50,
-                  child: Container(
-                    color: Colors.orange,
-                  ),
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  playNote(3);
-                },
-                child: SizedBox(
-                  width: 500,
-                  height: 50,
-                  child: Container(
-                    color: Colors.yellow,
-                  ),
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  playNote(4);
-                },
-                child: SizedBox(
-                  width: 500,
-                  height: 50,
-                  child: Container(
-                    color: Colors.green,
-                  ),
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  playNote(5);
-                },
-                child: SizedBox(
-                  width: 500,
-                  height: 50,
-                  child: Container(
-                    color: Colors.teal,
-                  ),
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  playNote(6);
-                },
-                child: SizedBox(
-                  width: 500,
-                  height: 50,
-                  child: Container(
-                    color: Colors.blue,
-                  ),
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  playNote(7);
-                },
-                child: SizedBox(
-                  width: 500,
-                  height: 50,
-                  child: Container(
-                    color: Colors.purple,
-                  ),
-                ),
-              ),
+              buildKey(note: 1, keyColor: Colors.red),
+              buildKey(note: 2, keyColor: Colors.orange),
+              buildKey(note: 3, keyColor: Colors.yellow),
+              buildKey(note: 4, keyColor: Colors.green),
+              buildKey(note: 5, keyColor: Colors.teal),
+              buildKey(note: 6, keyColor: Colors.blue),
+              buildKey(note: 7, keyColor: Colors.deepPurple),
             ],
           ),
         ),
