@@ -5,9 +5,37 @@ const kLabelTextStyle = TextStyle(
   color: Color(0xff8d8e98),
 );
 
+const kLargeTextStyle = TextStyle(
+  fontSize: 36,
+  fontWeight: FontWeight.bold,
+  color: Colors.white,
+);
+
+const kResultTextStyle = TextStyle(
+  fontSize: 22,
+  fontWeight: FontWeight.bold,
+  color: Colors.green,
+);
+
+const kResultCommentStyle = TextStyle(
+  fontSize: 16,
+  color: Colors.white,
+);
+
 const kNumberStyle = TextStyle(
   fontSize: 50,
   fontWeight: FontWeight.w700,
+);
+
+const kResultNumberStyle = TextStyle(
+  fontSize: 80,
+  fontWeight: FontWeight.w700,
+);
+
+const kLargeButtonTextStyle = TextStyle(
+  fontSize: 25,
+  color: Colors.white,
+  fontWeight: FontWeight.bold,
 );
 
 const double kBottomContainerHeight = 80;
