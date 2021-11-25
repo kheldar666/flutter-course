@@ -5,10 +5,9 @@ const kLabelTextStyle = TextStyle(
   color: Color(0xff8d8e98),
 );
 
-const kLargeTextStyle = TextStyle(
-  fontSize: 36,
+const kTitleTextStyle = TextStyle(
+  fontSize: 50,
   fontWeight: FontWeight.bold,
-  color: Colors.white,
 );
 
 const kResultTextStyle = TextStyle(
@@ -19,7 +18,6 @@ const kResultTextStyle = TextStyle(
 
 const kResultCommentStyle = TextStyle(
   fontSize: 16,
-  color: Colors.white,
 );
 
 const kNumberStyle = TextStyle(

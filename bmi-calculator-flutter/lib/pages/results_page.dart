@@ -1,5 +1,6 @@
+import 'package:bmi_calculator/components/bottom_button.dart';
 import 'package:bmi_calculator/constants.dart';
-import 'package:bmi_calculator/reusable_card.dart';
+import 'package:bmi_calculator/components/reusable_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
@@ -14,18 +15,22 @@ class ResultsPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            height: 40,
-            child: Text(
-              'Your Results',
-              style: kLargeTextStyle,
+          Expanded(
+            child: Container(
+              height: 40,
+              child: Text(
+                'Your Results',
+                style: kTitleTextStyle,
+              ),
             ),
           ),
           Expanded(
+            flex: 6,
             child: ReusableCard(
               color: kActiveCardColor,
               cardChild: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     'OVERWEIGHT',
@@ -45,23 +50,11 @@ class ResultsPage extends StatelessWidget {
               ),
             ),
           ),
-          GestureDetector(
+          BottomButton(
+            title: 'CHANGE INPUTS',
             onTap: () {
               Navigator.pop(context);
             },
-            child: Container(
-              color: kBottomContainerColor,
-              margin: EdgeInsets.only(top: 10),
-              width: double.infinity,
-              height: kBottomContainerHeight,
-              padding: EdgeInsets.only(bottom: 20),
-              child: Center(
-                child: Text(
-                  'CHANGE INPUTS',
-                  style: kLargeButtonTextStyle,
-                ),
-              ),
-            ),
           )
         ],
       ),
