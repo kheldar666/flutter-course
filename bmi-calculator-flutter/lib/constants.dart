@@ -17,7 +17,7 @@ const kResultTextStyle = TextStyle(
 );
 
 const kResultCommentStyle = TextStyle(
-  fontSize: 16,
+  fontSize: 20,
 );
 
 const kNumberStyle = TextStyle(
