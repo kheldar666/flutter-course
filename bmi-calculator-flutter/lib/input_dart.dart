@@ -1,6 +1,7 @@
 import 'package:bmi_calculator/constants.dart';
 import 'package:bmi_calculator/custom_icon_content.dart';
 import 'package:bmi_calculator/reusable_card.dart';
+import 'package:bmi_calculator/round_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -13,6 +14,8 @@ class _InputPageState extends State<InputPage> {
   Gender selectedGender;
 
   int height = 180;
+  int weight = 60;
+  int age = 25;
 
   @override
   Widget build(BuildContext context) {
@@ -107,11 +110,77 @@ class _InputPageState extends State<InputPage> {
                 Expanded(
                   child: ReusableCard(
                     color: kActiveCardColor,
+                    cardChild: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'WEIGHT',
+                          style: kLabelTextStyle,
+                        ),
+                        Text(
+                          weight.toString(),
+                          style: kNumberStyle,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            RoundIconButton(
+                              iconData: FontAwesomeIcons.minus,
+                              onPressed: () {
+                                increaseWeight(false);
+                              },
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            RoundIconButton(
+                              iconData: FontAwesomeIcons.plus,
+                              onPressed: () {
+                                increaseWeight(true);
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Expanded(
                   child: ReusableCard(
                     color: kActiveCardColor,
+                    cardChild: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'AGE',
+                          style: kLabelTextStyle,
+                        ),
+                        Text(
+                          age.toString(),
+                          style: kNumberStyle,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            RoundIconButton(
+                              iconData: FontAwesomeIcons.minus,
+                              onPressed: () {
+                                increaseAge(false);
+                              },
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            RoundIconButton(
+                              iconData: FontAwesomeIcons.plus,
+                              onPressed: () {
+                                increaseAge(true);
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -128,9 +197,29 @@ class _InputPageState extends State<InputPage> {
     );
   }
 
-  void updateColor(Gender gender) {
+  updateColor(Gender gender) {
     setState(() {
       selectedGender = gender;
+    });
+  }
+
+  increaseWeight(bool increase) {
+    setState(() {
+      if (increase) {
+        if (weight < 300) weight++;
+      } else {
+        if (weight > 40) weight--;
+      }
+    });
+  }
+
+  increaseAge(bool increase) {
+    setState(() {
+      if (increase) {
+        if (age < 110) age++;
+      } else {
+        if (age > 10) age--;
+      }
     });
   }
 }
