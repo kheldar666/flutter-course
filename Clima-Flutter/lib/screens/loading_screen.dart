@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:clima/screens/location_screen.dart';
 import 'package:clima/services/location.dart';
 import 'package:clima/services/networking.dart';
 import 'package:flutter/material.dart';
@@ -23,14 +24,21 @@ class _LoadingScreenState extends State<LoadingScreen> {
         'api.openweathermap.org',
         '/data/2.5/weather',
         {
-          'lat': '$location.latitude',
-          'lon': '$location.longitude',
+          'lat': '${location.latitude}',
+          'lon': '${location.longitude}',
           'mode': 'json',
           'appid': dotenv.env['OPENWEATHER_API_KEY'],
         },
       ),
     );
     weatherData = await networking.getData();
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LocationScreen(),
+      ),
+    );
   }
 
   @override
