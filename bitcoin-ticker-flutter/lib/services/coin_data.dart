@@ -49,9 +49,12 @@ class CoinData {
       var decodedData = jsonDecode(response.body);
       double rate = decodedData['rate'];
       return decodedData['rate'].toStringAsFixed(0);
+    } else {
+      print("response.statusCode == $response.statusCode");
+      print("response.body");
+      print(response.body);
+      return '?';
     }
-
-    return '?';
   }
 
   static Future<Map<String, String>> getCoinDatas(currency) async {
