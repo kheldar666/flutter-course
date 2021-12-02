@@ -12,16 +12,27 @@ class PriceScreen extends StatefulWidget {
 
 class _PriceScreenState extends State<PriceScreen> {
   String selectedCurrency = 'USD';
-  String rate = '0';
+  String rate = '?';
 
   @override
   void initState() {
     super.initState();
-    getRate();
+    getRate(currency: selectedCurrency);
   }
 
-  void getRate() async {
-    double _rate = await CoinData.getCoinData(selectedCurrency);
+  void updateCurrency(String currency) {
+    setState(() {
+      selectedCurrency = currency;
+      getRate();
+    });
+  }
+
+  void getRate({String currency}) async {
+    if (currency == null) {
+      currency = selectedCurrency;
+    }
+
+    double _rate = await CoinData.getCoinData(currency);
     setState(() {
       rate = _rate.toStringAsFixed(0);
     });
@@ -56,10 +67,7 @@ class _PriceScreenState extends State<PriceScreen> {
         value: selectedCurrency,
         items: getDropdownItems(),
         onChanged: (currency) {
-          setState(() {
-            print(currency);
-            selectedCurrency = currency;
-          });
+          updateCurrency(currency);
         },
       );
     } else if (Platform.isIOS) {
@@ -68,7 +76,7 @@ class _PriceScreenState extends State<PriceScreen> {
         children: getPickerItems(),
         itemExtent: 32,
         onSelectedItemChanged: (selectedIndex) {
-          print(selectedIndex);
+          updateCurrency(currenciesList[selectedIndex]);
         },
       );
     } else {
@@ -98,7 +106,7 @@ class _PriceScreenState extends State<PriceScreen> {
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
                 child: Text(
-                  '1 BTC = $rate USD',
+                  '1 BTC = $rate $selectedCurrency',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20.0,
