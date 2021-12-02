@@ -23,6 +23,22 @@ class WeatherModel {
     return await networking.getData();
   }
 
+  Future<dynamic> getCityWeather(String cityName) async {
+    Networking networking = Networking(
+      url: Uri.https(
+        'api.openweathermap.org',
+        '/data/2.5/weather',
+        {
+          'q': '$cityName',
+          'mode': 'json',
+          'units': 'metric',
+          'appid': dotenv.env['OPENWEATHER_API_KEY'],
+        },
+      ),
+    );
+    return await networking.getData();
+  }
+
   static String getWeatherIcon(int condition) {
     if (condition < 300) {
       return '🌩';

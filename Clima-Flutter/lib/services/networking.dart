@@ -13,7 +13,6 @@ class Networking {
       return jsonDecode(
           response.body); //using var or dynamic seems to be the same
     } else {
-      print(response.body);
       throw Exception(
           'Error while fetching data from Url. Error Code : ${response.statusCode}');
     }
