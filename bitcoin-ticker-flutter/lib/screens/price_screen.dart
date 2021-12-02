@@ -12,29 +12,29 @@ class PriceScreen extends StatefulWidget {
 
 class _PriceScreenState extends State<PriceScreen> {
   String selectedCurrency = 'USD';
-  String rate = '?';
+  Map<String, String> rates = {};
 
   @override
   void initState() {
     super.initState();
-    getRate(currency: selectedCurrency);
+    getRates(currency: selectedCurrency);
   }
 
   void updateCurrency(String currency) {
     setState(() {
       selectedCurrency = currency;
-      getRate();
+      getRates();
     });
   }
 
-  void getRate({String currency}) async {
+  void getRates({String currency}) async {
     if (currency == null) {
       currency = selectedCurrency;
     }
 
-    double _rate = await CoinData.getCoinData(currency);
+    Map<String, String> _rates = await CoinData.getCoinDatas(currency);
     setState(() {
-      rate = _rate.toStringAsFixed(0);
+      rates = _rates;
     });
   }
 
@@ -94,27 +94,10 @@ class _PriceScreenState extends State<PriceScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 0),
-            child: Card(
-              color: Colors.lightBlueAccent,
-              elevation: 5.0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
-                child: Text(
-                  '1 BTC = $rate $selectedCurrency',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: displayCards(),
           ),
           Container(
             height: 150.0,
@@ -126,5 +109,35 @@ class _PriceScreenState extends State<PriceScreen> {
         ],
       ),
     );
+  }
+
+  List<Widget> displayCards() {
+    List<Widget> cards = [];
+    for (String crypto in cryptoList) {
+      cards.add(
+        Padding(
+          padding: EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 0),
+          child: Card(
+            color: Colors.lightBlueAccent,
+            elevation: 5.0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
+              child: Text(
+                '1 $crypto = ${rates[crypto]} $selectedCurrency',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+    return cards;
   }
 }

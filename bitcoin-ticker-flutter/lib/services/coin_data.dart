@@ -34,10 +34,10 @@ const List<String> cryptoList = [
 ];
 
 class CoinData {
-  static Future<double> getCoinData(String currency) async {
+  static Future<String> getCoinData({String crypto, String currency}) async {
     Uri url = Uri.https(
       'rest.coinapi.io',
-      '/v1/exchangerate/BTC/$currency',
+      '/v1/exchangerate/$crypto/$currency',
       {
         'apikey': dotenv.env['COIN_API_KEY'],
       },
@@ -47,9 +47,20 @@ class CoinData {
 
     if (response.statusCode == 200) {
       var decodedData = jsonDecode(response.body);
-      return decodedData['rate'];
+      double rate = decodedData['rate'];
+      return decodedData['rate'].toStringAsFixed(0);
     }
 
-    return 0;
+    return '?';
+  }
+
+  static Future<Map<String, String>> getCoinDatas(currency) async {
+    Map<String, String> _rates = {};
+    for (String crypto in cryptoList) {
+      String rate = await getCoinData(crypto: crypto, currency: currency);
+      _rates[crypto] = rate;
+    }
+    print(_rates);
+    return _rates;
   }
 }
