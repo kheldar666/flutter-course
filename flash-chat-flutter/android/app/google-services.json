@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "585543922495",
+    "project_id": "flash-chat-b2462",
+    "storage_bucket": "flash-chat-b2462.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:585543922495:android:e889d73938881cb56bd98a",
+        "android_client_info": {
+          "package_name": "org.libermundi.flash_chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "585543922495-721fbn2p605lflmflhttdd6eci502lqm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmEgwLRQYmQ2Y8mKj06-xUCo6ZI2E7Y7s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "585543922495-721fbn2p605lflmflhttdd6eci502lqm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
