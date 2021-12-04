@@ -25,7 +25,6 @@ class _ChatScreenState extends State<ChatScreen> {
       final User _user = _auth.currentUser;
       if (_user != null) {
         _loggedInUser = _user;
-        print(_loggedInUser.email);
       }
     } catch (e) {
       print(e);
@@ -63,6 +62,7 @@ class _ChatScreenState extends State<ChatScreen> {
               stream: _firestore.collection('messages').snapshots(),
               textKey: 'text',
               senderKey: 'sender',
+              currentUser: _loggedInUser.email,
             ),
             Container(
               decoration: kMessageContainerDecoration,

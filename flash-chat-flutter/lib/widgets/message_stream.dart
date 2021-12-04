@@ -6,8 +6,9 @@ class MessageStream extends StatelessWidget {
   final Stream stream;
   final String textKey;
   final String senderKey;
-
-  const MessageStream({this.stream, this.textKey, this.senderKey});
+  final String currentUser;
+  const MessageStream(
+      {this.stream, this.textKey, this.senderKey, this.currentUser});
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +25,7 @@ class MessageStream extends StatelessWidget {
               MessageBubble(
                 message: messageText,
                 sender: messageSender,
+                isMe: currentUser == messageSender ? true : false,
               ),
             );
           }
