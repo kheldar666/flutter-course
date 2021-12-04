@@ -16,7 +16,8 @@ class MessageStream extends StatelessWidget {
       stream: stream,
       builder: (context, snapshot) {
         if (!snapshot.hasError && snapshot.hasData) {
-          final List<QueryDocumentSnapshot> messages = snapshot.data.docs;
+          final List<QueryDocumentSnapshot> messages =
+              snapshot.data.docs.reversed.toList();
           List<MessageBubble> messageBubbles = [];
           for (var message in messages) {
             final messageText = message.get(textKey);
@@ -31,6 +32,7 @@ class MessageStream extends StatelessWidget {
           }
           return Expanded(
             child: ListView(
+              reverse: true, // List sticks at the bottom of the screen
               padding: EdgeInsets.symmetric(
                 horizontal: 10,
                 vertical: 20,
