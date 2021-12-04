@@ -59,7 +59,13 @@ class _ChatScreenState extends State<ChatScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             MessageStream(
-              stream: _firestore.collection('messages').snapshots(),
+              stream: _firestore
+                  .collection('messages')
+                  .orderBy(
+                    'timestamp',
+                    descending: true,
+                  )
+                  .snapshots(),
               textKey: 'text',
               senderKey: 'sender',
               currentUser: _loggedInUser.email,
@@ -85,6 +91,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         _firestore.collection('messages').add({
                           'sender': _loggedInUser.email,
                           'text': _messageText,
+                          'timestamp': DateTime.now().millisecondsSinceEpoch,
                         });
                         _messageText = '';
                       }

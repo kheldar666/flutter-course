@@ -16,8 +16,7 @@ class MessageStream extends StatelessWidget {
       stream: stream,
       builder: (context, snapshot) {
         if (!snapshot.hasError && snapshot.hasData) {
-          final List<QueryDocumentSnapshot> messages =
-              snapshot.data.docs.reversed.toList();
+          final List<QueryDocumentSnapshot> messages = snapshot.data.docs;
           List<MessageBubble> messageBubbles = [];
           for (var message in messages) {
             final messageText = message.get(textKey);
