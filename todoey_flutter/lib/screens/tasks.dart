@@ -55,6 +55,68 @@ class TasksScreen extends StatelessWidget {
               )),
           Expanded(
             child: Container(
+              child: ListView(
+                padding: const EdgeInsets.only(top: 50, left: 50, right: 50),
+                children: [
+                  Row(
+                    children: const [
+                      Expanded(
+                        child: Text(
+                          'Task 1',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      Icon(Icons.check_box_outline_blank),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: const [
+                      Expanded(
+                        child: Text(
+                          'Task 1',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      Icon(
+                        Icons.check_box,
+                        color: Colors.lightBlueAccent,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: const [
+                      Expanded(
+                        child: Text(
+                          'Task 3',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      Icon(
+                        Icons.check_box,
+                        color: Colors.lightBlueAccent,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  )
+                ],
+              ),
               decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
