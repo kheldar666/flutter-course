@@ -9,11 +9,6 @@ class TaskTile extends StatefulWidget {
 
 class _TaskTileState extends State<TaskTile> {
   bool isChecked = false;
-  void onChange(bool? newValue) {
-    setState(() {
-      isChecked = newValue!;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +21,11 @@ class _TaskTileState extends State<TaskTile> {
           )),
       trailing: TaskCheckbox(
         checkboxState: isChecked,
-        onChange: onChange,
+        onChanged: (bool? newValue) {
+          setState(() {
+            isChecked = newValue!;
+          });
+        },
       ),
     );
   }
@@ -35,10 +34,10 @@ class _TaskTileState extends State<TaskTile> {
 class TaskCheckbox extends StatelessWidget {
   final bool checkboxState;
 
-  final Function onChange;
+  final Function(bool?) onChanged;
 
   const TaskCheckbox(
-      {Key? key, required this.checkboxState, required this.onChange})
+      {Key? key, required this.checkboxState, required this.onChanged})
       : super(key: key);
 
   @override
@@ -46,7 +45,7 @@ class TaskCheckbox extends StatelessWidget {
     return Checkbox(
       activeColor: Colors.lightBlueAccent,
       value: checkboxState,
-      onChanged: (newValue) => onChange(newValue),
+      onChanged: onChanged,
     );
   }
 }
