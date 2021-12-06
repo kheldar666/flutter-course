@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todoey_flutter/components/TasksList.dart';
+import 'package:todoey_flutter/widgets/tasks_list.dart';
 
 class TasksScreen extends StatelessWidget {
   const TasksScreen({Key? key}) : super(key: key);
