@@ -1,51 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:todoey_flutter/models/task.dart';
 
-class TaskTile extends StatefulWidget {
-  const TaskTile({Key? key}) : super(key: key);
+class TaskTile extends StatelessWidget {
+  final Task task;
 
-  @override
-  State<TaskTile> createState() => _TaskTileState();
-}
+  final Function(bool? value) callback;
 
-class _TaskTileState extends State<TaskTile> {
-  bool isChecked = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: Text('Task 0',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            decoration: isChecked ? TextDecoration.lineThrough : null,
-          )),
-      trailing: TaskCheckbox(
-        checkboxState: isChecked,
-        onChanged: (bool? newValue) {
-          setState(() {
-            isChecked = newValue!;
-          });
-        },
-      ),
-    );
-  }
-}
-
-class TaskCheckbox extends StatelessWidget {
-  final bool checkboxState;
-
-  final Function(bool?) onChanged;
-
-  const TaskCheckbox(
-      {Key? key, required this.checkboxState, required this.onChanged})
+  const TaskTile({Key? key, required this.task, required this.callback})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Checkbox(
-      activeColor: Colors.lightBlueAccent,
-      value: checkboxState,
-      onChanged: onChanged,
+    return ListTile(
+      title: Text(task.name,
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            decoration: task.isDone ? TextDecoration.lineThrough : null,
+          )),
+      trailing: Checkbox(
+        activeColor: Colors.lightBlueAccent,
+        value: task.isDone,
+        onChanged: callback,
+      ),
     );
   }
 }

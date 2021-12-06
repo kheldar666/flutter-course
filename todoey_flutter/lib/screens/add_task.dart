@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:todoey_flutter/models/task.dart';
 
-class AddTaskScreen extends StatelessWidget {
-  const AddTaskScreen({Key? key}) : super(key: key);
+class AddTaskScreen extends StatefulWidget {
+  final void Function(Task) onAddCallback;
+  const AddTaskScreen({Key? key, required this.onAddCallback})
+      : super(key: key);
+
+  @override
+  State<AddTaskScreen> createState() => _AddTaskScreenState();
+}
+
+class _AddTaskScreenState extends State<AddTaskScreen> {
+  final _taskNameTextController = TextEditingController();
+
+  String newTaskName = '';
 
   @override
   Widget build(BuildContext context) {
@@ -20,16 +32,20 @@ class AddTaskScreen extends StatelessWidget {
                 fontSize: 30,
               ),
             ),
-            const TextField(
+            TextField(
               autofocus: true,
               textAlign: TextAlign.center,
+              onChanged: (String value) {
+                newTaskName = value;
+              },
             ),
             TextButton(
               style: TextButton.styleFrom(
                 backgroundColor: Colors.lightBlueAccent,
               ),
               onPressed: () {
-                //TODO: Add Task to the list
+                Task newTask = Task(name: newTaskName);
+                widget.onAddCallback(newTask);
               },
               child: const Text(
                 'Add',
