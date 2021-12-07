@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:todoey_flutter/models/task.dart';
+import 'package:provider/provider.dart';
+import 'package:todoey_flutter/models/tasks_provider.dart';
 import 'package:todoey_flutter/screens/add_task.dart';
 import 'package:todoey_flutter/widgets/tasks_list.dart';
 
-class TasksScreen extends StatefulWidget {
+class TasksScreen extends StatelessWidget {
   const TasksScreen({Key? key}) : super(key: key);
 
   @override
-  State<TasksScreen> createState() => _TasksScreenState();
-}
-
-class _TasksScreenState extends State<TasksScreen> {
-  List<Task> tasks = [];
-
-  @override
   Widget build(BuildContext context) {
+    TasksDataProvider _dataProvider = Provider.of<TasksDataProvider>(context);
+
     return Scaffold(
       backgroundColor: Colors.lightBlueAccent,
       floatingActionButton: FloatingActionButton(
@@ -28,14 +24,7 @@ class _TasksScreenState extends State<TasksScreen> {
               child: Container(
                 padding: EdgeInsets.only(
                     bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: AddTaskScreen(
-                  onAddCallback: (newTask) {
-                    setState(() {
-                      tasks.add(newTask);
-                    });
-                    Navigator.pop(context);
-                  },
-                ),
+                child: const AddTaskScreen(),
               ),
             ),
           );
@@ -74,7 +63,7 @@ class _TasksScreenState extends State<TasksScreen> {
                         fontWeight: FontWeight.w700),
                   ),
                   Text(
-                    '${tasks.length} Task${tasks.length > 1 ? 's' : ''}',
+                    '${_dataProvider.tasks.length} Task${_dataProvider.tasks.length > 1 ? 's' : ''}',
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 18,
@@ -85,7 +74,7 @@ class _TasksScreenState extends State<TasksScreen> {
           Expanded(
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: TasksList(tasks: tasks),
+              child: TasksList(),
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(

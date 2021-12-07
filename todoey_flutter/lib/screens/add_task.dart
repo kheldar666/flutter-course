@@ -1,22 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todoey_flutter/models/task.dart';
+import 'package:todoey_flutter/models/tasks_provider.dart';
 
-class AddTaskScreen extends StatefulWidget {
-  final void Function(Task) onAddCallback;
-  const AddTaskScreen({Key? key, required this.onAddCallback})
-      : super(key: key);
-
-  @override
-  State<AddTaskScreen> createState() => _AddTaskScreenState();
-}
-
-class _AddTaskScreenState extends State<AddTaskScreen> {
-  final _taskNameTextController = TextEditingController();
-
-  String newTaskName = '';
+class AddTaskScreen extends StatelessWidget {
+  const AddTaskScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    TasksDataProvider _dataProvider = Provider.of<TasksDataProvider>(context);
+    String newTaskName = '';
     return Container(
       color: const Color(0xff757575),
       child: Container(
@@ -45,7 +38,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               ),
               onPressed: () {
                 Task newTask = Task(name: newTaskName);
-                widget.onAddCallback(newTask);
+                _dataProvider.addTask(newTask);
+                Navigator.pop(context);
               },
               child: const Text(
                 'Add',

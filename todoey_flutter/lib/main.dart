@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todoey_flutter/models/tasks_provider.dart';
 import 'package:todoey_flutter/screens/tasks.dart';
 
 void main() {
@@ -10,8 +12,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: TasksScreen(),
+    return ChangeNotifierProvider(
+      create: (BuildContext context) => TasksDataProvider(),
+      child: const MaterialApp(
+        home: TasksScreen(),
+      ),
     );
   }
 }
