@@ -8,18 +8,22 @@ class TasksList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TasksDataProvider _dataProvider = Provider.of<TasksDataProvider>(context);
-
-    return ListView.builder(
-      itemBuilder: (context, index) {
-        return TaskTile(
-          task: _dataProvider.tasks[index],
-          callback: (bool? value) {
-            _dataProvider.toggleTask(index);
+    return Consumer<TasksDataProvider>(
+      builder: (context, tasksData, child) {
+        return ListView.builder(
+          itemBuilder: (context, index) {
+            return TaskTile(
+                task: tasksData.getTask(index),
+                onChanged: (bool? value) {
+                  tasksData.toggleTask(index);
+                },
+                onLongPress: () {
+                  tasksData.deleteTask(index);
+                });
           },
+          itemCount: tasksData.tasksCount,
         );
       },
-      itemCount: _dataProvider.tasks.length,
     );
   }
 }

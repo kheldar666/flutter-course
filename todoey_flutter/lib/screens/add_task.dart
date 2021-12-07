@@ -8,7 +8,6 @@ class AddTaskScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TasksDataProvider _dataProvider = Provider.of<TasksDataProvider>(context);
     String newTaskName = '';
     return Container(
       color: const Color(0xff757575),
@@ -32,21 +31,25 @@ class AddTaskScreen extends StatelessWidget {
                 newTaskName = value;
               },
             ),
-            TextButton(
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.lightBlueAccent,
-              ),
-              onPressed: () {
-                Task newTask = Task(name: newTaskName);
-                _dataProvider.addTask(newTask);
-                Navigator.pop(context);
+            Consumer<TasksDataProvider>(
+              builder: (context, tasksData, child) {
+                return TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.lightBlueAccent,
+                  ),
+                  onPressed: () {
+                    Task newTask = Task(name: newTaskName);
+                    tasksData.addTask(newTask);
+                    Navigator.pop(context);
+                  },
+                  child: const Text(
+                    'Add',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                );
               },
-              child: const Text(
-                'Add',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
             )
           ],
         ),

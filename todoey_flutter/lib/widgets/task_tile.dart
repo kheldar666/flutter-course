@@ -4,9 +4,15 @@ import 'package:todoey_flutter/models/task.dart';
 class TaskTile extends StatelessWidget {
   final Task task;
 
-  final Function(bool? value) callback;
+  final Function(bool? value) onChanged;
 
-  const TaskTile({Key? key, required this.task, required this.callback})
+  final Function() onLongPress;
+
+  const TaskTile(
+      {Key? key,
+      required this.task,
+      required this.onChanged,
+      required this.onLongPress})
       : super(key: key);
 
   @override
@@ -21,8 +27,9 @@ class TaskTile extends StatelessWidget {
       trailing: Checkbox(
         activeColor: Colors.lightBlueAccent,
         value: task.isDone,
-        onChanged: callback,
+        onChanged: onChanged,
       ),
+      onLongPress: onLongPress,
     );
   }
 }

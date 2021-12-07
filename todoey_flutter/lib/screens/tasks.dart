@@ -62,19 +62,23 @@ class TasksScreen extends StatelessWidget {
                         fontSize: 50,
                         fontWeight: FontWeight.w700),
                   ),
-                  Text(
-                    '${_dataProvider.tasks.length} Task${_dataProvider.tasks.length > 1 ? 's' : ''}',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                    ),
+                  Consumer<TasksDataProvider>(
+                    builder: (context, tasksData, child) {
+                      return Text(
+                        '${tasksData.tasksCount} Task${tasksData.tasksCount > 1 ? 's' : ''}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                        ),
+                      );
+                    },
                   ),
                 ],
               )),
           Expanded(
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: TasksList(),
+              child: const TasksList(),
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
