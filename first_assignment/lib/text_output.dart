@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class MyText extends StatelessWidget {
+class TextOutput extends StatelessWidget {
   final String _dspText;
 
-  const MyText(this._dspText, {Key? key}) : super(key: key);
+  const TextOutput(this._dspText, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
