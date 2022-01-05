@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_complete_guide/answer.dart';
+import 'package:flutter_complete_guide/question.dart';
+import 'package:flutter_complete_guide/quiz.dart';
+import 'package:flutter_complete_guide/result.dart';
 
 void main() => runApp(MyApp());
 
@@ -8,41 +12,64 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  static const _questions = [
+    {
+      'questionText': 'What\'s your favorite color ?',
+      'answers': [
+        {'text': 'Black', 'score': 10},
+        {'text': 'Red', 'score': 5},
+        {'text': 'Green', 'score': 3},
+        {'text': 'White', 'score': 1},
+      ],
+    },
+    {
+      'questionText': 'What\'s your favorite animal ?',
+      'answers': [
+        {'text': 'Cat', 'score': 1},
+        {'text': 'Rabbit', 'score': 5},
+        {'text': 'Dog', 'score': 3},
+        {'text': 'Lion', 'score': 10},
+      ],
+    },
+    {
+      'questionText': 'Who\'s your favorite instructor ?',
+      'answers': [
+        {'text': 'Max', 'score': 1},
+        {'text': 'Max', 'score': 1},
+        {'text': 'Max', 'score': 1},
+        {'text': 'Max', 'score': 1},
+      ],
+    }
+  ];
   var _indexQuestion = 0;
-  void _answerQuestion() {
+  var _displayQuestions = true;
+  int _score = 0;
+
+  void _answerQuestion(int score) {
     setState(() {
-      _indexQuestion++;
+      _score = _score + score;
+      if (_indexQuestion < _questions.length - 1) {
+        _indexQuestion++;
+      } else {
+        _displayQuestions = false;
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    var questions = [
-      'What\'s your favorite color ?',
-      'What\'s your favorite animal ?'
-    ];
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: Text('My First App'),
         ),
-        body: Column(
-          children: [
-            Text(questions[_indexQuestion]),
-            RaisedButton(
-              child: Text('Answer 1'),
-              onPressed: _answerQuestion,
-            ),
-            RaisedButton(
-              child: Text('Answer 2'),
-              onPressed: () => print('Anonymous function'),
-            ),
-            RaisedButton(
-              child: Text('Answer 3'),
-              onPressed: _answerQuestion,
-            )
-          ],
-        ),
+        body: _displayQuestions
+            ? Quiz(
+                questions: _questions,
+                callback: _answerQuestion,
+                index: _indexQuestion,
+              )
+            : Result(_score),
       ),
     );
   }
