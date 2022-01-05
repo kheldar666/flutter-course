@@ -36,7 +36,13 @@ class Result extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-          TextButton(child: Text('Restart Quiz'), onPressed: _callback)
+          OutlinedButton(
+            child: Text('Restart Quiz'),
+            onPressed: _callback,
+            style: OutlinedButton.styleFrom(
+              primary: Colors.red,
+            ),
+          )
         ],
       ),
     );
