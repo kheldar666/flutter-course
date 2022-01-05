@@ -47,12 +47,20 @@ class _MyAppState extends State<MyApp> {
 
   void _answerQuestion(int score) {
     setState(() {
-      _score = _score + score;
+      _score += score;
       if (_indexQuestion < _questions.length - 1) {
         _indexQuestion++;
       } else {
         _displayQuestions = false;
       }
+    });
+  }
+
+  void _resetQuiz() {
+    setState(() {
+      _score = 0;
+      _indexQuestion = 0;
+      _displayQuestions = true;
     });
   }
 
@@ -69,7 +77,7 @@ class _MyAppState extends State<MyApp> {
                 callback: _answerQuestion,
                 index: _indexQuestion,
               )
-            : Result(_score),
+            : Result(_score, _resetQuiz),
       ),
     );
   }
