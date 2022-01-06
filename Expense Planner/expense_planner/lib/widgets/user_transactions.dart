@@ -26,14 +26,14 @@ class _UserTransactionsState extends State<UserTransactions> {
     ),
   ];
 
-  void addNewTransaction(String title, String amount) {
+  void _addNewTransaction(String txTitle, String txAmount) {
+    Transaction newTransaction = Transaction(
+      id: DateTime.now().toString(),
+      title: txTitle,
+      amount: double.parse(txAmount),
+      date: DateTime.now(),
+    );
     setState(() {
-      Transaction newTransaction = Transaction(
-        id: 'xxx',
-        title: title,
-        amount: double.parse(amount),
-        date: DateTime.now(),
-      );
       _userTransactions.add(newTransaction);
     });
   }
@@ -43,7 +43,7 @@ class _UserTransactionsState extends State<UserTransactions> {
     return Column(
       children: [
         TransactionForm(
-          callback: addNewTransaction,
+          callback: _addNewTransaction,
         ),
         TransactionList(_userTransactions),
       ],
