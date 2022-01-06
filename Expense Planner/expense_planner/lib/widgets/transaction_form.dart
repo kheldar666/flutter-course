@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class TransactionForm extends StatelessWidget {
-  final Function callback;
+  final Function(String, String) callback;
 
   TransactionForm({
     Key? key,
-    required void Function(String title, String amount) this.callback,
+    required this.callback,
   }) : super(key: key);
 
   final titleController = TextEditingController();

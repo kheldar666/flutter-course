@@ -33,6 +33,7 @@ class _UserTransactionsState extends State<UserTransactions> {
       amount: double.parse(txAmount),
       date: DateTime.now(),
     );
+
     setState(() {
       _userTransactions.add(newTransaction);
     });
