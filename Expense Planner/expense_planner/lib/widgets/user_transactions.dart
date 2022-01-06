@@ -45,9 +45,7 @@ class _UserTransactionsState extends State<UserTransactions> {
         TransactionForm(
           callback: addNewTransaction,
         ),
-        TransactionList(
-          transactions: _userTransactions,
-        ),
+        TransactionList(_userTransactions),
       ],
     );
   }

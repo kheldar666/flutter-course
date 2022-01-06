@@ -33,6 +33,8 @@ class TransactionForm extends StatelessWidget {
               style: TextButton.styleFrom(primary: Colors.purple),
               onPressed: () {
                 callback(titleController.text, amountController.text);
+                titleController.clear();
+                amountController.clear();
               },
             )
           ],
