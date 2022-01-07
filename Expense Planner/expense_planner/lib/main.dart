@@ -9,9 +9,25 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
   final ThemeData theme = ThemeData(
-    primarySwatch: Colors.red,
-    fontFamily: 'Quicksand',
-  );
+      primarySwatch: Colors.red,
+      fontFamily: 'Quicksand',
+      textTheme: ThemeData.light().textTheme.copyWith(
+          headline6: const TextStyle(
+              fontFamily: 'OpenSans',
+              fontWeight: FontWeight.bold,
+              fontSize: 18)),
+      appBarTheme: const AppBarTheme(
+        toolbarTextStyle: TextStyle(
+          fontFamily: 'OpenSans',
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
+        titleTextStyle: TextStyle(
+          fontFamily: 'OpenSans',
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
+      ));
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -81,7 +97,9 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Expense Planner'),
+        title: const Text(
+          'Expense Planner',
+        ),
         actions: [
           IconButton(
             onPressed: () => _displayTransactionForm(context),
