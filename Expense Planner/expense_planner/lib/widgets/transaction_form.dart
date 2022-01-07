@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 
-class TransactionForm extends StatelessWidget {
+class TransactionForm extends StatefulWidget {
   final Function(String, double) callback;
 
-  TransactionForm({
+  const TransactionForm({
     Key? key,
     required this.callback,
   }) : super(key: key);
 
+  @override
+  State<TransactionForm> createState() => _TransactionFormState();
+}
+
+class _TransactionFormState extends State<TransactionForm> {
   final titleController = TextEditingController();
+
   final amountController = TextEditingController();
 
   void _submitNewTx() {
@@ -21,7 +27,7 @@ class TransactionForm extends StatelessWidget {
     }
 
     try {
-      callback(enteredTitle, double.parse(enteredAmount));
+      widget.callback(enteredTitle, double.parse(enteredAmount));
       titleController.clear();
       amountController.clear();
     } on Exception catch (_) {
