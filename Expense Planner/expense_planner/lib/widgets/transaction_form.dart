@@ -12,9 +12,19 @@ class TransactionForm extends StatelessWidget {
   final amountController = TextEditingController();
 
   void _submitNewTx() {
-    callback(titleController.text, double.parse(amountController.text));
-    titleController.clear();
-    amountController.clear();
+    final enteredTitle = titleController.text;
+    final enteredAmount = amountController.text;
+
+    //Basic validation
+    if (enteredTitle.isEmpty || enteredAmount.isEmpty) return;
+
+    try {
+      callback(enteredTitle, double.parse(enteredAmount));
+      titleController.clear();
+      amountController.clear();
+    } on Exception catch (_) {
+      return;
+    }
   }
 
   @override
