@@ -20,10 +20,10 @@ class TransactionList extends StatelessWidget {
                 Container(
                   child: Text(
                     '\$ ${tx.amount.toStringAsFixed(2)}',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
-                      color: Colors.purple,
+                      color: Theme.of(context).primaryColor,
                     ),
                   ),
                   margin: const EdgeInsets.symmetric(
@@ -32,7 +32,7 @@ class TransactionList extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: Colors.purple,
+                      color: Theme.of(context).primaryColor,
                       width: 2,
                       style: BorderStyle.solid,
                     ),

@@ -4,16 +4,21 @@ import 'package:expense_planner/widgets/transaction_form.dart';
 import 'package:expense_planner/widgets/transaction_list.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(const MyApp());
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
+  MyApp({Key? key}) : super(key: key);
+  final ThemeData theme = ThemeData(primarySwatch: Colors.red);
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Flutter Demo',
-      home: MyHomePage(),
+    return MaterialApp(
+      title: 'Expense Planner',
+      theme: theme.copyWith(
+        colorScheme: theme.colorScheme.copyWith(
+          secondary: Colors.amber,
+        ),
+      ),
+      home: const MyHomePage(),
       //debugShowCheckedModeBanner: false,
     );
   }
