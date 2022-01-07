@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class TransactionForm extends StatelessWidget {
-  final Function(String, String) callback;
+  final Function(String, double) callback;
 
   TransactionForm({
     Key? key,
@@ -10,6 +10,12 @@ class TransactionForm extends StatelessWidget {
 
   final titleController = TextEditingController();
   final amountController = TextEditingController();
+
+  void _submitNewTx() {
+    callback(titleController.text, double.parse(amountController.text));
+    titleController.clear();
+    amountController.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,19 +29,21 @@ class TransactionForm extends StatelessWidget {
             TextField(
               decoration: const InputDecoration(labelText: 'Title'),
               controller: titleController,
+              onSubmitted: (_) =>
+                  _submitNewTx, //Use '_' to say we don't use the argument
             ),
             TextField(
               decoration: const InputDecoration(labelText: 'Amount'),
               controller: amountController,
+              keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
+              onSubmitted: (_) =>
+                  _submitNewTx, //Use '_' to say we don't use the argument
             ),
             TextButton(
               child: const Text('Add Transaction'),
               style: TextButton.styleFrom(primary: Colors.purple),
-              onPressed: () {
-                callback(titleController.text, amountController.text);
-                titleController.clear();
-                amountController.clear();
-              },
+              onPressed: _submitNewTx,
             )
           ],
         ),
