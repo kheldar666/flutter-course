@@ -8,7 +8,10 @@ void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
-  final ThemeData theme = ThemeData(primarySwatch: Colors.red);
+  final ThemeData theme = ThemeData(
+    primarySwatch: Colors.red,
+    fontFamily: 'Quicksand',
+  );
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
