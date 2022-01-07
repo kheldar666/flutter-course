@@ -9,7 +9,7 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
   final ThemeData theme = ThemeData(
-      primarySwatch: Colors.red,
+      primarySwatch: Colors.purple,
       fontFamily: 'Quicksand',
       textTheme: ThemeData.light().textTheme.copyWith(
           headline6: const TextStyle(
@@ -51,20 +51,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _userTransactions = [
-    Transaction(
-      id: 't1',
-      title: 'New shoes',
-      amount: 69.99,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't2',
-      title: 'Weekly groceries',
-      amount: 16.53,
-      date: DateTime.now(),
-    ),
-  ];
+  final List<Transaction> _userTransactions = [];
 
   void _addNewTransaction(String txTitle, double txAmount) {
     Transaction newTransaction = Transaction(
@@ -111,7 +98,17 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: [
             const TransactionChart(),
-            TransactionList(_userTransactions),
+            _userTransactions.isNotEmpty
+                ? TransactionList(_userTransactions)
+                : Column(
+                    children: [
+                      Text(
+                        'No transaction added yet !',
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+                      Image.asset('assets/images/waiting.png'),
+                    ],
+                  ),
           ],
         ),
       ),
