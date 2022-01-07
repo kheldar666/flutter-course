@@ -28,8 +28,8 @@ class _TransactionFormState extends State<TransactionForm> {
 
     try {
       widget.callback(enteredTitle, double.parse(enteredAmount));
-      titleController.clear();
-      amountController.clear();
+
+      Navigator.of(context).pop();
     } on Exception catch (_) {
       return;
     }
