@@ -16,7 +16,9 @@ class TransactionForm extends StatelessWidget {
     final enteredAmount = amountController.text;
 
     //Basic validation
-    if (enteredTitle.isEmpty || enteredAmount.isEmpty) return;
+    if (enteredTitle.isEmpty || enteredAmount.isEmpty) {
+      return;
+    }
 
     try {
       callback(enteredTitle, double.parse(enteredAmount));
@@ -39,16 +41,16 @@ class TransactionForm extends StatelessWidget {
             TextField(
               decoration: const InputDecoration(labelText: 'Title'),
               controller: titleController,
-              onSubmitted: (_) =>
-                  _submitNewTx, //Use '_' to say we don't use the argument
+              onSubmitted: (_) => //Use '_' to say we don't use the argument
+                  _submitNewTx(), // must call the real function, not the pointer
             ),
             TextField(
               decoration: const InputDecoration(labelText: 'Amount'),
               controller: amountController,
               keyboardType:
                   const TextInputType.numberWithOptions(decimal: true),
-              onSubmitted: (_) =>
-                  _submitNewTx, //Use '_' to say we don't use the argument
+              onSubmitted: (_) => //Use '_' to say we don't use the argument
+                  _submitNewTx(), // must call the real function, not the pointer
             ),
             TextButton(
               child: const Text('Add Transaction'),
