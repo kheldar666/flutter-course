@@ -53,6 +53,12 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [];
 
+  List<Transaction> get recentTransaction {
+    return _userTransactions.where((tx) {
+      return tx.date.isAfter(DateTime.now().subtract(const Duration(days: 7)));
+    }).toList();
+  }
+
   void _addNewTransaction(String txTitle, double txAmount) {
     Transaction newTransaction = Transaction(
       id: DateTime.now().toString(),
@@ -97,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const TransactionChart(),
+            TransactionChart(recentTransaction),
             _userTransactions.isNotEmpty
                 ? TransactionList(_userTransactions)
                 : Column(
@@ -106,7 +112,16 @@ class _MyHomePageState extends State<MyHomePage> {
                         'No transaction added yet !',
                         style: Theme.of(context).textTheme.headline6,
                       ),
-                      Image.asset('assets/images/waiting.png'),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      SizedBox(
+                        height: 200,
+                        child: Image.asset(
+                          'assets/images/waiting.png',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ],
                   ),
           ],
