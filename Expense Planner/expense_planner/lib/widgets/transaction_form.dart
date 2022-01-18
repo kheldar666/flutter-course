@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class TransactionForm extends StatefulWidget {
-  final Function(String, double) callback;
+  final Function(String, double, DateTime) callback;
 
   const TransactionForm({
     Key? key,
@@ -41,12 +41,12 @@ class _TransactionFormState extends State<TransactionForm> {
     final enteredAmount = _amountController.text;
 
     //Basic validation
-    if (enteredTitle.isEmpty || enteredAmount.isEmpty) {
+    if (enteredTitle.isEmpty || enteredAmount.isEmpty || _txDate == null) {
       return;
     }
 
     try {
-      widget.callback(enteredTitle, double.parse(enteredAmount));
+      widget.callback(enteredTitle, double.parse(enteredAmount), _txDate!);
       Navigator.of(context).pop();
     } on Exception catch (_) {
       return;
