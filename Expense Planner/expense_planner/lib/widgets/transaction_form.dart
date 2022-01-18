@@ -81,7 +81,7 @@ class _TransactionFormState extends State<TransactionForm> {
               child: Row(children: [
                 Text(_txDate == null
                     ? 'No Date Chosen!'
-                    : DateFormat.yMMMd().format(_txDate ?? DateTime.now())),
+                    : 'Picked Date: ${DateFormat.yMMMd().format(_txDate ?? DateTime.now())}'),
                 TextButton(
                   onPressed: _showDatePicker,
                   child: const Text('Choose Date'),

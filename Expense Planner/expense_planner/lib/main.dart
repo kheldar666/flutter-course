@@ -72,6 +72,13 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void _deleteTransaction(String id2Delete) {
+    setState(() {
+      _userTransactions
+          .removeAt(_userTransactions.indexWhere((tx) => tx.id == id2Delete));
+    });
+  }
+
   void _displayTransactionForm(BuildContext ctx) {
     showModalBottomSheet(
       context: ctx,
@@ -105,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             TransactionChart(recentTransaction),
             _userTransactions.isNotEmpty
-                ? TransactionList(_userTransactions)
+                ? TransactionList(_userTransactions, _deleteTransaction)
                 : Column(
                     children: [
                       Text(
