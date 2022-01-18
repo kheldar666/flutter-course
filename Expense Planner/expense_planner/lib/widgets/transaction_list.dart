@@ -15,46 +15,22 @@ class TransactionList extends StatelessWidget {
         itemBuilder: (ctx, index) {
           var tx = transactions[index];
           return Card(
-            child: Row(
-              children: [
-                Container(
-                  child: Text(
-                    '\$ ${tx.amount.toStringAsFixed(2)}',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  ),
-                  margin: const EdgeInsets.symmetric(
-                    vertical: 10,
-                    horizontal: 15,
-                  ),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Theme.of(context).primaryColor,
-                      width: 2,
-                      style: BorderStyle.solid,
-                    ),
-                  ),
-                  padding: const EdgeInsets.all(10),
+            margin: const EdgeInsets.symmetric(vertical: 10),
+            elevation: 6,
+            child: ListTile(
+              leading: CircleAvatar(
+                radius: 30,
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: FittedBox(child: Text('\$${tx.amount}')),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      tx.title,
-                      style: Theme.of(context).textTheme.headline6,
-                    ),
-                    Text(
-                      DateFormat.yMMMd().format(tx.date),
-                      style: const TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+              ),
+              title: Text(
+                tx.title,
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              subtitle: Text(DateFormat.yMMMd().format(tx.date)),
+              trailing: null,
             ),
           );
         },
