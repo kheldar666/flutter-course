@@ -1,9 +1,11 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+
 import 'package:expense_planner/models/transaction.dart';
 import 'package:expense_planner/widgets/transaction_chart.dart';
 import 'package:expense_planner/widgets/transaction_form.dart';
 import 'package:expense_planner/widgets/transaction_list.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 void main() {
   // WidgetsFlutterBinding.ensureInitialized(); // Must set that before the next line
@@ -208,13 +210,15 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(
-          Icons.add,
-          color: Theme.of(context).iconTheme.color,
-        ),
-        onPressed: () => _displayTransactionForm(context),
-      ),
+      floatingActionButton: Platform.isIOS
+          ? Container() // Don't display Floating button on iOS
+          : FloatingActionButton(
+              child: Icon(
+                Icons.add,
+                color: Theme.of(context).iconTheme.color,
+              ),
+              onPressed: () => _displayTransactionForm(context),
+            ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
