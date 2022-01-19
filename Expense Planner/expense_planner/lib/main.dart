@@ -51,7 +51,49 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _userTransactions = [];
+  final List<Transaction> _userTransactions = [
+    Transaction(id: '1', title: 'Tx 1', amount: 15, date: DateTime.now()),
+    Transaction(
+        id: '2',
+        title: 'Tx 2',
+        amount: 20,
+        date: DateTime.now().subtract(const Duration(days: 1))),
+    Transaction(
+        id: '3',
+        title: 'Tx 3',
+        amount: 30,
+        date: DateTime.now().subtract(const Duration(days: 2))),
+    Transaction(
+        id: '4',
+        title: 'Tx 4',
+        amount: 45,
+        date: DateTime.now().subtract(const Duration(days: 3))),
+    Transaction(
+        id: '5',
+        title: 'Tx 5',
+        amount: 50,
+        date: DateTime.now().subtract(const Duration(days: 5))),
+    Transaction(
+        id: '6',
+        title: 'Tx 6',
+        amount: 15,
+        date: DateTime.now().subtract(const Duration(days: 5))),
+    Transaction(
+        id: '7',
+        title: 'Tx 7',
+        amount: 20,
+        date: DateTime.now().subtract(const Duration(days: 6))),
+    Transaction(
+        id: '8',
+        title: 'Tx 8',
+        amount: 35,
+        date: DateTime.now().subtract(const Duration(days: 0))),
+    Transaction(
+        id: '9',
+        title: 'Tx 9',
+        amount: 45,
+        date: DateTime.now().subtract(const Duration(days: 1))),
+  ];
 
   List<Transaction> get recentTransaction {
     return _userTransactions.where((tx) {
@@ -109,28 +151,10 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TransactionChart(recentTransaction),
-            _userTransactions.isNotEmpty
-                ? TransactionList(_userTransactions, _deleteTransaction)
-                : Column(
-                    children: [
-                      Text(
-                        'No transaction added yet !',
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      SizedBox(
-                        height: 200,
-                        child: Image.asset(
-                          'assets/images/waiting.png',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ],
-                  ),
+            TransactionList(_userTransactions, _deleteTransaction),
           ],
         ),
       ),
