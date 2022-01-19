@@ -183,7 +183,7 @@ class _MyHomePageState extends State<MyHomePage> {
         const Text('Show Chart'),
         SizedBox(
           height: _availableSize * 0.15,
-          child: Switch(
+          child: Switch.adaptive(
               value: _showChart,
               onChanged: (value) {
                 setState(() {
