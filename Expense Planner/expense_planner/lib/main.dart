@@ -8,6 +8,7 @@ void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
+
   final ThemeData theme = ThemeData(
       primarySwatch: Colors.purple,
       fontFamily: 'Quicksand',
