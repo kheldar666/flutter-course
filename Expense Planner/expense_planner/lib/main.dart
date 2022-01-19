@@ -148,8 +148,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final _isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
     final _appBar = AppBar(
       title: const Text(
         'Expense Planner',
@@ -162,8 +160,10 @@ class _MyHomePageState extends State<MyHomePage> {
       ],
     );
 
-    final _availableSize = MediaQuery.of(context).size.height -
-        MediaQuery.of(context).padding.top - // Status Bar at the top
+    final _mediaQuery = MediaQuery.of(context);
+    final _isLandscape = _mediaQuery.orientation == Orientation.landscape;
+    final _availableSize = _mediaQuery.size.height -
+        _mediaQuery.padding.top - // Status Bar at the top
         _appBar.preferredSize.height;
 
     final _txChart = TransactionChart(
