@@ -3,8 +3,16 @@ import 'package:expense_planner/widgets/transaction_chart.dart';
 import 'package:expense_planner/widgets/transaction_form.dart';
 import 'package:expense_planner/widgets/transaction_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  // WidgetsFlutterBinding.ensureInitialized(); // Must set that before the next line
+  // SystemChrome.setPreferredOrientations([ //Disabling Landscape mode
+  //   DeviceOrientation.portraitDown,
+  //   DeviceOrientation.portraitUp,
+  // ]);
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
@@ -136,6 +144,8 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  bool _showChart = false;
+
   @override
   Widget build(BuildContext context) {
     final _appBar = AppBar(
@@ -160,9 +170,29 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            TransactionChart(recentTransaction, height: _availableSize * 0.4),
-            TransactionList(_userTransactions, _deleteTransaction,
-                height: _availableSize * 0.6),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('Show Chart'),
+                Switch(
+                    value: _showChart,
+                    onChanged: (value) {
+                      setState(() {
+                        _showChart = value;
+                      });
+                    }),
+              ],
+            ),
+            _showChart
+                ? TransactionChart(
+                    recentTransaction,
+                    height: _availableSize * 0.35,
+                  )
+                : TransactionList(
+                    _userTransactions,
+                    _deleteTransaction,
+                    height: _availableSize * 0.65,
+                  ),
           ],
         ),
       ),
