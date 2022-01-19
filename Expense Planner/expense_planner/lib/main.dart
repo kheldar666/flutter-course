@@ -148,6 +148,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final _isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     final _appBar = AppBar(
       title: const Text(
         'Expense Planner',
@@ -164,35 +166,43 @@ class _MyHomePageState extends State<MyHomePage> {
         MediaQuery.of(context).padding.top - // Status Bar at the top
         _appBar.preferredSize.height;
 
+    final _txChart = TransactionChart(
+      recentTransaction,
+      height: _isLandscape ? _availableSize * 0.85 : _availableSize * 0.35,
+    );
+
+    final _txList = TransactionList(
+      _userTransactions,
+      _deleteTransaction,
+      height: _isLandscape ? _availableSize * 0.85 : _availableSize * 0.65,
+    );
+
+    final _txDspSwitch = Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Text('Show Chart'),
+        SizedBox(
+          height: _availableSize * 0.15,
+          child: Switch(
+              value: _showChart,
+              onChanged: (value) {
+                setState(() {
+                  _showChart = value;
+                });
+              }),
+        ),
+      ],
+    );
+
     return Scaffold(
       appBar: _appBar,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text('Show Chart'),
-                Switch(
-                    value: _showChart,
-                    onChanged: (value) {
-                      setState(() {
-                        _showChart = value;
-                      });
-                    }),
-              ],
-            ),
-            _showChart
-                ? TransactionChart(
-                    recentTransaction,
-                    height: _availableSize * 0.35,
-                  )
-                : TransactionList(
-                    _userTransactions,
-                    _deleteTransaction,
-                    height: _availableSize * 0.65,
-                  ),
+            if (_isLandscape) _txDspSwitch,
+            if (_isLandscape) _showChart ? _txChart : _txList,
+            if (!_isLandscape) ...[_txChart, _txList],
           ],
         ),
       ),
