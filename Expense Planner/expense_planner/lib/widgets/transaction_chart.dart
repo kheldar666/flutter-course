@@ -4,9 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class TransactionChart extends StatelessWidget {
-  const TransactionChart(this.recentTransactions, {Key? key}) : super(key: key);
+  const TransactionChart(this.recentTransactions,
+      {Key? key, required this.height})
+      : super(key: key);
 
   final List<Transaction> recentTransactions;
+
+  final double height;
 
   double get maxSpending {
     return groupedTransactionValues.fold(0.0, (sum, item) {
@@ -37,7 +41,7 @@ class TransactionChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 170,
+      height: height,
       child: Card(
         elevation: 6,
         margin: const EdgeInsets.all(20),

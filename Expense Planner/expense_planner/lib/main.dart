@@ -149,8 +149,8 @@ class _MyHomePageState extends State<MyHomePage> {
         )
       ],
     );
-    final _txListHeight = MediaQuery.of(context).size.height -
-        170 - // Chart height
+
+    final _availableSize = MediaQuery.of(context).size.height -
         MediaQuery.of(context).padding.top - // Status Bar at the top
         _appBar.preferredSize.height;
 
@@ -160,9 +160,9 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            TransactionChart(recentTransaction),
+            TransactionChart(recentTransaction, height: _availableSize * 0.4),
             TransactionList(_userTransactions, _deleteTransaction,
-                height: _txListHeight),
+                height: _availableSize * 0.6),
           ],
         ),
       ),
