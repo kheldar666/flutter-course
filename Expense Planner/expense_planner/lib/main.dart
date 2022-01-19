@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
   final ThemeData theme = ThemeData(
       primarySwatch: Colors.purple,
       fontFamily: 'Quicksand',
+      iconTheme: ThemeData.light().iconTheme.copyWith(color: Colors.black),
       textTheme: ThemeData.light().textTheme.copyWith(
           headline6: const TextStyle(
               fontFamily: 'OpenSans',
@@ -184,6 +185,7 @@ class _MyHomePageState extends State<MyHomePage> {
         SizedBox(
           height: _availableSize * 0.15,
           child: Switch.adaptive(
+              activeColor: Theme.of(context).colorScheme.secondary,
               value: _showChart,
               onChanged: (value) {
                 setState(() {
@@ -207,7 +209,10 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
+        child: Icon(
+          Icons.add,
+          color: Theme.of(context).iconTheme.color,
+        ),
         onPressed: () => _displayTransactionForm(context),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
