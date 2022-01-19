@@ -55,51 +55,57 @@ class _TransactionFormState extends State<TransactionForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            TextField(
-              decoration: const InputDecoration(labelText: 'Title'),
-              controller: _titleController,
-              onSubmitted: (_) => //Use '_' to say we don't use the argument
-                  _submitNewTx(), // must call the real function, not the pointer
-            ),
-            TextField(
-              decoration: const InputDecoration(labelText: 'Amount'),
-              controller: _amountController,
-              keyboardType:
-                  const TextInputType.numberWithOptions(decimal: true),
-              onSubmitted: (_) => //Use '_' to say we don't use the argument
-                  _submitNewTx(), // must call the real function, not the pointer
-            ),
-            SizedBox(
-              height: 70,
-              child: Row(children: [
-                Text(_txDate == null
-                    ? 'No Date Chosen!'
-                    : 'Picked Date: ${DateFormat.yMMMd().format(_txDate ?? DateTime.now())}'),
-                TextButton(
-                  onPressed: _showDatePicker,
-                  child: const Text('Choose Date'),
-                  style: TextButton.styleFrom(
-                    primary: Theme.of(context).primaryColor,
-                    textStyle: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                )
-              ]),
-            ),
-            ElevatedButton(
-              child: const Text('Add Transaction'),
-              style: ElevatedButton.styleFrom(
-                primary: Theme.of(context).primaryColor,
+    return SingleChildScrollView(
+      child: Card(
+        elevation: 5,
+        child: Container(
+          padding: EdgeInsets.only(
+              top: 10,
+              left: 10,
+              right: 10,
+              bottom: MediaQuery.of(context).viewInsets.bottom + 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              TextField(
+                decoration: const InputDecoration(labelText: 'Title'),
+                controller: _titleController,
+                onSubmitted: (_) => //Use '_' to say we don't use the argument
+                    _submitNewTx(), // must call the real function, not the pointer
               ),
-              onPressed: _submitNewTx,
-            )
-          ],
+              TextField(
+                decoration: const InputDecoration(labelText: 'Amount'),
+                controller: _amountController,
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+                onSubmitted: (_) => //Use '_' to say we don't use the argument
+                    _submitNewTx(), // must call the real function, not the pointer
+              ),
+              SizedBox(
+                height: 70,
+                child: Row(children: [
+                  Text(_txDate == null
+                      ? 'No Date Chosen!'
+                      : 'Picked Date: ${DateFormat.yMMMd().format(_txDate ?? DateTime.now())}'),
+                  TextButton(
+                    onPressed: _showDatePicker,
+                    child: const Text('Choose Date'),
+                    style: TextButton.styleFrom(
+                      primary: Theme.of(context).primaryColor,
+                      textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  )
+                ]),
+              ),
+              ElevatedButton(
+                child: const Text('Add Transaction'),
+                style: ElevatedButton.styleFrom(
+                  primary: Theme.of(context).primaryColor,
+                ),
+                onPressed: _submitNewTx,
+              )
+            ],
+          ),
         ),
       ),
     );
