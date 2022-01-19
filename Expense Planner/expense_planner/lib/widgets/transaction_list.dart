@@ -7,13 +7,16 @@ class TransactionList extends StatelessWidget {
 
   final Function(String id2Delete) deleteCallback;
 
-  const TransactionList(this.transactions, this.deleteCallback, {Key? key})
+  final double height;
+
+  const TransactionList(this.transactions, this.deleteCallback,
+      {required this.height, Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 500,
+      height: height,
       child: transactions.isNotEmpty
           ? ListView.builder(
               itemBuilder: (ctx, index) {
