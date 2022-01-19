@@ -36,30 +36,27 @@ class TransactionChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: Card(
-        elevation: 6,
-        margin: const EdgeInsets.all(20),
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ...groupedTransactionValues.map((data) {
-                return Flexible(
-                  fit: FlexFit.tight,
-                  child: ChartBar(
-                    label: data['day'] as String,
-                    spendingAmount: data['amount'] as double,
-                    spendingPctOfTotal: maxSpending > 0
-                        ? (data['amount'] as double) / maxSpending
-                        : 0,
-                  ),
-                );
-              }).toList()
-            ],
-          ),
+    return Card(
+      elevation: 6,
+      margin: const EdgeInsets.all(20),
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ...groupedTransactionValues.map((data) {
+              return Flexible(
+                fit: FlexFit.tight,
+                child: ChartBar(
+                  label: data['day'] as String,
+                  spendingAmount: data['amount'] as double,
+                  spendingPctOfTotal: maxSpending > 0
+                      ? (data['amount'] as double) / maxSpending
+                      : 0,
+                ),
+              );
+            }).toList()
+          ],
         ),
       ),
     );
