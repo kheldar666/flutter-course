@@ -2,7 +2,7 @@ import 'package:uuid/uuid.dart';
 
 class Transaction {
   static const uuid = Uuid();
-  late final String id;
+  final String id = uuid.v4().toString();
   final String title;
   final double amount;
   final DateTime date;
@@ -11,7 +11,5 @@ class Transaction {
     required this.title,
     required this.amount,
     required this.date,
-  }) {
-    id = uuid.v4().toString();
-  }
+  });
 }
