@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:expense_planner/theme/expense_theme.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:expense_planner/models/transaction.dart';
@@ -45,41 +46,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _userTransactions = [
-    Transaction(title: 'Tx 1', amount: 15, date: DateTime.now()),
-    Transaction(
-        title: 'Tx 2',
-        amount: 20,
-        date: DateTime.now().subtract(const Duration(days: 1))),
-    Transaction(
-        title: 'Tx 3',
-        amount: 30,
-        date: DateTime.now().subtract(const Duration(days: 2))),
-    Transaction(
-        title: 'Tx 4',
-        amount: 45,
-        date: DateTime.now().subtract(const Duration(days: 3))),
-    Transaction(
-        title: 'Tx 5',
-        amount: 50,
-        date: DateTime.now().subtract(const Duration(days: 5))),
-    Transaction(
-        title: 'Tx 6',
-        amount: 15,
-        date: DateTime.now().subtract(const Duration(days: 5))),
-    Transaction(
-        title: 'Tx 7',
-        amount: 20,
-        date: DateTime.now().subtract(const Duration(days: 6))),
-    Transaction(
-        title: 'Tx 8',
-        amount: 35,
-        date: DateTime.now().subtract(const Duration(days: 0))),
-    Transaction(
-        title: 'Tx 9',
-        amount: 45,
-        date: DateTime.now().subtract(const Duration(days: 1))),
-  ];
+  final List<Transaction> _userTransactions =
+      kDebugMode ? Transaction.sample() : [];
 
   List<Transaction> get recentTransaction {
     return _userTransactions.where((tx) {
@@ -122,9 +90,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   bool _showChart = false;
 
-  @override
-  Widget build(BuildContext context) {
-    final PreferredSizeWidget _appBar = Platform.isIOS
+  PreferredSizeWidget _buildAppBar() {
+    return Platform.isIOS
         ? CupertinoNavigationBar(
             middle: const Text(
               'Expense Planner',
@@ -150,6 +117,11 @@ class _MyHomePageState extends State<MyHomePage> {
               )
             ],
           );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final PreferredSizeWidget _appBar = _buildAppBar();
 
     final _mediaQuery = MediaQuery.of(context);
     final _isLandscape = _mediaQuery.orientation == Orientation.landscape;
