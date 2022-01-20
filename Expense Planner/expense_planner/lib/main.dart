@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:expense_planner/theme/expense_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -19,29 +20,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
-  final ThemeData androidTheme = ThemeData(
-      primarySwatch: Colors.purple,
-      fontFamily: 'Quicksand',
-      colorScheme:
-          ThemeData.light().colorScheme.copyWith(secondary: Colors.amber),
-      iconTheme: ThemeData.light().iconTheme.copyWith(color: Colors.black),
-      textTheme: ThemeData.light().textTheme.copyWith(
-          headline6: const TextStyle(
-              fontFamily: 'OpenSans',
-              fontWeight: FontWeight.bold,
-              fontSize: 18)),
-      appBarTheme: const AppBarTheme(
-        toolbarTextStyle: TextStyle(
-          fontFamily: 'OpenSans',
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-        ),
-        titleTextStyle: TextStyle(
-          fontFamily: 'OpenSans',
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-        ),
-      ));
+  final ThemeData androidTheme = ExpenseTheme.android();
 
   @override
   Widget build(BuildContext context) {
