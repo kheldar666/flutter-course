@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:expense_planner/models/transaction.dart';
@@ -18,10 +19,11 @@ void main() {
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
-
-  final ThemeData theme = ThemeData(
+  final ThemeData androidTheme = ThemeData(
       primarySwatch: Colors.purple,
       fontFamily: 'Quicksand',
+      colorScheme:
+          ThemeData.light().colorScheme.copyWith(secondary: Colors.amber),
       iconTheme: ThemeData.light().iconTheme.copyWith(color: Colors.black),
       textTheme: ThemeData.light().textTheme.copyWith(
           headline6: const TextStyle(
@@ -40,15 +42,16 @@ class MyApp extends StatelessWidget {
           fontWeight: FontWeight.bold,
         ),
       ));
+
   @override
   Widget build(BuildContext context) {
+    // We use MaterialApp because CupertinoApp is
+    // very limited in theming and the bottom form
+    // does not show up.
+
     return MaterialApp(
       title: 'Expense Planner',
-      theme: theme.copyWith(
-        colorScheme: theme.colorScheme.copyWith(
-          secondary: Colors.amber,
-        ),
-      ),
+      theme: androidTheme,
       home: const MyHomePage(),
       debugShowCheckedModeBanner: false,
     );
@@ -151,17 +154,32 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final _appBar = AppBar(
-      title: const Text(
-        'Expense Planner',
-      ),
-      actions: [
-        IconButton(
-          onPressed: () => _displayTransactionForm(context),
-          icon: const Icon(Icons.add),
-        )
-      ],
-    );
+    final PreferredSizeWidget _appBar = Platform.isIOS
+        ? CupertinoNavigationBar(
+            middle: const Text(
+              'Expense Planner',
+            ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                GestureDetector(
+                  onTap: () => _displayTransactionForm(context),
+                  child: const Icon(CupertinoIcons.add),
+                )
+              ],
+            ),
+          ) as PreferredSizeWidget
+        : AppBar(
+            title: const Text(
+              'Expense Planner',
+            ),
+            actions: [
+              IconButton(
+                onPressed: () => _displayTransactionForm(context),
+                icon: const Icon(Icons.add),
+              )
+            ],
+          );
 
     final _mediaQuery = MediaQuery.of(context);
     final _isLandscape = _mediaQuery.orientation == Orientation.landscape;
@@ -198,9 +216,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ],
     );
 
-    return Scaffold(
-      appBar: _appBar,
-      body: SingleChildScrollView(
+    final _pageBody = SafeArea(
+      child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -210,16 +227,27 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      floatingActionButton: Platform.isIOS
-          ? Container() // Don't display Floating button on iOS
-          : FloatingActionButton(
-              child: Icon(
-                Icons.add,
-                color: Theme.of(context).iconTheme.color,
-              ),
-              onPressed: () => _displayTransactionForm(context),
-            ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
+
+    return Platform.isIOS
+        ? CupertinoPageScaffold(
+            child: _pageBody,
+            navigationBar: _appBar as CupertinoNavigationBar,
+          )
+        : Scaffold(
+            appBar: _appBar as AppBar,
+            body: _pageBody,
+            floatingActionButton: Platform.isIOS
+                ? Container() // Don't display Floating button on iOS
+                : FloatingActionButton(
+                    child: Icon(
+                      Icons.add,
+                      color: Theme.of(context).iconTheme.color,
+                    ),
+                    onPressed: () => _displayTransactionForm(context),
+                  ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+          );
   }
 }
