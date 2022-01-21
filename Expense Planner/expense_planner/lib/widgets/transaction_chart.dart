@@ -1,7 +1,8 @@
-import 'package:expense_planner/models/transaction.dart';
-import 'package:expense_planner/widgets/chart_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import 'package:expense_planner/models/transaction.dart';
+import 'package:expense_planner/widgets/chart_bar.dart';
 
 class TransactionChart extends StatelessWidget {
   const TransactionChart(this.recentTransactions,

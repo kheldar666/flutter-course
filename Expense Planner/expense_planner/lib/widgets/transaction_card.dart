@@ -1,8 +1,9 @@
 import 'dart:math';
 
-import 'package:expense_planner/models/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import 'package:expense_planner/models/transaction.dart';
 
 class TransactionCard extends StatefulWidget {
   final Transaction tx;

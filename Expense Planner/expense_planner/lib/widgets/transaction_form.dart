@@ -1,7 +1,9 @@
-import 'package:expense_planner/widgets/adaptive_button.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
 import 'package:intl/intl.dart';
+
+import 'package:expense_planner/widgets/adaptive_button.dart';
 
 class TransactionForm extends StatefulWidget {
   final Function(String, double, DateTime) callback;
@@ -69,12 +71,12 @@ class _TransactionFormState extends State<TransactionForm> {
     final enteredAmount = _amountController.text;
 
     //Basic validation
-    if (enteredTitle.isEmpty || enteredAmount.isEmpty || _txDate == null) {
+    if (enteredTitle.isEmpty || enteredAmount.isEmpty) {
       return;
     }
 
     try {
-      widget.callback(enteredTitle, double.parse(enteredAmount), _txDate!);
+      widget.callback(enteredTitle, double.parse(enteredAmount), _txDate);
       Navigator.of(context).pop();
     } on Exception catch (_) {
       return;
@@ -113,9 +115,8 @@ class _TransactionFormState extends State<TransactionForm> {
                 height: 70,
                 child: Row(children: [
                   Expanded(
-                    child: Text(_txDate == null
-                        ? 'No Date Chosen!'
-                        : 'Picked Date: ${DateFormat.yMMMd().format(_txDate ?? DateTime.now())}'),
+                    child: Text(
+                        'Picked Date: ${DateFormat.yMMMd().format(_txDate)}'),
                   ),
                   AdaptiveButton(
                       label: 'Choose Date', onPressed: _showDatePicker)
