@@ -14,6 +14,7 @@ class ExpenseTheme {
                 fontWeight: FontWeight.bold,
                 fontSize: 18)),
         appBarTheme: const AppBarTheme(
+          color: Colors.purple,
           toolbarTextStyle: TextStyle(
             fontFamily: 'OpenSans',
             fontSize: 20,
