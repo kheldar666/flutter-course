@@ -18,7 +18,20 @@ class TransactionList extends StatelessWidget {
     return SizedBox(
       height: height,
       child: transactions.isNotEmpty
-          ? ListView(
+          ?
+          // There is a bug in ListView.builder making the Key ineffective
+          // ListView.builder(
+          //     itemBuilder: (context, index) {
+          //       var tx = transactions[index];
+          //       return TransactionCard(
+          //         tx,
+          //         onDelete: deleteCallback,
+          //         key: ValueKey(tx.id.toString()),
+          //       );
+          //     },
+          //     itemCount: transactions.length,
+          //   )
+          ListView(
               children: [
                 ...transactions.map((tx) {
                   return TransactionCard(
