@@ -18,14 +18,16 @@ class TransactionList extends StatelessWidget {
     return SizedBox(
       height: height,
       child: transactions.isNotEmpty
-          ? ListView.builder(
-              itemBuilder: (ctx, index) {
-                return TransactionCard(
-                  transactions[index],
-                  onDelete: deleteCallback,
-                );
-              },
-              itemCount: transactions.length,
+          ? ListView(
+              children: [
+                ...transactions.map((tx) {
+                  return TransactionCard(
+                    tx,
+                    onDelete: deleteCallback,
+                    key: ValueKey(tx.id.toString()),
+                  );
+                }).toList()
+              ],
             )
           : LayoutBuilder(
               builder: (context, constraints) {

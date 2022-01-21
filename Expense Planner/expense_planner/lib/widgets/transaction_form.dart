@@ -24,7 +24,7 @@ class _TransactionFormState extends State<TransactionForm> {
 
   final _amountController = TextEditingController();
 
-  DateTime? _txDate;
+  DateTime _txDate = DateTime.now();
 
   _TransactionFormState() {
     if (kDebugMode) {
