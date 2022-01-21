@@ -45,9 +45,11 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   final List<Transaction> _userTransactions =
       kDebugMode ? Transaction.sample() : [];
+
+  bool _showChart = false;
 
   List<Transaction> get recentTransaction {
     return _userTransactions.where((tx) {
@@ -88,8 +90,6 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  bool _showChart = false;
-
   PreferredSizeWidget _buildAppBar() {
     return Platform.isIOS
         ? CupertinoNavigationBar(
@@ -117,6 +117,28 @@ class _MyHomePageState extends State<MyHomePage> {
               )
             ],
           );
+  }
+
+  // register our Listener
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance?.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (kDebugMode) {
+      print(state);
+    }
+  }
+
+  // Must clear the Listener to avoid performance issues
+  @override
+  void dispose() {
+    super.dispose();
+    WidgetsBinding.instance?.removeObserver(this);
   }
 
   @override
