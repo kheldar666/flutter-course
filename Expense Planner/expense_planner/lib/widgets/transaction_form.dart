@@ -1,17 +1,19 @@
-import 'dart:io';
-
 import 'package:expense_planner/widgets/adaptive_button.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class TransactionForm extends StatefulWidget {
   final Function(String, double, DateTime) callback;
 
-  const TransactionForm({
+  TransactionForm({
     Key? key,
     required this.callback,
-  }) : super(key: key);
+  }) : super(key: key) {
+    if (kDebugMode) {
+      print('Constructor');
+    }
+  }
 
   @override
   State<TransactionForm> createState() => _TransactionFormState();
@@ -23,6 +25,28 @@ class _TransactionFormState extends State<TransactionForm> {
   final _amountController = TextEditingController();
 
   DateTime? _txDate;
+
+  _TransactionFormState() {
+    if (kDebugMode) {
+      print('State Constructor');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (kDebugMode) {
+      print('Init State');
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    if (kDebugMode) {
+      print('Dispose State');
+    }
+  }
 
   void _showDatePicker() {
     var _today = DateTime.now();
