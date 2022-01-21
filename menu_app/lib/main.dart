@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:menu_app/meal_theme.dart';
-import 'package:menu_app/routes.dart';
 import 'package:menu_app/screens/categories_screen.dart';
 import 'package:menu_app/screens/category_meals_screen.dart';
 
@@ -16,10 +15,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'DeliMeals',
       theme: MealTheme.android(),
-      home: const CategoriesScreen(),
+      initialRoute: CategoriesScreen.routeName,
       routes: {
-        Routes.categories: (ctx) => const CategoriesScreen(),
-        Routes.categoryMeals: (ctx) => const CategoryMealsScreen()
+        CategoriesScreen.routeName: (ctx) => const CategoriesScreen(),
+        CategoryMealsScreen.routeName: (ctx) => const CategoryMealsScreen()
       },
     );
   }
