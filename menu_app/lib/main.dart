@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:menu_app/constants.dart';
 import 'package:menu_app/meal_theme.dart';
 import 'package:menu_app/screens/categories_screen.dart';
 import 'package:menu_app/screens/category_meals_screen.dart';
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'DeliMeals',
+      title: kAppTitle,
       theme: MealTheme.android(),
       initialRoute: CategoriesScreen.routeName,
       routes: {
