@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:menu_app/models/category.dart';
 import 'package:menu_app/screens/category_meals_screen.dart';

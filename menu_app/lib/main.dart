@@ -18,12 +18,18 @@ class MyApp extends StatelessWidget {
       title: kAppTitle,
       theme: MealTheme.android(),
       initialRoute: CategoriesScreen.routeName,
+      debugShowCheckedModeBanner: false,
       routes: {
         CategoriesScreen.routeName: (ctx) => const CategoriesScreen(),
         CategoryMealsScreen.routeName: (ctx) => const CategoryMealsScreen(),
         MealDetailScreen.routeName: (ctx) => const MealDetailScreen(),
       },
-      debugShowCheckedModeBanner: false,
+      // onGenerateRoute: (settings) {
+      //   return MaterialPageRoute(builder: (ctx) => const CategoriesScreen());
+      // },
+      // onUnknownRoute: (settings) {
+      //   return MaterialPageRoute(builder: (ctx) => const CategoriesScreen());
+      // },
     );
   }
 }
