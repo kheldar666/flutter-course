@@ -1,15 +1,15 @@
 import 'package:menu_app/models/category.dart';
 
 enum Complexity {
-  Simple,
-  Challenging,
-  Hard,
+  simple,
+  challenging,
+  hard,
 }
 
 enum Affordability {
-  Affordable,
-  Pricey,
-  Luxurious,
+  affordable,
+  pricey,
+  luxurious,
 }
 
 class Meal {
