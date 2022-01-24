@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:menu_app/constants.dart';
 import 'package:menu_app/models/meal.dart';
+import 'package:menu_app/widgets/meal_detail.dart';
 
 class MealDetailScreen extends StatelessWidget {
   static const String routeName = '/meal/detail';
@@ -14,9 +15,9 @@ class MealDetailScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('$kAppBarTitle - ${_meal.title}'),
+          title: Text(_meal.title),
         ),
-        body: const Center(child: Text('The Meal')),
+        body: MealDetail(_meal),
       ),
     );
     ;

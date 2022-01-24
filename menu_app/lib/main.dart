@@ -27,9 +27,10 @@ class MyApp extends StatelessWidget {
       // onGenerateRoute: (settings) {
       //   return MaterialPageRoute(builder: (ctx) => const CategoriesScreen());
       // },
-      // onUnknownRoute: (settings) {
-      //   return MaterialPageRoute(builder: (ctx) => const CategoriesScreen());
-      // },
+      onUnknownRoute: (settings) {
+        //Fallback Route in case there is an unknown Route passed
+        return MaterialPageRoute(builder: (ctx) => const CategoriesScreen());
+      },
     );
   }
 }
