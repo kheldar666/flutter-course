@@ -18,8 +18,13 @@ class MealDetailScreen extends StatelessWidget {
           title: Text(_meal.title),
         ),
         body: MealDetail(_meal),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.of(context).pop(_meal.id);
+          },
+          child: const Icon(Icons.hide_image),
+        ),
       ),
     );
-    ;
   }
 }
