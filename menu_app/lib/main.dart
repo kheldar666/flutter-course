@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp> {
         CategoryMealsScreen.routeName: (ctx) => const CategoryMealsScreen(),
         MealDetailScreen.routeName: (ctx) => const MealDetailScreen(),
         TabsScreen.routeName: (ctx) => TabsScreen(_filters),
-        FiltersScreen.routeName: (ctx) => FiltersScreen(setFilters),
+        FiltersScreen.routeName: (ctx) => FiltersScreen(_filters, setFilters),
       },
       // onGenerateRoute: (settings) {
       //   return MaterialPageRoute(builder: (ctx) => const CategoriesScreen());
