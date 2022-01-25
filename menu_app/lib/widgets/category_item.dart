@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:menu_app/models/category.dart';
 import 'package:menu_app/models/filters.dart';
+import 'package:menu_app/models/meal.dart';
 import 'package:menu_app/screens/category_meals_screen.dart';
 
 class CategoryItem extends StatelessWidget {
   final Category category;
 
-  final Filters filters;
+  final List<Meal> availableMeals;
 
-  const CategoryItem(this.category, this.filters, {Key? key}) : super(key: key);
+  const CategoryItem(this.category, this.availableMeals, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +42,7 @@ class CategoryItem extends StatelessWidget {
   void _selectCategory(BuildContext ctx) {
     Navigator.of(ctx).pushNamed(
       CategoryMealsScreen.routeName,
-      arguments: {'category': category, 'filters': filters},
+      arguments: {'category': category, 'meals': availableMeals},
     );
   }
 }

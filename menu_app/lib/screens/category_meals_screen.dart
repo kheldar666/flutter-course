@@ -18,17 +18,19 @@ class CategoryMealsScreen extends StatefulWidget {
 
 class _CategoryMealsScreenState extends State<CategoryMealsScreen> {
   late meal_category.Category _category;
-  late Filters _filters;
-  late List<Meal> _filteredMeals;
+  late List<Meal> _availableMeals;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+
     _category = (ModalRoute.of(context)?.settings.arguments
         as Map<String, Object>)['category'] as meal_category.Category;
-    _filters = (ModalRoute.of(context)?.settings.arguments
-        as Map<String, Object>)['filters'] as Filters;
-    _filteredMeals = _filterMeals(_category.id);
+
+    _availableMeals = (ModalRoute.of(context)?.settings.arguments
+        as Map<String, Object>)['meals'] as List<Meal>;
+
+    _filterMeals(_category.id);
   }
 
   @override
@@ -40,9 +42,9 @@ class _CategoryMealsScreenState extends State<CategoryMealsScreen> {
         ),
         body: ListView.builder(
           itemBuilder: (ctx, index) {
-            return MealItem(_filteredMeals[index], callback: _removeMeal);
+            return MealItem(_availableMeals[index], callback: _removeMeal);
           },
-          itemCount: _filteredMeals.length,
+          itemCount: _availableMeals.length,
         ),
       ),
     );
@@ -53,24 +55,13 @@ class _CategoryMealsScreenState extends State<CategoryMealsScreen> {
       print('refreshMeals: excludeMealId = $excludeMealId');
     }
     setState(() {
-      _filteredMeals.removeWhere((meal) => meal.id == excludeMealId);
+      _availableMeals.removeWhere((meal) => meal.id == excludeMealId);
     });
   }
 
-  List<Meal> _filterMeals(String categoryId) {
-    print(_filters);
-    return kDummyMeals
+  void _filterMeals(String categoryId) {
+    _availableMeals
         .where((meal) => meal.categories.contains(categoryId))
-        .where((meal) => _filters.glutenFree
-            ? meal.isGlutenFree == _filters.glutenFree
-            : true)
-        .where((meal) => _filters.vegetarian
-            ? meal.isVegetarian == _filters.vegetarian
-            : true)
-        .where((meal) => _filters.vegan ? meal.isVegan == _filters.vegan : true)
-        .where((meal) => _filters.lactoseFree
-            ? meal.isLactoseFree == _filters.lactoseFree
-            : true)
         .toList();
   }
 }
