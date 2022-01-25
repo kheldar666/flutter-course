@@ -24,7 +24,9 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final Filters _filters = Filters();
 
-  List<Meal> _availableMeals = kDummyMeals;
+  List<Meal> _availableMeals = kDummyMeals.map((meal) => meal).toList();
+
+  final List<Meal> _favoriteMeals = [];
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +36,10 @@ class _MyAppState extends State<MyApp> {
       initialRoute: TabsScreen.routeName,
       debugShowCheckedModeBanner: false,
       routes: {
-        CategoryMealsScreen.routeName: (ctx) => const CategoryMealsScreen(),
+        CategoryMealsScreen.routeName: (ctx) =>
+            CategoryMealsScreen(_availableMeals),
         MealDetailScreen.routeName: (ctx) => const MealDetailScreen(),
-        TabsScreen.routeName: (ctx) => TabsScreen(_availableMeals),
+        TabsScreen.routeName: (ctx) => TabsScreen(_favoriteMeals),
         FiltersScreen.routeName: (ctx) => FiltersScreen(_filters, setFilters),
       },
       // onGenerateRoute: (settings) {
@@ -56,19 +59,19 @@ class _MyAppState extends State<MyApp> {
       _filters.vegan = filters.vegan;
       _filters.glutenFree = filters.glutenFree;
 
-      _availableMeals = _availableMeals
-          .where((meal) => _filters.glutenFree
-              ? meal.isGlutenFree == _filters.glutenFree
-              : true)
-          .where((meal) => _filters.vegetarian
-              ? meal.isVegetarian == _filters.vegetarian
-              : true)
-          .where(
-              (meal) => _filters.vegan ? meal.isVegan == _filters.vegan : true)
-          .where((meal) => _filters.lactoseFree
-              ? meal.isLactoseFree == _filters.lactoseFree
-              : true)
-          .toList();
+      _availableMeals = kDummyMeals.map((meal) => meal).toList();
+
+      _availableMeals.removeWhere((meal) => _filters.glutenFree
+          ? meal.isGlutenFree != _filters.glutenFree
+          : false);
+      _availableMeals.removeWhere((meal) => _filters.vegetarian
+          ? meal.isVegetarian != _filters.vegetarian
+          : false);
+      _availableMeals.removeWhere(
+          (meal) => _filters.vegan ? meal.isVegan != _filters.vegan : false);
+      _availableMeals.removeWhere((meal) => _filters.lactoseFree
+          ? meal.isLactoseFree != _filters.lactoseFree
+          : false);
     });
   }
 }

@@ -7,10 +7,7 @@ import 'package:menu_app/screens/category_meals_screen.dart';
 class CategoryItem extends StatelessWidget {
   final Category category;
 
-  final List<Meal> availableMeals;
-
-  const CategoryItem(this.category, this.availableMeals, {Key? key})
-      : super(key: key);
+  const CategoryItem(this.category, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +39,7 @@ class CategoryItem extends StatelessWidget {
   void _selectCategory(BuildContext ctx) {
     Navigator.of(ctx).pushNamed(
       CategoryMealsScreen.routeName,
-      arguments: {'category': category, 'meals': availableMeals},
+      arguments: {'category': category},
     );
   }
 }
