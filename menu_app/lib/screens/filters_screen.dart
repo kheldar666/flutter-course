@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:menu_app/models/filters.dart';
+import 'package:menu_app/screens/tabs_screen.dart';
 import 'package:menu_app/widgets/main_drawer.dart';
 
 class FiltersScreen extends StatefulWidget {
   static const String routeName = '/filters';
-  const FiltersScreen({Key? key}) : super(key: key);
+  final Function(Filters) saveFilters;
+
+  const FiltersScreen(this.saveFilters, {Key? key}) : super(key: key);
 
   @override
   State<FiltersScreen> createState() => _FiltersScreenState();
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
-  var _glutenFree = false;
-  var _vegetarian = false;
-  var _vegan = false;
-  var _lactoseFree = false;
+  final _filters = Filters();
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +22,15 @@ class _FiltersScreenState extends State<FiltersScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Your Filters'),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.save),
+              onPressed: () {
+                widget.saveFilters(_filters);
+                Navigator.of(context).popAndPushNamed(TabsScreen.routeName);
+              },
+            )
+          ],
         ),
         drawer: const MainDrawer(),
         body: Column(
@@ -38,40 +48,40 @@ class _FiltersScreenState extends State<FiltersScreen> {
                   _buildSwitchList(
                     'Gluten Free',
                     'Only include gluten-free meals',
-                    _glutenFree,
+                    _filters.glutenFree,
                     (newValue) {
                       setState(() {
-                        _glutenFree = newValue;
+                        _filters.glutenFree = newValue;
                       });
                     },
                   ),
                   _buildSwitchList(
                     'Vegetarian',
                     'Only include vegetarian meals',
-                    _vegetarian,
+                    _filters.vegetarian,
                     (newValue) {
                       setState(() {
-                        _vegetarian = newValue;
+                        _filters.vegetarian = newValue;
                       });
                     },
                   ),
                   _buildSwitchList(
                     'Vegan',
                     'Only include vegan meals',
-                    _vegan,
+                    _filters.vegan,
                     (newValue) {
                       setState(() {
-                        _vegan = newValue;
+                        _filters.vegan = newValue;
                       });
                     },
                   ),
                   _buildSwitchList(
                     'Lactose Free',
                     'Only include lactose-free meals',
-                    _lactoseFree,
+                    _filters.lactoseFree,
                     (newValue) {
                       setState(() {
-                        _lactoseFree = newValue;
+                        _filters.lactoseFree = newValue;
                       });
                     },
                   ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:menu_app/constants.dart';
+import 'package:menu_app/models/filters.dart';
 import 'package:menu_app/screens/categories_screen.dart';
 import 'package:menu_app/screens/favorites_screen.dart';
 import 'package:menu_app/widgets/main_drawer.dart';
@@ -7,22 +8,24 @@ import 'package:menu_app/widgets/main_drawer.dart';
 class TabsScreen extends StatefulWidget {
   static const String routeName = '/home-tabs';
 
-  const TabsScreen({Key? key}) : super(key: key);
+  final Filters filters;
+
+  const TabsScreen(this.filters, {Key? key}) : super(key: key);
 
   @override
   State<TabsScreen> createState() => _TabsScreenState();
 }
 
 class _TabsScreenState extends State<TabsScreen> {
-  final List<Map<String, Object>> _pages = const [
-    {'title': 'Categories', 'page': CategoriesScreen()},
-    {'title': 'Your Favorites', 'page': FavoritesScreen()},
-  ];
-
   int _currentPage = 0;
 
   @override
   Widget build(BuildContext context) {
+    final List<Map<String, Object>> _pages = [
+      {'title': 'Categories', 'page': CategoriesScreen(widget.filters)},
+      {'title': 'Your Favorites', 'page': const FavoritesScreen()},
+    ];
+
     if (kShowTabAtTheTop) {
       return SafeArea(
         child: DefaultTabController(
@@ -43,10 +46,10 @@ class _TabsScreenState extends State<TabsScreen> {
                   ],
                 ),
               ),
-              body: const TabBarView(
+              body: TabBarView(
                 children: [
-                  CategoriesScreen(),
-                  FavoritesScreen(),
+                  CategoriesScreen(widget.filters),
+                  const FavoritesScreen(),
                 ],
               ),
             )),

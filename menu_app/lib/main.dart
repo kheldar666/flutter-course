@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:menu_app/constants.dart';
 import 'package:menu_app/meal_theme.dart';
-import 'package:menu_app/screens/categories_screen.dart';
+import 'package:menu_app/models/filters.dart';
 import 'package:menu_app/screens/category_meals_screen.dart';
-import 'package:menu_app/screens/favorites_screen.dart';
 import 'package:menu_app/screens/filters_screen.dart';
 import 'package:menu_app/screens/meal_detail_screen.dart';
 import 'package:menu_app/screens/tabs_screen.dart';
@@ -12,8 +11,15 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final Filters _filters = Filters();
 
   @override
   Widget build(BuildContext context) {
@@ -25,16 +31,25 @@ class MyApp extends StatelessWidget {
       routes: {
         CategoryMealsScreen.routeName: (ctx) => const CategoryMealsScreen(),
         MealDetailScreen.routeName: (ctx) => const MealDetailScreen(),
-        TabsScreen.routeName: (ctx) => const TabsScreen(),
-        FiltersScreen.routeName: (ctx) => const FiltersScreen(),
+        TabsScreen.routeName: (ctx) => TabsScreen(_filters),
+        FiltersScreen.routeName: (ctx) => FiltersScreen(setFilters),
       },
       // onGenerateRoute: (settings) {
       //   return MaterialPageRoute(builder: (ctx) => const CategoriesScreen());
       // },
       onUnknownRoute: (settings) {
         //Fallback Route in case there is an unknown Route passed
-        return MaterialPageRoute(builder: (ctx) => const TabsScreen());
+        return MaterialPageRoute(builder: (ctx) => TabsScreen(_filters));
       },
     );
+  }
+
+  void setFilters(Filters filters) {
+    setState(() {
+      _filters.lactoseFree = filters.lactoseFree;
+      _filters.vegetarian = filters.vegetarian;
+      _filters.vegan = filters.vegan;
+      _filters.glutenFree = filters.glutenFree;
+    });
   }
 }
