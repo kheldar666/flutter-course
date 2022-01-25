@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:menu_app/constants.dart';
 import 'package:menu_app/screens/categories_screen.dart';
 import 'package:menu_app/screens/favorites_screen.dart';
+import 'package:menu_app/widgets/main_drawer.dart';
 
 class TabsScreen extends StatefulWidget {
   static const String routeName = '/home-tabs';
@@ -56,6 +57,7 @@ class _TabsScreenState extends State<TabsScreen> {
           appBar: AppBar(
             title: Text(_pages[_currentPage]['title'] as String),
           ),
+          drawer: const MainDrawer(),
           body: _pages[_currentPage]['page'] as Widget,
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: _currentPage,
