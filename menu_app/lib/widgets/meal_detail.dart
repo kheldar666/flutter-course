@@ -19,9 +19,34 @@ class MealDetail extends StatelessWidget {
             ),
           ),
           _buildSectionTitle(context, 'Ingredients'),
-          _buildList(context, meal.ingredients),
+          _buildList(ListView.builder(
+            itemBuilder: (ctx, index) {
+              return Card(
+                color: Theme.of(context).colorScheme.secondary,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                  child: Text(meal.ingredients[index]),
+                ),
+              );
+            },
+            itemCount: meal.ingredients.length,
+          )),
           _buildSectionTitle(context, 'Steps'),
-          _buildList(context, meal.steps),
+          _buildList(ListView.builder(
+            itemBuilder: (ctx, index) => Column(
+              children: [
+                ListTile(
+                  leading: CircleAvatar(
+                    child: Text('#${index + 1}'),
+                  ),
+                  title: Text(meal.steps[index]),
+                ),
+                const Divider()
+              ],
+            ),
+            itemCount: meal.steps.length,
+          )),
         ],
       ),
     );
@@ -37,7 +62,7 @@ class MealDetail extends StatelessWidget {
     );
   }
 
-  Widget _buildList(BuildContext context, List<String> items) {
+  Widget _buildList(Widget child) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -49,19 +74,7 @@ class MealDetail extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       width: 300,
       child: Scrollbar(
-        child: ListView.builder(
-          itemBuilder: (ctx, index) {
-            return Card(
-              color: Theme.of(context).colorScheme.secondary,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                child: Text(items[index]),
-              ),
-            );
-          },
-          itemCount: meal.ingredients.length,
-        ),
+        child: child,
       ),
     );
   }
