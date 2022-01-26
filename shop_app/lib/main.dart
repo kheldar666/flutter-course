@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/screens/products_overview_screen.dart';
 import 'package:shop_app/shop_theme.dart';
 
 void main() {
@@ -14,38 +15,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'The Shop App',
       theme: ShopTheme.android(),
-      home: const MyHomePage('The Shop App'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  final String title;
-  const MyHomePage(this.title, {Key? key}) : super(key: key);
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text(
-                'Shop App Home Screen',
-              ),
-            ],
-          ),
-        ),
-      ),
+      initialRoute: ProductsOverviewScreen.routeName,
+      routes: {
+        ProductsOverviewScreen.routeName: (ctx) => ProductsOverviewScreen()
+      },
+      debugShowCheckedModeBanner: false,
     );
   }
 }
