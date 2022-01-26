@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:menu_app/models/category.dart';
-import 'package:menu_app/models/filters.dart';
-import 'package:menu_app/models/meal.dart';
 import 'package:menu_app/screens/category_meals_screen.dart';
 
 class CategoryItem extends StatelessWidget {
