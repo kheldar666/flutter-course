@@ -17,18 +17,23 @@ class TabsScreen extends StatefulWidget {
 }
 
 class _TabsScreenState extends State<TabsScreen> {
+  late List<Map<String, Object>> _pages;
   int _currentPage = 0;
 
   @override
-  Widget build(BuildContext context) {
-    final List<Map<String, Object>> _pages = [
+  void initState() {
+    super.initState();
+    _pages = [
       {'title': 'Categories', 'page': const CategoriesScreen()},
       {
         'title': 'Your Favorites',
         'page': FavoritesScreen(widget.favoriteMeals)
       },
     ];
+  }
 
+  @override
+  Widget build(BuildContext context) {
     if (kShowTabAtTheTop) {
       return SafeArea(
         child: DefaultTabController(

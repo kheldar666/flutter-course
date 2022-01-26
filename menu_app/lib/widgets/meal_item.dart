@@ -4,10 +4,9 @@ import 'package:menu_app/screens/meal_detail_screen.dart';
 
 class MealItem extends StatelessWidget {
   final Meal meal;
-  final Function(String) callback;
+  final Function(String)? callback;
 
-  const MealItem(this.meal, {required this.callback, Key? key})
-      : super(key: key);
+  const MealItem(this.meal, {this.callback, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -94,11 +93,12 @@ class MealItem extends StatelessWidget {
   }
 
   void _selectMeal(BuildContext context) {
-    Navigator.of(context)
-        .pushNamed(MealDetailScreen.routeName, arguments: meal)
-        .then(
+    Navigator.of(context).pushNamed(MealDetailScreen.routeName, arguments: {
+      'meal': meal,
+      'showHideAction': (callback != null) ? true : false,
+    }).then(
       (mealId) {
-        if (mealId != null) callback(mealId as String);
+        if (mealId != null) callback!(mealId as String);
       },
     );
   }

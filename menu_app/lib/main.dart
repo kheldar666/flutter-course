@@ -38,9 +38,10 @@ class _MyAppState extends State<MyApp> {
       routes: {
         CategoryMealsScreen.routeName: (ctx) =>
             CategoryMealsScreen(_availableMeals),
-        MealDetailScreen.routeName: (ctx) => const MealDetailScreen(),
+        MealDetailScreen.routeName: (ctx) =>
+            MealDetailScreen(_toggleFavorite, _isFavoriteMeal),
         TabsScreen.routeName: (ctx) => TabsScreen(_favoriteMeals),
-        FiltersScreen.routeName: (ctx) => FiltersScreen(_filters, setFilters),
+        FiltersScreen.routeName: (ctx) => FiltersScreen(_filters, _setFilters),
       },
       // onGenerateRoute: (settings) {
       //   return MaterialPageRoute(builder: (ctx) => const CategoriesScreen());
@@ -52,7 +53,7 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  void setFilters(Filters filters) {
+  void _setFilters(Filters filters) {
     setState(() {
       _filters.lactoseFree = filters.lactoseFree;
       _filters.vegetarian = filters.vegetarian;
@@ -73,5 +74,23 @@ class _MyAppState extends State<MyApp> {
           ? meal.isLactoseFree != _filters.lactoseFree
           : false);
     });
+  }
+
+  void _toggleFavorite(Meal _meal) {
+    final _existingIndex =
+        _favoriteMeals.indexWhere((meal) => meal.id == _meal.id);
+    if (_isFavoriteMeal(_meal)) {
+      setState(() {
+        _favoriteMeals.removeAt(_existingIndex);
+      });
+    } else {
+      setState(() {
+        _favoriteMeals.add(_meal);
+      });
+    }
+  }
+
+  bool _isFavoriteMeal(Meal _meal) {
+    return _favoriteMeals.any((meal) => meal.id == _meal.id);
   }
 }
