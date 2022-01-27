@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/data/dummy_data.dart';
-import 'package:shop_app/models/product.dart';
+import 'package:shop_app/providers/product.dart';
 
-class ProductsProvider with ChangeNotifier {
+class Products with ChangeNotifier {
   final List<Product> _products = kDummyProducts;
 
   List<Product> get products => [..._products];
