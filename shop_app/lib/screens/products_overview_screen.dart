@@ -1,24 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/data/dummy_data.dart';
-import 'package:shop_app/providers/product.dart';
+import 'package:shop_app/models/filter_option.dart';
 import 'package:shop_app/widgets/products_grid.dart';
 
-class ProductsOverviewScreen extends StatelessWidget {
+class ProductsOverviewScreen extends StatefulWidget {
   static const String routeName = '/products-overview';
 
-  ProductsOverviewScreen({Key? key}) : super(key: key);
+  const ProductsOverviewScreen({Key? key}) : super(key: key);
 
-  final List<Product> _loadedProducts = kDummyProducts;
+  @override
+  State<ProductsOverviewScreen> createState() => _ProductsOverviewScreenState();
+}
 
+class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
+  var _filterOptions = FilterOptions.all;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           title: const Text('The Shop App'),
+          actions: [
+            PopupMenuButton(
+              icon: const Icon(Icons.more_vert),
+              onSelected: (FilterOptions option) => _filterProducts(option),
+              itemBuilder: (_) => [
+                const PopupMenuItem(
+                  child: Text('Only Favorites'),
+                  value: FilterOptions.favorites,
+                ),
+                const PopupMenuItem(
+                  child: Text('Show All'),
+                  value: FilterOptions.all,
+                )
+              ],
+            ),
+          ],
         ),
-        body: const ProductsGrid(),
+        body: ProductsGrid(_filterOptions),
       ),
     );
+  }
+
+  void _filterProducts(FilterOptions option) {
+    setState(() {
+      _filterOptions = option;
+    });
   }
 }
