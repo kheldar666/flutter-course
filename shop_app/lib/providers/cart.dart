@@ -12,7 +12,6 @@ class Cart with ChangeNotifier {
     if (_items.containsKey(product.id)) {
       _items.update(product.id, (existingCartItem) {
         existingCartItem.quantity++;
-        existingCartItem.price += product.price;
         return existingCartItem;
       });
     } else {
@@ -28,17 +27,23 @@ class Cart with ChangeNotifier {
     });
     return _count;
   }
+
+  double get totalPrice {
+    var _totalPrice = 0.0;
+    _items.forEach((_, items) {
+      _totalPrice += items.product.price * items.quantity;
+    });
+    return _totalPrice;
+  }
 }
 
 class CartItem {
   late final String _id;
   final Product product;
   int quantity;
-  late double price;
 
   CartItem({required this.product, this.quantity = 1}) {
     _id = const Uuid().v4().toString();
-    price = product.price;
   }
 
   String get id => _id;
