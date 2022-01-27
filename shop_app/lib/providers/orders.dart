@@ -13,7 +13,7 @@ class Orders with ChangeNotifier {
       0,
       OrderItem(
         amount: cart.totalPrice,
-        products: cart.items.values.toList(),
+        contents: cart.items.values.toList(),
       ),
     );
     notifyListeners();
@@ -23,11 +23,11 @@ class Orders with ChangeNotifier {
 class OrderItem {
   late final String id;
   final double amount;
-  final List<CartItem> products;
+  final List<CartItem> contents;
   late final DateTime dateTime;
   OrderItem({
     required this.amount,
-    required this.products,
+    required this.contents,
   }) {
     id = const Uuid().v4().toString();
     dateTime = DateTime.now();
