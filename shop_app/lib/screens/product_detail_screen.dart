@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_app/models/product.dart';
 import 'package:shop_app/providers/products_provider.dart';
 
 class ProductDetailScreen extends StatelessWidget {
@@ -11,8 +10,10 @@ class ProductDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var _productId = ModalRoute.of(context)?.settings.arguments as String;
-    var _product = Provider.of<ProductsProvider>(context).findById(_productId);
-    
+
+    //Listen set to false will avoid to trigger the build method if the product changes
+    var _product = Provider.of<ProductsProvider>(context, listen: false).findById(_productId);
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
