@@ -20,7 +20,12 @@ class Cart with ChangeNotifier {
     notifyListeners();
   }
 
-  int get count {
+  void removeItem(String cartItemId) {
+    _items.remove(cartItemId);
+    notifyListeners();
+  }
+
+  int get countQuantity {
     var _count = 0;
     _items.forEach((_, items) {
       _count += items.quantity;
