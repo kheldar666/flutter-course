@@ -40,6 +40,11 @@ class Cart with ChangeNotifier {
     });
     return _totalPrice;
   }
+
+  void clear() {
+    _items.clear();
+    notifyListeners();
+  }
 }
 
 class CartItem {
