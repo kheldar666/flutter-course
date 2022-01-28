@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/providers/product.dart';
 
-class UserProductItem extends StatelessWidget {
+class ManageProductItem extends StatelessWidget {
   final Product product;
-  const UserProductItem(this.product, {Key? key}) : super(key: key);
+  const ManageProductItem(this.product, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

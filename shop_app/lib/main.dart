@@ -3,11 +3,12 @@ import 'package:provider/provider.dart';
 import 'package:shop_app/providers/cart.dart';
 import 'package:shop_app/providers/orders.dart';
 import 'package:shop_app/providers/products.dart';
+import 'package:shop_app/screens/admin/edit_product_screen.dart';
+import 'package:shop_app/screens/admin/manage_products_screen.dart';
 import 'package:shop_app/screens/cart_screen.dart';
 import 'package:shop_app/screens/order_screen.dart';
 import 'package:shop_app/screens/product_detail_screen.dart';
 import 'package:shop_app/screens/products_overview_screen.dart';
-import 'package:shop_app/screens/user_products_screen.dart';
 import 'package:shop_app/shop_theme.dart';
 
 void main() {
@@ -36,7 +37,8 @@ class MyApp extends StatelessWidget {
           ProductDetailScreen.routeName: (ctx) => const ProductDetailScreen(),
           CartScreen.routeName: (ctx) => const CartScreen(),
           OrdersScreen.routeName: (ctx) => const OrdersScreen(),
-          UserProductsScreen.routeName: (ctx) => const UserProductsScreen(),
+          ManageProductsScreen.routeName: (ctx) => const ManageProductsScreen(),
+          EditProductScreen.routeName: (ctx) => const EditProductScreen(),
         },
         debugShowCheckedModeBanner: false,
       ),

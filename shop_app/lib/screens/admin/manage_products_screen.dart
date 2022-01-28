@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/products.dart';
+import 'package:shop_app/screens/admin/edit_product_screen.dart';
+import 'package:shop_app/widgets/admin/manage_product_item.dart';
 import 'package:shop_app/widgets/shop_drawer.dart';
-import 'package:shop_app/widgets/user_product_item.dart';
 
-class UserProductsScreen extends StatelessWidget {
+class ManageProductsScreen extends StatelessWidget {
   static const routeName = '/admin/products';
 
-  const UserProductsScreen({Key? key}) : super(key: key);
+  const ManageProductsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,8 @@ class UserProductsScreen extends StatelessWidget {
             title: const Text('Manage Your Products'),
             actions: [
               IconButton(
-                onPressed: () {},
+                onPressed: () => Navigator.of(context)
+                    .pushNamed(EditProductScreen.routeName),
                 icon: const Icon(Icons.add),
               )
             ],
@@ -30,7 +32,7 @@ class UserProductsScreen extends StatelessWidget {
               itemBuilder: (ctx, index) {
                 return Column(
                   children: [
-                    UserProductItem(_products.products[index]),
+                    ManageProductItem(_products.products[index]),
                     const Divider(),
                   ],
                 );

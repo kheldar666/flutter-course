@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/screens/admin/manage_products_screen.dart';
 import 'package:shop_app/screens/order_screen.dart';
 import 'package:shop_app/screens/products_overview_screen.dart';
-import 'package:shop_app/screens/user_products_screen.dart';
 
 class ShopDrawer extends StatelessWidget {
   const ShopDrawer({Key? key}) : super(key: key);
@@ -32,7 +32,7 @@ class ShopDrawer extends StatelessWidget {
             leading: const Icon(Icons.edit),
             title: const Text('Manage Your Products'),
             onTap: () => Navigator.of(context)
-                .pushReplacementNamed(UserProductsScreen.routeName),
+                .pushReplacementNamed(ManageProductsScreen.routeName),
           )
         ],
       ),
