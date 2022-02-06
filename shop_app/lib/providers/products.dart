@@ -10,7 +10,7 @@ import '/models/filter_option.dart';
 import '/providers/product.dart';
 
 class Products with ChangeNotifier {
-  final _firebaseProductsUrl = Uri.https(kFirebaseBaseDomain, '/products.json');
+  final _productsUrl = Uri.https(kFirebaseBaseDomain, '/products.json');
 
   //final List<Product> _products = kDummyProducts; // To use when no DB
   final List<Product> _products = [];
@@ -32,7 +32,7 @@ class Products with ChangeNotifier {
     // Not great... but ok for now I guess
     _products.clear();
     try {
-      final response = await http.get(_firebaseProductsUrl);
+      final response = await http.get(_productsUrl);
       if (response.statusCode == 200) {
         final data = json.decode(response.body) as Map<String, dynamic>;
         data.forEach((productId, productData) {
@@ -59,8 +59,7 @@ class Products with ChangeNotifier {
 
     if (index > -1) {
       try {
-        final response = await http.patch(_productUrl(addOrUpdateProduct.id),
-            body: json.encode(addOrUpdateProduct.toJson()));
+        final response = await addOrUpdateProduct.update();
         if (response.statusCode == 200) {
           _products.removeAt(index);
           _products.insert(index, addOrUpdateProduct);
@@ -72,7 +71,7 @@ class Products with ChangeNotifier {
     } else {
       // Save the Product in Firebase
       try {
-        final response = await http.post(_firebaseProductsUrl,
+        final response = await http.post(_productsUrl,
             body: json.encode(addOrUpdateProduct.toJson()));
 
         if (response.statusCode == 200) {
@@ -101,7 +100,7 @@ class Products with ChangeNotifier {
       _products.removeAt(index);
       notifyListeners();
 
-      final response = await http.delete(_productUrl(product.id));
+      final response = await http.delete(product.productUrl);
       if (response.statusCode >= 400) {
         // We restore the product in memory if the delete failed
         // (what ever the reason)
@@ -111,9 +110,6 @@ class Products with ChangeNotifier {
       }
     }
   }
-
-  Uri _productUrl(String id) =>
-      Uri.https(kFirebaseBaseDomain, '/products/$id.json');
 
   Product findById(String productId) {
     return _products.firstWhere((product) => product.id == productId);

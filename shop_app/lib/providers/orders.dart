@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/constants.dart';
+import 'package:shop_app/models/order_item.dart';
+
 import '/providers/cart.dart';
-import 'package:uuid/uuid.dart';
 
 class Orders with ChangeNotifier {
+  final _ordersUrl = Uri.https(kFirebaseBaseDomain, '/orders.json');
+
   final List<OrderItem> _orders = [];
 
   List<OrderItem> get orders => [..._orders];
@@ -17,19 +21,5 @@ class Orders with ChangeNotifier {
       ),
     );
     notifyListeners();
-  }
-}
-
-class OrderItem {
-  late final String id;
-  final double amount;
-  final List<CartItem> contents;
-  late final DateTime dateTime;
-  OrderItem({
-    required this.amount,
-    required this.contents,
-  }) {
-    id = const Uuid().v4().toString();
-    dateTime = DateTime.now();
   }
 }

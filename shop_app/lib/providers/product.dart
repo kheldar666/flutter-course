@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
+import 'package:shop_app/constants.dart';
 import 'package:uuid/uuid.dart';
 
 part 'product.g.dart';
@@ -25,13 +29,24 @@ class Product with ChangeNotifier {
     if (id.isEmpty) id = const Uuid().v4().toString();
   }
 
-  void toggleFavorite() {
+  void toggleFavorite() async {
     isFavorite = !isFavorite;
     notifyListeners();
+    final response = await update();
+    if (response.statusCode >= 400) {
+      isFavorite = !isFavorite;
+      notifyListeners();
+    }
   }
 
   factory Product.fromJson(Map<String, dynamic> json) =>
       _$ProductFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProductToJson(this);
+
+  Uri get productUrl => Uri.https(kFirebaseBaseDomain, '/products/$id.json');
+
+  Future<http.Response> update() async {
+    return await http.patch(productUrl, body: json.encode(toJson()));
+  }
 }

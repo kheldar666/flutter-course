@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/models/cart_item.dart';
+
 import '/providers/product.dart';
-import 'package:uuid/uuid.dart';
 
 class Cart with ChangeNotifier {
   final Map<String, CartItem> _items = {};
@@ -59,16 +60,4 @@ class Cart with ChangeNotifier {
     _items.clear();
     notifyListeners();
   }
-}
-
-class CartItem {
-  late final String _id;
-  final Product product;
-  int quantity;
-
-  CartItem({required this.product, this.quantity = 1}) {
-    _id = const Uuid().v4().toString();
-  }
-
-  String get id => _id;
 }
