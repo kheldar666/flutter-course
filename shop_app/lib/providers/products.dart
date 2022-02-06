@@ -10,7 +10,7 @@ import '/models/filter_option.dart';
 import '/providers/product.dart';
 
 class Products with ChangeNotifier {
-  final _firebaseProductsUrl = Uri.https(kFirebaseBaseDomain, '/products.json');
+  final _firebaseProductsUrl = Uri.https(kFirebaseBaseDomain, '/products');
 
   final List<Product> _products = kDummyProducts;
 
@@ -43,19 +43,17 @@ class Products with ChangeNotifier {
     } else {
       // Save the Product in Firebase
       return http
-          .post(
-        _firebaseProductsUrl,
-        body: json.encode(addOrUpdateProduct.toJson()),
-      )
-          .then(
-        (response) {
-          if (response.statusCode == 200) {
-            addOrUpdateProduct.id = json.decode(response.body)['name'];
-            _products.add(addOrUpdateProduct);
-            notifyListeners();
-          }
-        },
-      );
+          .post(_firebaseProductsUrl,
+              body: json.encode(addOrUpdateProduct.toJson()))
+          .then((response) {
+        if (response.statusCode == 200) {
+          addOrUpdateProduct.id = json.decode(response.body)['name'];
+          _products.add(addOrUpdateProduct);
+          notifyListeners();
+        }
+      }).catchError((error) {
+        throw error;
+      });
     }
   }
 

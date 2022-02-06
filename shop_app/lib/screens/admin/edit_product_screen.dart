@@ -243,11 +243,30 @@ class _EditProductScreenState extends State<EditProductScreen> {
       Provider.of<Products>(context, listen: false)
           .addOrUpdateProduct(editedProduct)
           .then((_) {
+        //Pop only when the Add Product is done
         setState(() {
           _isSaving = false;
         });
         Navigator.of(context).pop();
-      }); //Pop only when the Add is done
+      }).catchError((error) {
+        showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: const Text('An Error Occurred'),
+            content: Text(error),
+            actions: [
+              TextButton(
+                  onPressed: () => Navigator.of(ctx).pop(),
+                  child: const Text('OK'))
+            ],
+          ),
+        ).then((_) {
+          setState(() {
+            _isSaving = false;
+          });
+          Navigator.of(context).pop();
+        });
+      });
     }
   }
 }
