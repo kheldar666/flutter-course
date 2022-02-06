@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_app/providers/orders.dart';
 import 'package:shop_app/providers/products.dart';
 
 import '/models/filter_option.dart';
@@ -26,22 +25,14 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   @override
   void initState() {
     super.initState();
-    //Provider.of<Products>(context).fetchAndSetProducts(); // WON'T WORK!
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (!_isInit) {
-      _isLoading = true;
-      Provider.of<Orders>(context).fetchOrders();
-      Provider.of<Products>(context).fetchAndSetProducts().then((_) {
-        setState(() {
-          _isLoading = false;
-        });
+    _isLoading = true;
+    Provider.of<Products>(context, listen: false)
+        .fetchAndSetProducts()
+        .then((_) {
+      setState(() {
+        _isLoading = false;
       });
-      _isInit = true;
-    }
+    });
   }
 
   @override
