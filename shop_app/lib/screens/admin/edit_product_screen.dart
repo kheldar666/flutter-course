@@ -2,7 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:shop_app/models/edit_product.dart';
+import 'package:shop_app/providers/product.dart';
+import 'package:shop_app/providers/products.dart';
 
 class EditProductScreen extends StatefulWidget {
   static const routeName = '/admin/edit-product';
@@ -16,12 +19,33 @@ class _EditProductScreenState extends State<EditProductScreen> {
   final _imageUrlController = TextEditingController();
   final _imageUrlFocusNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
-  var newProduct = EditProduct();
+  var _isLoaded = false;
+  var _isEditMode = false;
+  var editedProduct = EditProduct();
 
   @override
   void initState() {
     super.initState();
+
     _imageUrlFocusNode.addListener(_updateImagePreview);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_isLoaded) {
+      final productToEdit = ModalRoute.of(context)?.settings.arguments;
+      if (productToEdit is Product) {
+        editedProduct.title = productToEdit.title;
+        editedProduct.description = productToEdit.description;
+        editedProduct.imageUrl = productToEdit.imageUrl;
+        editedProduct.price = productToEdit.price;
+        editedProduct.id = productToEdit.id;
+        _imageUrlController.text = editedProduct.imageUrl;
+        _isEditMode = true;
+      }
+      _isLoaded = true;
+    }
   }
 
   @override
@@ -38,7 +62,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Edit Product'),
+          title: _isEditMode
+              ? const Text('Edit a Product')
+              : const Text('Add a Product'),
           actions: [
             IconButton(
               onPressed: _saveForm,
@@ -56,6 +82,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 children: [
                   TextFormField(
                     decoration: const InputDecoration(labelText: 'Title'),
+                    initialValue: editedProduct.title,
                     textInputAction: TextInputAction.next,
                     validator: (title) {
                       String? error = 'Please input a title';
@@ -65,11 +92,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       return error;
                     },
                     onSaved: (title) {
-                      newProduct.title = title.toString();
+                      editedProduct.title = title.toString();
                     },
                   ),
                   TextFormField(
                     decoration: const InputDecoration(labelText: 'Price'),
+                    initialValue: editedProduct.price.toString(),
                     autocorrect: false,
                     keyboardType: Platform.isIOS
                         ? const TextInputType.numberWithOptions(
@@ -90,12 +118,13 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     },
                     onSaved: (price) {
                       price != null
-                          ? newProduct.price = double.parse(price)
-                          : newProduct.price = 0;
+                          ? editedProduct.price = double.parse(price)
+                          : editedProduct.price = 0;
                     },
                   ),
                   TextFormField(
                     decoration: const InputDecoration(labelText: 'Description'),
+                    initialValue: editedProduct.description,
                     maxLines: 3,
                     keyboardType: TextInputType.multiline,
                     validator: (description) {
@@ -106,7 +135,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       return error;
                     },
                     onSaved: (description) {
-                      newProduct.description = description.toString();
+                      editedProduct.description = description.toString();
                     },
                   ),
                   Row(
@@ -148,7 +177,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                             setState(() {});
                           },
                           validator: (imageUrl) {
-                            String? error = 'Please input a valid url';
+                            String? error =
+                                'Please input a valid url (.jpg, .jpeg or .png)';
                             if (_isImageUrlValid()) {
                               error = null;
                             }
@@ -156,8 +186,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                           },
                           onSaved: (imageUrl) {
                             _isImageUrlValid()
-                                ? newProduct.imageUrl = imageUrl.toString()
-                                : newProduct.imageUrl = '';
+                                ? editedProduct.imageUrl = imageUrl.toString()
+                                : editedProduct.imageUrl = '';
                           },
                         ),
                       )
@@ -179,7 +209,13 @@ class _EditProductScreenState extends State<EditProductScreen> {
   }
 
   bool _isImageUrlValid() {
-    if (Uri.parse(_imageUrlController.text).isAbsolute) {
+    var url = _imageUrlController.text.toLowerCase();
+    if (Uri.parse(url).isAbsolute) {
+      if (!url.endsWith('.jpg') &&
+          !url.endsWith('.jpeg') &&
+          !url.endsWith('.png')) {
+        return false;
+      }
       return true;
     } else {
       _imageUrlController.clear();
@@ -192,7 +228,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
 
     if (isValid != null && isValid) {
       _formKey.currentState?.save();
-      print(newProduct.toString());
+      Provider.of<Products>(context, listen: false)
+          .addOrUpdateProduct(editedProduct);
+      Navigator.of(context).pop();
     }
   }
 }
