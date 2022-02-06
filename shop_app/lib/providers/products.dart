@@ -1,10 +1,17 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+import '/constants.dart';
 import '/data/dummy_data.dart';
 import '/models/edit_product.dart';
 import '/models/filter_option.dart';
 import '/providers/product.dart';
 
 class Products with ChangeNotifier {
+  final _firebaseProductsUrl = Uri.https(kFirebaseBaseDomain, '/products.json');
+
   final List<Product> _products = kDummyProducts;
 
   List<Product> get products {
@@ -31,10 +38,24 @@ class Products with ChangeNotifier {
     if (index > -1) {
       _products.removeAt(index);
       _products.insert(index, addOrUpdateProduct);
+      notifyListeners();
     } else {
-      _products.add(addOrUpdateProduct);
+      // Save the Product in Firebase
+      http
+          .post(
+        _firebaseProductsUrl,
+        body: json.encode(addOrUpdateProduct.toJson()),
+      )
+          .then(
+        (response) {
+          if (response.statusCode == 200) {
+            addOrUpdateProduct.id = json.decode(response.body)['name'];
+            _products.add(addOrUpdateProduct);
+            notifyListeners();
+          }
+        },
+      );
     }
-    notifyListeners();
   }
 
   Product findById(String productId) {
