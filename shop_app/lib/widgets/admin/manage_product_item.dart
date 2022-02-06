@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '/providers/products.dart';
-import '/screens/admin/edit_product_screen.dart';
 
 import '/providers/product.dart';
+import '/providers/products.dart';
+import '/screens/admin/edit_product_screen.dart';
 
 class ManageProductItem extends StatelessWidget {
   final Product product;
@@ -28,8 +28,8 @@ class ManageProductItem extends StatelessWidget {
               color: Theme.of(context).primaryColor,
             ),
             IconButton(
-              onPressed: () {
-                Provider.of<Products>(context, listen: false)
+              onPressed: () async {
+                await Provider.of<Products>(context, listen: false)
                     .deleteProduct(product);
               },
               icon: const Icon(Icons.delete),

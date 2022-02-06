@@ -57,10 +57,17 @@ class Products with ChangeNotifier {
     int index = _products.indexWhere((p) => p.id == addOrUpdateProduct.id);
 
     if (index > -1) {
-      _products.removeAt(index);
-      _products.insert(index, addOrUpdateProduct);
-      notifyListeners();
-      return Future.value();
+      try {
+        final response = await http.patch(_productUrl(addOrUpdateProduct.id),
+            body: json.encode(addOrUpdateProduct.toJson()));
+        if (response.statusCode == 200) {
+          _products.removeAt(index);
+          _products.insert(index, addOrUpdateProduct);
+          notifyListeners();
+        }
+      } on Exception catch (error) {
+        rethrow;
+      }
     } else {
       // Save the Product in Firebase
       try {
@@ -78,16 +85,23 @@ class Products with ChangeNotifier {
     }
   }
 
-  Product findById(String productId) {
-    return _products.firstWhere((product) => product.id == productId);
+  Future<void> deleteProduct(Product product) async {
+    int index = _products.indexWhere((p) => p.id == product.id);
+    if (index > -1) {
+      try {
+        await http.delete(_productUrl(product.id));
+        _products.removeAt(index);
+        notifyListeners();
+      } on Exception catch (_) {
+        rethrow;
+      }
+    }
   }
 
-  void deleteProduct(Product product) {
-    int index = _products.indexWhere((p) => p.id == product.id);
+  Uri _productUrl(String id) =>
+      Uri.https(kFirebaseBaseDomain, '/products/$id.json');
 
-    if (index > -1) {
-      _products.removeAt(index);
-    }
-    notifyListeners();
+  Product findById(String productId) {
+    return _products.firstWhere((product) => product.id == productId);
   }
 }
