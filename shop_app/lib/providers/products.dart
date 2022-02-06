@@ -25,7 +25,7 @@ class Products with ChangeNotifier {
     return products;
   }
 
-  Future<void> addOrUpdateProduct(EditProduct product) {
+  Future<void> addOrUpdateProduct(EditProduct product) async {
     Product addOrUpdateProduct = Product(
       id: product.id,
       title: product.title,
@@ -42,18 +42,18 @@ class Products with ChangeNotifier {
       return Future.value();
     } else {
       // Save the Product in Firebase
-      return http
-          .post(_firebaseProductsUrl,
-              body: json.encode(addOrUpdateProduct.toJson()))
-          .then((response) {
+      try {
+        final response = await http.post(_firebaseProductsUrl,
+            body: json.encode(addOrUpdateProduct.toJson()));
+
         if (response.statusCode == 200) {
           addOrUpdateProduct.id = json.decode(response.body)['name'];
           _products.add(addOrUpdateProduct);
           notifyListeners();
         }
-      }).catchError((error) {
-        throw error;
-      });
+      } on Exception catch (_) {
+        rethrow;
+      }
     }
   }
 

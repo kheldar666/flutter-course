@@ -232,7 +232,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
     }
   }
 
-  void _saveForm() {
+  void _saveForm() async {
     bool? isValid = _formKey.currentState?.validate();
 
     if (isValid != null && isValid) {
@@ -242,27 +242,29 @@ class _EditProductScreenState extends State<EditProductScreen> {
         _isSaving = true;
       });
 
-      Provider.of<Products>(context, listen: false)
-          .addOrUpdateProduct(editedProduct)
-          .catchError((error) {
-        return showDialog<Null>(
-            context: context,
-            builder: (ctx) => AlertDialog(
-                  title: const Text('An Error Occurred'),
-                  content: Text(error),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.of(ctx).pop(),
-                      child: const Text('OK'),
-                    )
-                  ],
-                ));
-      }).then((_) {
+      try {
+        await Provider.of<Products>(context, listen: false)
+            .addOrUpdateProduct(editedProduct);
+      } on Exception catch (error) {
+        await showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: const Text('An Error Occurred'),
+            content: Text(error.toString()),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(ctx).pop(),
+                child: const Text('OK'),
+              )
+            ],
+          ),
+        );
+      } finally {
         setState(() {
           _isSaving = false;
         });
         Navigator.of(context).pop();
-      });
+      }
     }
   }
 }
