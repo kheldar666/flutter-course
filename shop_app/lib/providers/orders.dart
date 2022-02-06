@@ -23,14 +23,13 @@ class Orders with ChangeNotifier {
     final response = await order.save();
     if (response.statusCode == 200) {
       order.id = json.decode(response.body)['name'];
+      //Adds always at the top
+      _orders.insert(
+        0,
+        order,
+      );
+      notifyListeners();
     }
-
-    //Adds always at the top
-    _orders.insert(
-      0,
-      order,
-    );
-    notifyListeners();
   }
 
   Future<void> fetchOrders() async {
@@ -42,7 +41,7 @@ class Orders with ChangeNotifier {
         data.forEach((orderId, orderData) {
           final fetchedOrder = Order.fromJson(orderData);
           fetchedOrder.id = orderId;
-          _orders.add(fetchedOrder);
+          _orders.insert(0, fetchedOrder);
         });
       }
       notifyListeners();
