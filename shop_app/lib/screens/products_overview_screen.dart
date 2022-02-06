@@ -79,7 +79,10 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
         drawer: const ShopDrawer(),
         body: _isLoading
             ? const Center(child: CircularProgressIndicator())
-            : ProductsGrid(_filterOptions),
+            : RefreshIndicator(
+                child: ProductsGrid(_filterOptions),
+                onRefresh: _refreshProducts,
+              ),
       ),
     );
   }
@@ -88,5 +91,9 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
     setState(() {
       _filterOptions = option;
     });
+  }
+
+  Future<void> _refreshProducts() async {
+    await Provider.of<Products>(context, listen: false).fetchAndSetProducts();
   }
 }

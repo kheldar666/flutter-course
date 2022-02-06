@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '/constants.dart';
+import '/exceptions/http_exception.dart';
 import '/models/edit_product.dart';
 import '/models/filter_option.dart';
 import '/providers/product.dart';
@@ -88,12 +89,25 @@ class Products with ChangeNotifier {
   Future<void> deleteProduct(Product product) async {
     int index = _products.indexWhere((p) => p.id == product.id);
     if (index > -1) {
-      try {
-        await http.delete(_productUrl(product.id));
-        _products.removeAt(index);
+      // try {
+      //   await http.delete(_productUrl(product.id));
+      //   _products.removeAt(index);
+      //   notifyListeners();
+      // } on Exception catch (_) {
+      //   rethrow;
+      // }
+
+      //Optimistic Updating
+      _products.removeAt(index);
+      notifyListeners();
+
+      final response = await http.delete(_productUrl(product.id));
+      if (response.statusCode >= 400) {
+        // We restore the product in memory if the delete failed
+        // (what ever the reason)
+        _products.insert(index, product);
         notifyListeners();
-      } on Exception catch (_) {
-        rethrow;
+        throw HttpException('Could not delete the product');
       }
     }
   }
