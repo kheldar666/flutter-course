@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/providers/products.dart';
+
 import '/models/filter_option.dart';
 import '/providers/cart.dart';
 import '/screens/cart_screen.dart';
@@ -18,6 +20,28 @@ class ProductsOverviewScreen extends StatefulWidget {
 
 class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   var _filterOptions = FilterOptions.all;
+  var _isInit = false;
+  var _isLoading = false;
+  @override
+  void initState() {
+    super.initState();
+    //Provider.of<Products>(context).fetchAndSetProducts(); // WON'T WORK!
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_isInit) {
+      _isLoading = true;
+      Provider.of<Products>(context).fetchAndSetProducts().then((_) {
+        setState(() {
+          _isLoading = false;
+        });
+      });
+      _isInit = true;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -53,7 +77,9 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
           ],
         ),
         drawer: const ShopDrawer(),
-        body: ProductsGrid(_filterOptions),
+        body: _isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : ProductsGrid(_filterOptions),
       ),
     );
   }

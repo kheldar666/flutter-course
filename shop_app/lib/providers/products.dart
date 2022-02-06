@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '/constants.dart';
-import '/data/dummy_data.dart';
 import '/models/edit_product.dart';
 import '/models/filter_option.dart';
 import '/providers/product.dart';
@@ -12,7 +11,8 @@ import '/providers/product.dart';
 class Products with ChangeNotifier {
   final _firebaseProductsUrl = Uri.https(kFirebaseBaseDomain, '/products.json');
 
-  final List<Product> _products = kDummyProducts;
+  //final List<Product> _products = kDummyProducts; // To use when no DB
+  final List<Product> _products = [];
 
   List<Product> get products {
     return [..._products];
@@ -23,6 +23,27 @@ class Products with ChangeNotifier {
       return _products.where((product) => product.isFavorite).toList();
     }
     return products;
+  }
+
+  Future<void> fetchAndSetProducts() async {
+    // Avoid to load several time the same products when
+    // moving away and back to home page
+    // Not great... but ok for now I guess
+    _products.clear();
+    try {
+      final response = await http.get(_firebaseProductsUrl);
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+        data.forEach((productId, productData) {
+          final fetchedProduct = Product.fromJson(productData);
+          fetchedProduct.id = productId;
+          _products.add(fetchedProduct);
+        });
+      }
+      notifyListeners();
+    } on Exception catch (_) {
+      rethrow;
+    }
   }
 
   Future<void> addOrUpdateProduct(EditProduct product) async {
