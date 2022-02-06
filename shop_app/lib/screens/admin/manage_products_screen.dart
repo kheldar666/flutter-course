@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_app/providers/products.dart';
-import 'package:shop_app/screens/admin/edit_product_screen.dart';
-import 'package:shop_app/widgets/admin/manage_product_item.dart';
-import 'package:shop_app/widgets/shop_drawer.dart';
+import '/providers/products.dart';
+import '/screens/admin/edit_product_screen.dart';
+import '/widgets/admin/manage_product_item.dart';
+import '/widgets/shop_drawer.dart';
 
 class ManageProductsScreen extends StatelessWidget {
   static const routeName = '/admin/products';

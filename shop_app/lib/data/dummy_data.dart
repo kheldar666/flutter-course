@@ -1,4 +1,4 @@
-import 'package:shop_app/providers/product.dart';
+import '/providers/product.dart';
 
 final kDummyProducts = [
   Product(

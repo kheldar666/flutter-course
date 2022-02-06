@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/data/dummy_data.dart';
-import 'package:shop_app/models/edit_product.dart';
-import 'package:shop_app/models/filter_option.dart';
-import 'package:shop_app/providers/product.dart';
+import '/data/dummy_data.dart';
+import '/models/edit_product.dart';
+import '/models/filter_option.dart';
+import '/providers/product.dart';
 
 class Products with ChangeNotifier {
   final List<Product> _products = kDummyProducts;

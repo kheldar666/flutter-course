@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/providers/cart.dart';
+import '/providers/cart.dart';
 import 'package:uuid/uuid.dart';
 
 class Orders with ChangeNotifier {

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_app/models/filter_option.dart';
-import 'package:shop_app/providers/cart.dart';
-import 'package:shop_app/screens/cart_screen.dart';
-import 'package:shop_app/widgets/badge.dart';
-import 'package:shop_app/widgets/products_grid.dart';
-import 'package:shop_app/widgets/shop_drawer.dart';
+import '/models/filter_option.dart';
+import '/providers/cart.dart';
+import '/screens/cart_screen.dart';
+import '/widgets/badge.dart';
+import '/widgets/products_grid.dart';
+import '/widgets/shop_drawer.dart';
 
 class ProductsOverviewScreen extends StatefulWidget {
   static const String routeName = '/products-overview';

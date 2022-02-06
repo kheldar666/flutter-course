@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/providers/product.dart';
+import '/providers/product.dart';
 import 'package:uuid/uuid.dart';
 
 class Cart with ChangeNotifier {

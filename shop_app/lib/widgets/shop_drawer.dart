@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/screens/admin/manage_products_screen.dart';
-import 'package:shop_app/screens/order_screen.dart';
-import 'package:shop_app/screens/products_overview_screen.dart';
+import '/screens/admin/manage_products_screen.dart';
+import '/screens/order_screen.dart';
+import '/screens/products_overview_screen.dart';
 
 class ShopDrawer extends StatelessWidget {
   const ShopDrawer({Key? key}) : super(key: key);
