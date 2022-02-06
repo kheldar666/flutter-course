@@ -25,7 +25,7 @@ class Products with ChangeNotifier {
     return products;
   }
 
-  void addOrUpdateProduct(EditProduct product) {
+  Future<void> addOrUpdateProduct(EditProduct product) {
     Product addOrUpdateProduct = Product(
       id: product.id,
       title: product.title,
@@ -39,9 +39,10 @@ class Products with ChangeNotifier {
       _products.removeAt(index);
       _products.insert(index, addOrUpdateProduct);
       notifyListeners();
+      return Future.value();
     } else {
       // Save the Product in Firebase
-      http
+      return http
           .post(
         _firebaseProductsUrl,
         body: json.encode(addOrUpdateProduct.toJson()),
