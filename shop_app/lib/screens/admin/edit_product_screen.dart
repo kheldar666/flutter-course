@@ -57,6 +57,13 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   TextFormField(
                     decoration: const InputDecoration(labelText: 'Title'),
                     textInputAction: TextInputAction.next,
+                    validator: (title) {
+                      String? error = 'Please input a title';
+                      if (title != null && title.isNotEmpty) {
+                        error = null;
+                      }
+                      return error;
+                    },
                     onSaved: (title) {
                       newProduct.title = title.toString();
                     },
@@ -73,6 +80,14 @@ class _EditProductScreenState extends State<EditProductScreen> {
                           RegExp(r'^\d+\.?\d{0,4}'))
                     ],
                     textInputAction: TextInputAction.next,
+                    validator: (price) {
+                      try {
+                        double.parse(price!);
+                        return null;
+                      } catch (_) {
+                        return 'Input a valid price';
+                      }
+                    },
                     onSaved: (price) {
                       price != null
                           ? newProduct.price = double.parse(price)
@@ -83,6 +98,13 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     decoration: const InputDecoration(labelText: 'Description'),
                     maxLines: 3,
                     keyboardType: TextInputType.multiline,
+                    validator: (description) {
+                      String? error = 'Please input a description';
+                      if (description != null && description.isNotEmpty) {
+                        error = null;
+                      }
+                      return error;
+                    },
                     onSaved: (description) {
                       newProduct.description = description.toString();
                     },
@@ -125,6 +147,13 @@ class _EditProductScreenState extends State<EditProductScreen> {
                           onEditingComplete: () {
                             setState(() {});
                           },
+                          validator: (imageUrl) {
+                            String? error = 'Please input a valid url';
+                            if (_isImageUrlValid()) {
+                              error = null;
+                            }
+                            return error;
+                          },
                           onSaved: (imageUrl) {
                             _isImageUrlValid()
                                 ? newProduct.imageUrl = imageUrl.toString()
@@ -159,7 +188,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
   }
 
   void _saveForm() {
-    _formKey.currentState?.save();
-    print(newProduct.toString());
+    bool? isValid = _formKey.currentState?.validate();
+
+    if (isValid != null && isValid) {
+      _formKey.currentState?.save();
+      print(newProduct.toString());
+    }
   }
 }
