@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/providers/orders.dart';
 import 'package:shop_app/providers/products.dart';
 
 import '/models/filter_option.dart';
@@ -33,6 +34,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
     super.didChangeDependencies();
     if (!_isInit) {
       _isLoading = true;
+      Provider.of<Orders>(context).fetchOrders();
       Provider.of<Products>(context).fetchAndSetProducts().then((_) {
         setState(() {
           _isLoading = false;
