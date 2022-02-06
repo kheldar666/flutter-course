@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shop_app/models/edit_product.dart';
 
 class EditProductScreen extends StatefulWidget {
   static const routeName = '/admin/edit-product';
@@ -14,6 +15,8 @@ class EditProductScreen extends StatefulWidget {
 class _EditProductScreenState extends State<EditProductScreen> {
   final _imageUrlController = TextEditingController();
   final _imageUrlFocusNode = FocusNode();
+  final _formKey = GlobalKey<FormState>();
+  var newProduct = EditProduct();
 
   @override
   void initState() {
@@ -24,25 +27,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
   @override
   void dispose() {
     super.dispose();
-    // That helps prevents memory leaks
+    // That prevents memory leaks
     _imageUrlController.dispose();
     _imageUrlFocusNode.removeListener(_updateImagePreview);
     _imageUrlFocusNode.dispose();
-  }
-
-  void _updateImagePreview() {
-    if (!_imageUrlFocusNode.hasFocus) {
-      setState(() {});
-    }
-  }
-
-  bool _isImageUrlValid() {
-    if (Uri.parse(_imageUrlController.text).isAbsolute) {
-      return true;
-    } else {
-      _imageUrlController.clear();
-      return false;
-    }
   }
 
   @override
@@ -51,10 +39,17 @@ class _EditProductScreenState extends State<EditProductScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Edit Product'),
+          actions: [
+            IconButton(
+              onPressed: _saveForm,
+              icon: const Icon(Icons.save),
+            )
+          ],
         ),
         body: Padding(
           padding: const EdgeInsets.all(15),
           child: Form(
+            key: _formKey,
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -62,6 +57,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   TextFormField(
                     decoration: const InputDecoration(labelText: 'Title'),
                     textInputAction: TextInputAction.next,
+                    onSaved: (title) {
+                      newProduct.title = title.toString();
+                    },
                   ),
                   TextFormField(
                     decoration: const InputDecoration(labelText: 'Price'),
@@ -75,11 +73,19 @@ class _EditProductScreenState extends State<EditProductScreen> {
                           RegExp(r'^\d+\.?\d{0,4}'))
                     ],
                     textInputAction: TextInputAction.next,
+                    onSaved: (price) {
+                      price != null
+                          ? newProduct.price = double.parse(price)
+                          : newProduct.price = 0;
+                    },
                   ),
                   TextFormField(
                     decoration: const InputDecoration(labelText: 'Description'),
                     maxLines: 3,
                     keyboardType: TextInputType.multiline,
+                    onSaved: (description) {
+                      newProduct.description = description.toString();
+                    },
                   ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,8 +119,16 @@ class _EditProductScreenState extends State<EditProductScreen> {
                           textInputAction: TextInputAction.done,
                           controller: _imageUrlController,
                           focusNode: _imageUrlFocusNode,
+                          onFieldSubmitted: (_) {
+                            _saveForm();
+                          },
                           onEditingComplete: () {
                             setState(() {});
+                          },
+                          onSaved: (imageUrl) {
+                            _isImageUrlValid()
+                                ? newProduct.imageUrl = imageUrl.toString()
+                                : newProduct.imageUrl = '';
                           },
                         ),
                       )
@@ -127,5 +141,25 @@ class _EditProductScreenState extends State<EditProductScreen> {
         ),
       ),
     );
+  }
+
+  void _updateImagePreview() {
+    if (!_imageUrlFocusNode.hasFocus) {
+      setState(() {});
+    }
+  }
+
+  bool _isImageUrlValid() {
+    if (Uri.parse(_imageUrlController.text).isAbsolute) {
+      return true;
+    } else {
+      _imageUrlController.clear();
+      return false;
+    }
+  }
+
+  void _saveForm() {
+    _formKey.currentState?.save();
+    print(newProduct.toString());
   }
 }
