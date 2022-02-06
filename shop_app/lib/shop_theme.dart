@@ -4,6 +4,15 @@ class ShopTheme {
   static ThemeData android() {
     return ThemeData(
       primarySwatch: Colors.purple,
+      inputDecorationTheme: ThemeData.light().inputDecorationTheme.copyWith(
+            labelStyle: const TextStyle(color: Colors.purple),
+            focusedBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.purple,
+                width: 2,
+              ),
+            ),
+          ),
       colorScheme:
           ThemeData.light().colorScheme.copyWith(secondary: Colors.deepOrange),
       appBarTheme: ThemeData.light()
