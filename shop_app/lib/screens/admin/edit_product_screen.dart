@@ -37,7 +37,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
   }
 
   bool _isImageUrlValid() {
-    return Uri.parse(_imageUrlController.text).isAbsolute;
+    if (Uri.parse(_imageUrlController.text).isAbsolute) {
+      return true;
+    } else {
+      _imageUrlController.clear();
+      return false;
+    }
   }
 
   @override
