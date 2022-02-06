@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '/providers/products.dart';
 import '/screens/admin/edit_product_screen.dart';
 import '/widgets/admin/manage_product_item.dart';
@@ -26,21 +27,28 @@ class ManageProductsScreen extends StatelessWidget {
           ],
         ),
         drawer: const ShopDrawer(),
-        body: Padding(
-          padding: const EdgeInsets.all(8),
-          child: ListView.builder(
-            itemBuilder: (ctx, index) {
-              return Column(
-                children: [
-                  ManageProductItem(_products.products[index]),
-                  const Divider(),
-                ],
-              );
-            },
-            itemCount: _products.products.length,
+        body: RefreshIndicator(
+          onRefresh: () => _refreshProducts(context),
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: ListView.builder(
+              itemBuilder: (ctx, index) {
+                return Column(
+                  children: [
+                    ManageProductItem(_products.products[index]),
+                    const Divider(),
+                  ],
+                );
+              },
+              itemCount: _products.products.length,
+            ),
           ),
         ),
       ),
     );
+  }
+
+  Future<void> _refreshProducts(BuildContext context) async {
+    await Provider.of<Products>(context, listen: false).fetchAndSetProducts();
   }
 }
