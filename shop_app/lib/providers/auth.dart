@@ -4,23 +4,43 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:shop_app/constants.dart';
+import 'package:shop_app/exceptions/auth_exception.dart';
+import 'package:shop_app/models/auth_mode.dart';
 
 class Auth with ChangeNotifier {
   late String _token;
   late DateTime _expiryDate;
   late String _userId;
 
-  Future<void> signup(String email, String password) async {
-    final response = await http.post(authUrl,
-        body: json.encode({
-          'email': email,
-          'password': password,
-          'returnSecureToken': true,
-        }));
-
-    print(json.decode(response.body));
+  Future<void> _authenticate(
+      String email, String password, AuthMode mode) async {
+    try {
+      final response =
+          await http.post(mode == AuthMode.signup ? signUpUrl : loginUrl,
+              body: json.encode({
+                'email': email,
+                'password': password,
+                'returnSecureToken': true,
+              }));
+      final responseData = json.decode(response.body);
+      if (responseData['error'] != null) {
+        throw AuthException(responseData['error']['message']);
+      }
+    } on Exception catch (error) {
+      rethrow;
+    }
   }
 
-  Uri get authUrl =>
-      Uri.parse(kFirebaseAuthEndpoint + dotenv.env['FB_API_KEY']!);
+  Future<void> signUp(String email, String password) async {
+    return _authenticate(email, password, AuthMode.signup);
+  }
+
+  Future<void> login(String email, String password) async {
+    return _authenticate(email, password, AuthMode.login);
+  }
+
+  Uri get signUpUrl =>
+      Uri.parse(kFirebaseSignUpEndpoint + dotenv.env['FB_API_KEY']!);
+  Uri get loginUrl =>
+      Uri.parse(kFirebaseLoginEndpoint + dotenv.env['FB_API_KEY']!);
 }
