@@ -8,7 +8,7 @@ import 'package:shop_app/models/order.dart';
 import '/providers/cart.dart';
 
 class Orders with ChangeNotifier {
-  final _ordersUrl = Uri.https(kFirebaseBaseDomain, '/orders.json');
+  final _ordersUrl = Uri.https(kFirebaseDBBaseDomain, '/orders.json');
 
   final List<Order> _orders = [];
 

@@ -10,7 +10,7 @@ import '/models/filter_option.dart';
 import '/providers/product.dart';
 
 class Products with ChangeNotifier {
-  final _productsUrl = Uri.https(kFirebaseBaseDomain, '/products.json');
+  final _productsUrl = Uri.https(kFirebaseDBBaseDomain, '/products.json');
 
   //final List<Product> _products = kDummyProducts; // To use when no DB
   final List<Product> _products = [];

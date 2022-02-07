@@ -4,6 +4,9 @@ class ShopTheme {
   static ThemeData android() {
     return ThemeData(
       primarySwatch: Colors.purple,
+      textTheme: ThemeData.light().textTheme.copyWith(
+            headline1: const TextStyle(color: Colors.white),
+          ),
       inputDecorationTheme: ThemeData.light().inputDecorationTheme.copyWith(
             labelStyle: const TextStyle(color: Colors.purple),
             focusedBorder: const UnderlineInputBorder(

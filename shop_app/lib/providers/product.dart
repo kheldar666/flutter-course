@@ -44,7 +44,7 @@ class Product with ChangeNotifier {
 
   Map<String, dynamic> toJson() => _$ProductToJson(this);
 
-  Uri get productUrl => Uri.https(kFirebaseBaseDomain, '/products/$id.json');
+  Uri get productUrl => Uri.https(kFirebaseDBBaseDomain, '/products/$id.json');
 
   Future<http.Response> update() async {
     return await http.patch(productUrl, body: json.encode(toJson()));

@@ -10,7 +10,7 @@ part 'order.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Order {
-  final _ordersUrl = Uri.https(kFirebaseBaseDomain, '/orders.json');
+  final _ordersUrl = Uri.https(kFirebaseDBBaseDomain, '/orders.json');
 
   @JsonKey(ignore: true)
   late String id;
