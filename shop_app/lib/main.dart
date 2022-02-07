@@ -33,21 +33,29 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (ctx) => Cart()),
         ChangeNotifierProvider(create: (ctx) => Orders()),
       ],
-      child: MaterialApp(
-        title: 'The Shop App',
-        theme: ShopTheme.android(),
-        initialRoute: AuthScreen.routeName,
-        routes: {
-          ProductsOverviewScreen.routeName: (ctx) =>
-              const ProductsOverviewScreen(),
-          ProductDetailScreen.routeName: (ctx) => const ProductDetailScreen(),
-          CartScreen.routeName: (ctx) => const CartScreen(),
-          OrdersScreen.routeName: (ctx) => const OrdersScreen(),
-          ManageProductsScreen.routeName: (ctx) => const ManageProductsScreen(),
-          EditProductScreen.routeName: (ctx) => const EditProductScreen(),
-          AuthScreen.routeName: (ctx) => const AuthScreen(),
+      child: Consumer<Auth>(
+        builder: (ctx, authData, _) {
+          return MaterialApp(
+            title: 'The Shop App',
+            theme: ShopTheme.android(),
+            home: authData.isAuth
+                ? const ProductsOverviewScreen()
+                : const AuthScreen(),
+            routes: {
+              ProductsOverviewScreen.routeName: (ctx) =>
+                  const ProductsOverviewScreen(),
+              ProductDetailScreen.routeName: (ctx) =>
+                  const ProductDetailScreen(),
+              CartScreen.routeName: (ctx) => const CartScreen(),
+              OrdersScreen.routeName: (ctx) => const OrdersScreen(),
+              ManageProductsScreen.routeName: (ctx) =>
+                  const ManageProductsScreen(),
+              EditProductScreen.routeName: (ctx) => const EditProductScreen(),
+              AuthScreen.routeName: (ctx) => const AuthScreen(),
+            },
+            debugShowCheckedModeBanner: false,
+          );
         },
-        debugShowCheckedModeBanner: false,
       ),
     );
   }

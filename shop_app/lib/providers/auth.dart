@@ -8,9 +8,20 @@ import 'package:shop_app/exceptions/auth_exception.dart';
 import 'package:shop_app/models/auth_mode.dart';
 
 class Auth with ChangeNotifier {
-  late String _token;
-  late DateTime _expiryDate;
+  late String? _token;
+  late DateTime _expiryDate = DateTime.now();
   late String _userId;
+
+  bool get isAuth {
+    return token != null;
+  }
+
+  String? get token {
+    if (_expiryDate.isAfter(DateTime.now()) && _token != null) {
+      return _token;
+    }
+    return null;
+  }
 
   Future<void> _authenticate(
       String email, String password, AuthMode mode) async {
@@ -25,6 +36,15 @@ class Auth with ChangeNotifier {
       final responseData = json.decode(response.body);
       if (responseData['error'] != null) {
         throw AuthException(responseData['error']['message']);
+      } else {
+        _token = responseData['idToken'];
+        _userId = responseData['localId'];
+        _expiryDate = DateTime.now().add(
+          Duration(
+            seconds: int.parse(responseData['expiresIn']),
+          ),
+        );
+        notifyListeners();
       }
     } on Exception catch (error) {
       rethrow;
