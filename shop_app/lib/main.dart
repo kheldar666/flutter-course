@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/screens/auth_screen.dart';
+
 import '/providers/cart.dart';
 import '/providers/orders.dart';
 import '/providers/products.dart';
@@ -30,7 +32,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'The Shop App',
         theme: ShopTheme.android(),
-        initialRoute: ProductsOverviewScreen.routeName,
+        initialRoute: AuthScreen.routeName,
         routes: {
           ProductsOverviewScreen.routeName: (ctx) =>
               const ProductsOverviewScreen(),
@@ -39,6 +41,7 @@ class MyApp extends StatelessWidget {
           OrdersScreen.routeName: (ctx) => const OrdersScreen(),
           ManageProductsScreen.routeName: (ctx) => const ManageProductsScreen(),
           EditProductScreen.routeName: (ctx) => const EditProductScreen(),
+          AuthScreen.routeName: (ctx) => const AuthScreen(),
         },
         debugShowCheckedModeBanner: false,
       ),

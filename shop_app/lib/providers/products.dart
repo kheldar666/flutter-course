@@ -40,8 +40,12 @@ class Products with ChangeNotifier {
           fetchedProduct.id = productId;
           _products.add(fetchedProduct);
         });
+        notifyListeners();
+      } else {
+        if (response.statusCode == 401) {
+          throw HttpException(json.decode(response.body)['error']);
+        }
       }
-      notifyListeners();
     } on Exception catch (_) {
       rethrow;
     }
