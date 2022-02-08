@@ -10,18 +10,14 @@ part 'order.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Order {
-  final _ordersUrl = Uri.https(kFirebaseDBBaseDomain, '/orders.json');
+  late Uri _ordersUrl;
 
   @JsonKey(ignore: true)
   late String id;
   final double amount;
   final List<CartItem> contents;
   late DateTime dateTime;
-  Order({
-    this.id = '',
-    required this.amount,
-    required this.contents,
-  }) {
+  Order({this.id = '', required this.amount, required this.contents}) {
     if (id.isEmpty) {
       id = const Uuid().v4().toString();
     }
@@ -33,7 +29,9 @@ class Order {
 
   Map<String, dynamic> toJson() => _$OrderItemToJson(this);
 
-  Future<http.Response> save() async {
-    return await http.post(_ordersUrl, body: json.encode(toJson()));
+  Future<http.Response> save(String? authToken) async {
+    return await http.post(
+        Uri.https(kFirebaseDBBaseDomain, '/orders.json', {'auth': authToken}),
+        body: json.encode(toJson()));
   }
 }

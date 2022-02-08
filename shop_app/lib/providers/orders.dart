@@ -8,19 +8,30 @@ import 'package:shop_app/models/order.dart';
 import '/providers/cart.dart';
 
 class Orders with ChangeNotifier {
-  final _ordersUrl = Uri.https(kFirebaseDBBaseDomain, '/orders.json');
+  late Uri _ordersUrl;
 
-  final List<Order> _orders = [];
+  final String? _authToken;
+
+  final List<Order> _orders;
+
+  Orders(this._authToken, this._orders) {
+    _ordersUrl = Uri.https(
+      kFirebaseDBBaseDomain,
+      '/orders.json',
+      {
+        'auth': _authToken,
+      },
+    );
+  }
 
   List<Order> get orders => [..._orders];
 
   Future<void> addOrder(Cart cart) async {
-    final order = Order(
-      amount: cart.totalPrice,
-      contents: cart.items.values.toList(),
-    );
+    final order =
+        Order(amount: cart.totalPrice, contents: cart.items.values.toList());
 
-    final response = await order.save();
+    final response = await order.save(_authToken);
+
     if (response.statusCode == 200) {
       order.id = json.decode(response.body)['name'];
       //Adds always at the top
