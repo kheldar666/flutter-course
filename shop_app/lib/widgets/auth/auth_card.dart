@@ -115,6 +115,7 @@ class _AuthCardState extends State<AuthCard> {
                 TextFormField(
                   decoration: const InputDecoration(labelText: 'E-Mail'),
                   keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
                   validator: (value) {
                     if (value == null ||
                         value.isEmpty ||
@@ -129,6 +130,9 @@ class _AuthCardState extends State<AuthCard> {
                 ),
                 TextFormField(
                   decoration: const InputDecoration(labelText: 'Password'),
+                  textInputAction: _authMode == AuthMode.signup
+                      ? TextInputAction.next
+                      : TextInputAction.done,
                   obscureText: true,
                   controller: _passwordController,
                   validator: (value) {
@@ -143,6 +147,7 @@ class _AuthCardState extends State<AuthCard> {
                 if (_authMode == AuthMode.signup)
                   TextFormField(
                     enabled: _authMode == AuthMode.signup,
+                    textInputAction: TextInputAction.done,
                     decoration:
                         const InputDecoration(labelText: 'Confirm Password'),
                     obscureText: true,

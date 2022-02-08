@@ -11,13 +11,14 @@ class Orders with ChangeNotifier {
   late Uri _ordersUrl;
 
   final String? _authToken;
+  final String _userId;
 
   final List<Order> _orders;
 
-  Orders(this._authToken, this._orders) {
+  Orders(this._authToken, this._userId, this._orders) {
     _ordersUrl = Uri.https(
       kFirebaseDBBaseDomain,
-      '/orders.json',
+      '/orders/$_userId.json',
       {
         'auth': _authToken,
       },
@@ -48,15 +49,17 @@ class Orders with ChangeNotifier {
     try {
       final response = await http.get(_ordersUrl);
       if (response.statusCode == 200) {
-        final data = json.decode(response.body) as Map<String, dynamic>;
-        data.forEach((orderId, orderData) {
-          final fetchedOrder = Order.fromJson(orderData);
-          fetchedOrder.id = orderId;
-          _orders.insert(0, fetchedOrder);
-        });
+        final data = json.decode(response.body) as Map<String, dynamic>?;
+        if (data != null) {
+          data.forEach((orderId, orderData) {
+            final fetchedOrder = Order.fromJson(orderData);
+            fetchedOrder.id = orderId;
+            _orders.insert(0, fetchedOrder);
+          });
+        }
       }
       notifyListeners();
-    } catch (_) {
+    } catch (error) {
       rethrow;
     }
   }

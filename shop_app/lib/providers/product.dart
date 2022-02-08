@@ -16,18 +16,19 @@ class Product with ChangeNotifier {
   final String description;
   final String imageUrl;
   final double price;
+  final String creatorId;
 
   @JsonKey(ignore: true)
   bool isFavorite;
 
-  Product({
-    this.id = '',
-    required this.title,
-    required this.description,
-    required this.imageUrl,
-    required this.price,
-    this.isFavorite = false,
-  }) {
+  Product(
+      {this.id = '',
+      required this.title,
+      required this.description,
+      required this.imageUrl,
+      required this.price,
+      this.isFavorite = false,
+      required this.creatorId}) {
     if (id.isEmpty) id = const Uuid().v4().toString();
   }
 
@@ -63,6 +64,11 @@ class Product with ChangeNotifier {
 
   static Uri productsUrl(String? token) =>
       Uri.https(kFirebaseDBBaseDomain, '/products.json', {'auth': token});
+
+  static Uri filteredProductsUrl(String? token, String userId) => Uri.https(
+      kFirebaseDBBaseDomain,
+      '/products.json',
+      {'auth': token, 'orderBy': '"creatorId"', 'equalTo': '"$userId"'});
 
   Uri productUrl(String? token) =>
       Uri.https(kFirebaseDBBaseDomain, '/products/$id.json', {'auth': token});

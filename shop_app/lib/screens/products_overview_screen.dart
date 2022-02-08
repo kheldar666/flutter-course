@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/products.dart';
+import 'package:shop_app/screens/auth_screen.dart';
 
 import '/models/filter_option.dart';
 import '/providers/cart.dart';
@@ -31,6 +32,8 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
       setState(() {
         _isLoading = false;
       });
+    }).onError((error, stackTrace) {
+      Navigator.of(context).pushNamed(AuthScreen.routeName);
     });
   }
 

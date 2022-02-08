@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shop_app/exceptions/auth_exception.dart';
 
 import '/exceptions/http_exception.dart';
 import '/models/edit_product.dart';
@@ -27,13 +28,15 @@ class Products with ChangeNotifier {
     return products;
   }
 
-  Future<void> fetchAndSetProducts() async {
+  Future<void> fetchAndSetProducts({bool filterByUser = false}) async {
     // Avoid to load several time the same products when
     // moving away and back to home page
     // Not great... but ok for now I guess
     _products.clear();
     try {
-      final productsRes = await http.get(Product.productsUrl(_authToken));
+      final productsRes = await http.get(filterByUser
+          ? Product.filteredProductsUrl(_authToken, _userId)
+          : Product.productsUrl(_authToken));
       final favoritesRes =
           await http.get(Product.favoritesUrl(_authToken, _userId));
       if (productsRes.statusCode == 200 && favoritesRes.statusCode == 200) {
@@ -51,7 +54,7 @@ class Products with ChangeNotifier {
         notifyListeners();
       } else {
         if (productsRes.statusCode == 401) {
-          throw HttpException(json.decode(productsRes.body)['error']);
+          throw AuthException(json.decode(productsRes.body)['error']);
         }
       }
     } catch (_) {
@@ -66,6 +69,7 @@ class Products with ChangeNotifier {
       description: product.description,
       imageUrl: product.imageUrl,
       price: product.price,
+      creatorId: _userId,
     );
     int index = _products.indexWhere((p) => p.id == addOrUpdateProduct.id);
 
