@@ -61,6 +61,13 @@ class Auth with ChangeNotifier {
     return _authenticate(email, password, AuthMode.login);
   }
 
+  void logout() {
+    _token = null;
+    _userId = '';
+    _expiryDate = DateTime.now();
+    notifyListeners();
+  }
+
   Uri get signUpUrl =>
       Uri.parse(kFirebaseSignUpEndpoint + dotenv.env['FB_API_KEY']!);
   Uri get loginUrl =>
