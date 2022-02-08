@@ -9,9 +9,9 @@ import 'package:shop_app/exceptions/auth_exception.dart';
 import 'package:shop_app/models/auth_mode.dart';
 
 class Auth with ChangeNotifier {
-  late String? _token;
-  late DateTime _expiryDate = DateTime.now();
-  late String _userId;
+  String? _token;
+  DateTime _expiryDate = DateTime.now();
+  String _userId = '';
   Timer? _authTimer;
 
   String get userId => _userId;

@@ -12,7 +12,6 @@ class Orders with ChangeNotifier {
 
   final String? _authToken;
   final String _userId;
-
   final List<Order> _orders;
 
   Orders(this._authToken, this._userId, this._orders) {
