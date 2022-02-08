@@ -41,12 +41,9 @@ class Product with ChangeNotifier {
     isFavorite = !isFavorite;
     notifyListeners();
 
-    final favoritesUrl = Uri.https(
-        kFirebaseDBBaseDomain, '/favorites/$userId/$id.json', {'auth': token});
-
     try {
-      final response =
-          await http.put(favoritesUrl, body: json.encode(isFavorite));
+      final response = await http.put(favoriteUrl(token, userId),
+          body: json.encode(isFavorite));
       if (response.statusCode >= 400) {
         _resetFavorite(oldStatus);
       }
@@ -60,9 +57,19 @@ class Product with ChangeNotifier {
 
   Map<String, dynamic> toJson() => _$ProductToJson(this);
 
-  Uri get productUrl => Uri.https(kFirebaseDBBaseDomain, '/products/$id.json');
-
-  Future<http.Response> update() async {
-    return await http.patch(productUrl, body: json.encode(toJson()));
+  Future<http.Response> update(String? token) async {
+    return await http.patch(productUrl(token), body: json.encode(toJson()));
   }
+
+  static Uri productsUrl(String? token) =>
+      Uri.https(kFirebaseDBBaseDomain, '/products.json', {'auth': token});
+
+  Uri productUrl(String? token) =>
+      Uri.https(kFirebaseDBBaseDomain, '/products/$id.json', {'auth': token});
+
+  static Uri favoritesUrl(String? token, String userId) => Uri.https(
+      kFirebaseDBBaseDomain, '/favorites/$userId.json', {'auth': token});
+
+  Uri favoriteUrl(String? token, String userId) => Uri.https(
+      kFirebaseDBBaseDomain, '/favorites/$userId/$id.json', {'auth': token});
 }

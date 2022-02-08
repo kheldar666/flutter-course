@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '/constants.dart';
 import '/exceptions/http_exception.dart';
 import '/models/edit_product.dart';
 import '/models/filter_option.dart';
@@ -12,17 +11,10 @@ import '/providers/product.dart';
 class Products with ChangeNotifier {
   final List<Product> _products;
 
-  late Uri _productsUrl;
-
   final String? _authToken;
+  final String _userId;
 
-  Products(this._authToken, this._products) {
-    _productsUrl = Uri.https(
-      kFirebaseDBBaseDomain,
-      '/products.json',
-      {'auth': _authToken},
-    );
-  }
+  Products(this._authToken, this._userId, this._products);
 
   List<Product> get products {
     return [..._products];
@@ -41,18 +33,25 @@ class Products with ChangeNotifier {
     // Not great... but ok for now I guess
     _products.clear();
     try {
-      final response = await http.get(_productsUrl);
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body) as Map<String, dynamic>;
-        data.forEach((productId, productData) {
+      final productsRes = await http.get(Product.productsUrl(_authToken));
+      final favoritesRes =
+          await http.get(Product.favoritesUrl(_authToken, _userId));
+      if (productsRes.statusCode == 200 && favoritesRes.statusCode == 200) {
+        final productsData =
+            json.decode(productsRes.body) as Map<String, dynamic>;
+        final favoritesData = json.decode(favoritesRes.body);
+
+        productsData.forEach((productId, productData) {
           final fetchedProduct = Product.fromJson(productData);
           fetchedProduct.id = productId;
+          fetchedProduct.isFavorite =
+              favoritesData == null ? false : favoritesData[productId] ?? false;
           _products.add(fetchedProduct);
         });
         notifyListeners();
       } else {
-        if (response.statusCode == 401) {
-          throw HttpException(json.decode(response.body)['error']);
+        if (productsRes.statusCode == 401) {
+          throw HttpException(json.decode(productsRes.body)['error']);
         }
       }
     } catch (_) {
@@ -72,7 +71,7 @@ class Products with ChangeNotifier {
 
     if (index > -1) {
       try {
-        final response = await addOrUpdateProduct.update();
+        final response = await addOrUpdateProduct.update(_authToken);
         if (response.statusCode == 200) {
           _products.removeAt(index);
           _products.insert(index, addOrUpdateProduct);
@@ -84,7 +83,7 @@ class Products with ChangeNotifier {
     } else {
       // Save the Product in Firebase
       try {
-        final response = await http.post(_productsUrl,
+        final response = await http.post(Product.productsUrl(_authToken),
             body: json.encode(addOrUpdateProduct.toJson()));
 
         if (response.statusCode == 200) {
@@ -105,7 +104,7 @@ class Products with ChangeNotifier {
       _products.removeAt(index);
       notifyListeners();
 
-      final response = await http.delete(product.productUrl);
+      final response = await http.delete(product.productUrl(_authToken));
       if (response.statusCode >= 400) {
         // We restore the product in memory if the delete failed
         // (what ever the reason)
