@@ -16,6 +16,8 @@ class Product with ChangeNotifier {
   final String description;
   final String imageUrl;
   final double price;
+
+  @JsonKey(ignore: true)
   bool isFavorite;
 
   Product({
@@ -29,13 +31,27 @@ class Product with ChangeNotifier {
     if (id.isEmpty) id = const Uuid().v4().toString();
   }
 
-  void toggleFavorite() async {
+  void _resetFavorite(bool oldValue) {
+    isFavorite = oldValue;
+    notifyListeners();
+  }
+
+  void toggleFavorite(String? token, String userId) async {
+    final oldStatus = isFavorite;
     isFavorite = !isFavorite;
     notifyListeners();
-    final response = await update();
-    if (response.statusCode >= 400) {
-      isFavorite = !isFavorite;
-      notifyListeners();
+
+    final favoritesUrl = Uri.https(
+        kFirebaseDBBaseDomain, '/favorites/$userId/$id.json', {'auth': token});
+
+    try {
+      final response =
+          await http.put(favoritesUrl, body: json.encode(isFavorite));
+      if (response.statusCode >= 400) {
+        _resetFavorite(oldStatus);
+      }
+    } catch (e) {
+      _resetFavorite(oldStatus);
     }
   }
 

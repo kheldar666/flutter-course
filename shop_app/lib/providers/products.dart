@@ -55,7 +55,7 @@ class Products with ChangeNotifier {
           throw HttpException(json.decode(response.body)['error']);
         }
       }
-    } on Exception catch (_) {
+    } catch (_) {
       rethrow;
     }
   }
@@ -78,7 +78,7 @@ class Products with ChangeNotifier {
           _products.insert(index, addOrUpdateProduct);
           notifyListeners();
         }
-      } on Exception catch (error) {
+      } catch (error) {
         rethrow;
       }
     } else {
@@ -92,7 +92,7 @@ class Products with ChangeNotifier {
           _products.add(addOrUpdateProduct);
           notifyListeners();
         }
-      } on Exception catch (_) {
+      } catch (_) {
         rethrow;
       }
     }
@@ -101,14 +101,6 @@ class Products with ChangeNotifier {
   Future<void> deleteProduct(Product product) async {
     int index = _products.indexWhere((p) => p.id == product.id);
     if (index > -1) {
-      // try {
-      //   await http.delete(_productUrl(product.id));
-      //   _products.removeAt(index);
-      //   notifyListeners();
-      // } on Exception catch (_) {
-      //   rethrow;
-      // }
-
       //Optimistic Updating
       _products.removeAt(index);
       notifyListeners();

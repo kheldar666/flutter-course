@@ -56,7 +56,7 @@ class Orders with ChangeNotifier {
         });
       }
       notifyListeners();
-    } on Exception catch (_) {
+    } catch (_) {
       rethrow;
     }
   }

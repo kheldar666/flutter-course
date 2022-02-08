@@ -24,10 +24,9 @@ class Order {
     dateTime = DateTime.now();
   }
 
-  factory Order.fromJson(Map<String, dynamic> json) =>
-      _$OrderItemFromJson(json);
+  factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
 
-  Map<String, dynamic> toJson() => _$OrderItemToJson(this);
+  Map<String, dynamic> toJson() => _$OrderToJson(this);
 
   Future<http.Response> save(String? authToken) async {
     return await http.post(

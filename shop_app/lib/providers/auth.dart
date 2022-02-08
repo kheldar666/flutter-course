@@ -12,6 +12,8 @@ class Auth with ChangeNotifier {
   late DateTime _expiryDate = DateTime.now();
   late String _userId;
 
+  String get userId => _userId;
+
   bool get isAuth {
     return token != null;
   }
@@ -46,7 +48,7 @@ class Auth with ChangeNotifier {
         );
         notifyListeners();
       }
-    } on Exception catch (error) {
+    } catch (error) {
       rethrow;
     }
   }

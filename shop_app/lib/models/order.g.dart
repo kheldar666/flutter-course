@@ -6,14 +6,14 @@ part of 'order.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Order _$OrderItemFromJson(Map<String, dynamic> json) => Order(
+Order _$OrderFromJson(Map<String, dynamic> json) => Order(
       amount: (json['amount'] as num).toDouble(),
       contents: (json['contents'] as List<dynamic>)
           .map((e) => CartItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     )..dateTime = DateTime.parse(json['dateTime'] as String);
 
-Map<String, dynamic> _$OrderItemToJson(Order instance) => <String, dynamic>{
+Map<String, dynamic> _$OrderToJson(Order instance) => <String, dynamic>{
       'amount': instance.amount,
       'contents': instance.contents.map((e) => e.toJson()).toList(),
       'dateTime': instance.dateTime.toIso8601String(),
