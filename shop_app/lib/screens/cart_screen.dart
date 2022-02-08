@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_app/widgets/order_button.dart';
+import '/widgets/order_button.dart';
 
 import '/providers/cart.dart' show Cart;
 import '/widgets/cart_item.dart';

@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:shop_app/constants.dart';
-import 'package:shop_app/models/order.dart';
+import '/constants.dart';
+import '/models/order.dart';
 
 import '/providers/cart.dart';
 

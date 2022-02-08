@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:shop_app/widgets/auth/auth_card.dart';
+import '/widgets/auth/auth_card.dart';
 
 class AuthScreen extends StatelessWidget {
   static const routeName = '/auth';

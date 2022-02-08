@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_app/exceptions/auth_exception.dart';
-import 'package:shop_app/models/auth_mode.dart';
-import 'package:shop_app/providers/auth.dart';
+import '/exceptions/auth_exception.dart';
+import '/models/auth_mode.dart';
+import '/providers/auth.dart';
 
 class AuthCard extends StatefulWidget {
   const AuthCard({

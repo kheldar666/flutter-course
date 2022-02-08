@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_app/providers/auth.dart';
-import 'package:shop_app/screens/auth_screen.dart';
+import '/providers/auth.dart';
+import '/screens/auth_screen.dart';
+import '/widgets/auth/splash_screen.dart';
 
 import '/providers/cart.dart';
 import '/providers/orders.dart';
@@ -53,7 +54,16 @@ class MyApp extends StatelessWidget {
             theme: ShopTheme.android(),
             home: authData.isAuth
                 ? const ProductsOverviewScreen()
-                : const AuthScreen(),
+                : FutureBuilder(
+                    future: authData.tryAutoLogin(),
+                    builder: (ctx, authResultSnapshot) {
+                      if (authResultSnapshot.connectionState ==
+                          ConnectionState.waiting) {
+                        return const SplashScreen();
+                      } else {
+                        return const AuthScreen();
+                      }
+                    }),
             routes: {
               ProductsOverviewScreen.routeName: (ctx) =>
                   const ProductsOverviewScreen(),

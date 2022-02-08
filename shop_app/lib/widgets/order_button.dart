@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_app/providers/cart.dart';
-import 'package:shop_app/providers/orders.dart';
-import 'package:shop_app/screens/order_screen.dart';
+import '/providers/cart.dart';
+import '/providers/orders.dart';
+import '/screens/order_screen.dart';
 
 class OrderButton extends StatefulWidget {
   final Cart cart;

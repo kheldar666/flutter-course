@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:shop_app/providers/product.dart';
+import '/providers/product.dart';
 import 'package:uuid/uuid.dart';
 
 part 'cart_item.g.dart';

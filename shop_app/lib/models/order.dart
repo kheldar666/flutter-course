@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
-import 'package:shop_app/constants.dart';
-import 'package:shop_app/models/cart_item.dart';
+import '/constants.dart';
+import '/models/cart_item.dart';
 import 'package:uuid/uuid.dart';
 
 part 'order.g.dart';
