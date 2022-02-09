@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '/providers/auth.dart';
 
+import '/providers/auth.dart';
 import '/providers/cart.dart';
 import '/providers/product.dart';
 import '/screens/product_detail_screen.dart';
@@ -22,9 +22,14 @@ class ProductItem extends StatelessWidget {
             ProductDetailScreen.routeName,
             arguments: product.id,
           ),
-          child: Image.network(
-            product.imageUrl,
-            fit: BoxFit.cover,
+          child: Hero(
+            tag: product.id,
+            child: FadeInImage(
+              fit: BoxFit.cover,
+              placeholder:
+                  const AssetImage('assets/images/product-placeholder.png'),
+              image: NetworkImage(product.imageUrl),
+            ),
           ),
         ),
         footer: GridTileBar(

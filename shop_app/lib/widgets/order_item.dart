@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 import '/models/order.dart';
 
 class OrderItem extends StatefulWidget {
@@ -16,24 +17,30 @@ class _OrderItemState extends State<OrderItem> {
   var _showDetails = false;
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.all(10),
-      child: Column(
-        children: <Widget>[
-          ListTile(
-            title: Text('\$${widget.order.amount}'),
-            subtitle: Text(
-              DateFormat('dd/MM/yyyy hh:mm').format(widget.order.dateTime),
+    var containerHeight =
+        min(widget.order.contents.length * 20.0 + 50, 180) as double;
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      height: _showDetails ? containerHeight + 120 : 100,
+      child: Card(
+        margin: const EdgeInsets.all(10),
+        child: Column(
+          children: <Widget>[
+            ListTile(
+              title: Text('\$${widget.order.amount}'),
+              subtitle: Text(
+                DateFormat('dd/MM/yyyy hh:mm').format(widget.order.dateTime),
+              ),
+              trailing: IconButton(
+                icon:
+                    Icon(_showDetails ? Icons.expand_less : Icons.expand_more),
+                onPressed: _toggleDetails,
+              ),
             ),
-            trailing: IconButton(
-              icon: Icon(_showDetails ? Icons.expand_less : Icons.expand_more),
-              onPressed: _toggleDetails,
-            ),
-          ),
-          if (_showDetails)
-            Container(
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
-              height: min(widget.order.contents.length * 20.0 + 50, 180),
+              height: _showDetails ? containerHeight : 0,
               child: Scrollbar(
                 child: ListView(
                   children: [
@@ -66,7 +73,8 @@ class _OrderItemState extends State<OrderItem> {
                 ),
               ),
             )
-        ],
+          ],
+        ),
       ),
     );
   }
