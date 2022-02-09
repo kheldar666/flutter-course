@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+
 import '/constants.dart';
 import '/models/order.dart';
-
 import '/providers/cart.dart';
 
 class Orders with ChangeNotifier {
@@ -30,7 +30,7 @@ class Orders with ChangeNotifier {
     final order =
         Order(amount: cart.totalPrice, contents: cart.items.values.toList());
 
-    final response = await order.save(_authToken);
+    final response = await order.save(_ordersUrl);
 
     if (response.statusCode == 200) {
       order.id = json.decode(response.body)['name'];

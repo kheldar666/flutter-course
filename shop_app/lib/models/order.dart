@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
 import 'package:uuid/uuid.dart';
 
-import '/constants.dart';
 import '/models/cart_item.dart';
 
 part 'order.g.dart';
@@ -27,9 +26,7 @@ class Order {
 
   Map<String, dynamic> toJson() => _$OrderToJson(this);
 
-  Future<http.Response> save(String? authToken) async {
-    return await http.post(
-        Uri.https(kFirebaseDBBaseDomain, '/orders.json', {'auth': authToken}),
-        body: json.encode(toJson()));
+  Future<http.Response> save(Uri ordersUrl) async {
+    return await http.post(ordersUrl, body: json.encode(toJson()));
   }
 }
