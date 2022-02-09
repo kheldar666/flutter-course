@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '/providers/auth.dart';
+import 'package:shop_app/screens/order_screen.dart';
 
+import '/providers/auth.dart';
 import '/screens/admin/manage_products_screen.dart';
-import '/screens/order_screen.dart';
 import '/screens/products_overview_screen.dart';
 
 class ShopDrawer extends StatelessWidget {
@@ -26,10 +26,12 @@ class ShopDrawer extends StatelessWidget {
                 .pushReplacementNamed(ProductsOverviewScreen.routeName),
           ),
           ListTile(
-            leading: const Icon(Icons.shopping_cart),
+            leading: const Icon(Icons.payment),
             title: const Text('Your Orders'),
             onTap: () => Navigator.of(context)
                 .pushReplacementNamed(OrdersScreen.routeName),
+            // onTap: () => Navigator.of(context).pushReplacement(
+            //     CustomRoute(builder: (ctx) => const OrdersScreen())),
           ),
           ListTile(
             leading: const Icon(Icons.edit),

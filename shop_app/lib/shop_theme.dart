@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/helpers/custom_page_transition_builder.dart';
 
 class ShopTheme {
   static ThemeData android() {
@@ -22,6 +23,10 @@ class ShopTheme {
           .appBarTheme
           .copyWith(backgroundColor: Colors.purple),
       fontFamily: 'Lato',
+      pageTransitionsTheme: PageTransitionsTheme(builders: {
+        TargetPlatform.android: CustomPageTransitionBuilder(),
+        TargetPlatform.iOS: CustomPageTransitionBuilder(),
+      }),
     );
   }
 
