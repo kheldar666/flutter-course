@@ -19,6 +19,15 @@ class CustomTheme {
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         ),
       ),
+      inputDecorationTheme: ThemeData.light().inputDecorationTheme.copyWith(
+            labelStyle: const TextStyle(color: Colors.indigo),
+            focusedBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.indigo,
+                width: 2,
+              ),
+            ),
+          ),
     );
   }
 

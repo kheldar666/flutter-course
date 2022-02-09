@@ -1,17 +1,19 @@
 import 'dart:io';
 
 import 'package:great_places/models/place_location.dart';
+import 'package:uuid/uuid.dart';
 
 class Place {
-  final String id;
+  late String id;
   final String title;
-  final PlaceLocation location;
+  final PlaceLocation? location;
   final File image;
 
   Place({
-    required this.id,
     required this.title,
     required this.location,
     required this.image,
-  });
+  }) {
+    id = const Uuid().v4().toString();
+  }
 }

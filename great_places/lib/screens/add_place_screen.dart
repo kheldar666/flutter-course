@@ -1,4 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:great_places/providers/great_places.dart';
+import 'package:great_places/widgets/image_input.dart';
+import 'package:provider/provider.dart';
 
 class AddPlaceScreen extends StatefulWidget {
   static const routeName = '/add-place';
@@ -10,6 +15,9 @@ class AddPlaceScreen extends StatefulWidget {
 }
 
 class _AddPlaceScreenState extends State<AddPlaceScreen> {
+  final _titleTextController = TextEditingController();
+  File? _pickedImage;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -18,12 +26,31 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
           title: const Text('Add a new Place'),
         ),
         body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text('User inputs...'),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    children: [
+                      TextField(
+                        decoration: const InputDecoration(
+                          label: Text('Title'),
+                        ),
+                        controller: _titleTextController,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      ImageInput(_selectImage),
+                    ],
+                  ),
+                ),
+              ),
+            ),
             ElevatedButton.icon(
-              onPressed: () {},
+              onPressed: _savePlace,
               icon: const Icon(Icons.add),
               label: const Text('Add Place'),
             )
@@ -31,5 +58,19 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
         ),
       ),
     );
+  }
+
+  void _selectImage(File image) {
+    _pickedImage = image;
+  }
+
+  void _savePlace() {
+    if (_titleTextController.text.isEmpty || _pickedImage == null) {
+      return;
+    } else {
+      final _greatPlaces = Provider.of<GreatPlaces>(context, listen: false);
+      _greatPlaces.addPlace(_titleTextController.text, _pickedImage!);
+      Navigator.of(context).pop();
+    }
   }
 }
