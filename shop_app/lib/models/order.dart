@@ -2,16 +2,15 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
+import 'package:uuid/uuid.dart';
+
 import '/constants.dart';
 import '/models/cart_item.dart';
-import 'package:uuid/uuid.dart';
 
 part 'order.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Order {
-  late Uri _ordersUrl;
-
   @JsonKey(ignore: true)
   late String id;
   final double amount;

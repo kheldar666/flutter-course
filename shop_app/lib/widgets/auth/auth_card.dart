@@ -25,6 +25,28 @@ class _AuthCardState extends State<AuthCard>
 
   var _authMode = AuthMode.login;
   var _isLoading = false;
+  late AnimationController _controller;
+  late Animation<double> _opacityAnimation;
+  late Animation<Offset> _slideAnimation;
+  final _animationDuration = const Duration(milliseconds: 300);
+  @override
+  void initState() {
+    super.initState();
+    _controller =
+        AnimationController(vsync: this, duration: _animationDuration);
+    _opacityAnimation = Tween(begin: 0.0, end: 1.0)
+        .animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
+    _slideAnimation = Tween<Offset>(
+            begin: const Offset(0, -1.5), end: const Offset(0, 0))
+        .animate(
+            CurvedAnimation(parent: _controller, curve: Curves.fastOutSlowIn));
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +60,7 @@ class _AuthCardState extends State<AuthCard>
         height: _authMode == AuthMode.signup ? 320 : 260,
         constraints:
             BoxConstraints(minHeight: _authMode == AuthMode.signup ? 320 : 260),
-        duration: const Duration(milliseconds: 300),
+        duration: _animationDuration,
         curve: Curves.easeIn,
         width: deviceSize.width * 0.75,
         padding: const EdgeInsets.all(16.0),
@@ -74,26 +96,38 @@ class _AuthCardState extends State<AuthCard>
                     if (value == null || value.isEmpty || value.length < 5) {
                       return 'Password is too short!';
                     }
+                    return null;
                   },
                   onSaved: (value) {
                     _authData['password'] = value.toString();
                   },
                 ),
-                if (_authMode == AuthMode.signup)
-                  TextFormField(
-                    enabled: _authMode == AuthMode.signup,
-                    textInputAction: TextInputAction.done,
-                    decoration:
-                        const InputDecoration(labelText: 'Confirm Password'),
-                    obscureText: true,
-                    validator: _authMode == AuthMode.signup
-                        ? (value) {
-                            if (value != _passwordController.text) {
-                              return 'Passwords do not match!';
-                            }
-                          }
-                        : null,
+                AnimatedContainer(
+                  height: _authMode == AuthMode.signup ? 60 : 0,
+                  duration: _animationDuration,
+                  curve: Curves.easeIn,
+                  child: FadeTransition(
+                    opacity: _opacityAnimation,
+                    child: SlideTransition(
+                      position: _slideAnimation,
+                      child: TextFormField(
+                        enabled: _authMode == AuthMode.signup,
+                        textInputAction: TextInputAction.done,
+                        decoration: const InputDecoration(
+                            labelText: 'Confirm Password'),
+                        obscureText: true,
+                        validator: _authMode == AuthMode.signup
+                            ? (value) {
+                                if (value != _passwordController.text) {
+                                  return 'Passwords do not match!';
+                                }
+                                return null;
+                              }
+                            : null,
+                      ),
+                    ),
                   ),
+                ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -192,10 +226,12 @@ class _AuthCardState extends State<AuthCard>
       setState(() {
         _authMode = AuthMode.signup;
       });
+      _controller.forward();
     } else {
       setState(() {
         _authMode = AuthMode.login;
       });
+      _controller.reverse();
     }
   }
 }
