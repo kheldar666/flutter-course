@@ -41,7 +41,8 @@ class _AuthCardState extends State<AuthCard>
       parent: _controller,
       curve: Curves.fastOutSlowIn,
     ));
-    _heightAnimation.addListener(() => setState(() {}));
+    // That's a bit cumbersome. Using AnimatedBuilder is more efficient
+    // _heightAnimation.addListener(() => setState(() {}));
   }
 
   @override
@@ -58,14 +59,17 @@ class _AuthCardState extends State<AuthCard>
         borderRadius: BorderRadius.circular(10.0),
       ),
       elevation: 8.0,
-      child: Container(
-        //height: _authMode == AuthMode.signup ? 320 : 260,
-        height: _heightAnimation.value.height,
-        constraints:
-            //BoxConstraints(minHeight: _authMode == AuthMode.signup ? 320 : 260),
-            BoxConstraints(minHeight: _heightAnimation.value.height),
-        width: deviceSize.width * 0.75,
-        padding: const EdgeInsets.all(16.0),
+      child: AnimatedBuilder(
+        animation: _heightAnimation,
+        builder: (ctx, formChild) => Container(
+          height: _heightAnimation.value.height,
+          constraints: BoxConstraints(minHeight: _heightAnimation.value.height),
+          width: deviceSize.width * 0.75,
+          padding: const EdgeInsets.all(16.0),
+          child: formChild,
+        ),
+        // Avoid to re-render the Form on every frame of the Animation
+        // Only the Container will be rendered
         child: Form(
           key: _formKey,
           child: SingleChildScrollView(
