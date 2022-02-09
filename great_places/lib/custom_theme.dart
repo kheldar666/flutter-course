@@ -9,6 +9,16 @@ class CustomTheme {
       appBarTheme: ThemeData.light()
           .appBarTheme
           .copyWith(backgroundColor: Colors.indigo),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          primary: Colors.amber,
+          onPrimary: Colors.black,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
+          elevation: 0,
+          padding: const EdgeInsets.all(0),
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        ),
+      ),
     );
   }
 
