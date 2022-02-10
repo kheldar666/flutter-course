@@ -23,5 +23,5 @@ class DbHelper {
   static const String kPlacesTable = 'user_places';
 
   static const String _kSQLCreateTablePlaces =
-      'CREATE TABLE $kPlacesTable (id TEXT PRIMARY KEY, title TEXT, image TEXT)';
+      'CREATE TABLE $kPlacesTable (id TEXT PRIMARY KEY, title TEXT, image TEXT, address TEXT)';
 }

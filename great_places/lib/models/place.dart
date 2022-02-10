@@ -1,14 +1,14 @@
 import 'dart:io';
 
-import '/models/place_location.dart';
 import 'package:uuid/uuid.dart';
+
+import '/models/place_location.dart';
 
 class Place {
   late String? id;
   final String title;
-  final PlaceLocation? location;
+  final PlaceLocation location;
   final File image;
-
   Place({
     this.id,
     required this.title,

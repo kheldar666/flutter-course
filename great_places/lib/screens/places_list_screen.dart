@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import '/providers/great_places.dart';
 import '/screens/add_place_screen.dart';
-import 'package:provider/provider.dart';
 
 class PlacesListScreen extends StatelessWidget {
   const PlacesListScreen({Key? key}) : super(key: key);
@@ -42,6 +43,8 @@ class PlacesListScreen extends StatelessWidget {
                                       greatPlaces.places[index].image),
                                 ),
                                 title: Text(greatPlaces.places[index].title),
+                                subtitle: Text(
+                                    greatPlaces.places[index].location.address),
                                 onTap: () {},
                               ),
                             )

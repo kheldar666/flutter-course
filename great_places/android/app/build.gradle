@@ -21,6 +21,11 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+def googleMapApiKey = localProperties.getProperty('great_places.google_map_api_key')
+if (googleMapApiKey == null) {
+    googleMapApiKey = 'YOUR KEY HERE'
+}
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
@@ -43,10 +48,11 @@ android {
 
     defaultConfig {
         applicationId "org.libermundi.great_places"
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 20
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        manifestPlaceholders += [googleMapApiKey: googleMapApiKey]
     }
 
     buildTypes {
