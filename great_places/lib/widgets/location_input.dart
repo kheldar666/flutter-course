@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:great_places/helpers/location_helper.dart';
+import 'package:great_places/models/place_location.dart';
 import 'package:great_places/screens/map_screen.dart';
 
 class LocationInput extends StatefulWidget {
-  final Function(LatLng) onSelectLocation;
+  final Function(PlaceLocation) onSelectLocation;
   const LocationInput(this.onSelectLocation, {Key? key}) : super(key: key);
 
   @override
@@ -68,30 +68,32 @@ class _LocationInputState extends State<LocationInput> {
   }
 
   Future<void> _getCurrentUserLocation() async {
-    final location = await LocationHelper.getCurrentLocation();
-    final coordinates = LatLng(location.latitude!, location.longitude!);
+    final locationData = await LocationHelper.getCurrentLocation();
+    final placeLocation = PlaceLocation(
+        latitude: locationData.latitude!, longitude: locationData.longitude!);
     setState(() {
       _previewImageUri =
-          LocationHelper.generateLocationPreviewImageUri(coordinates);
+          LocationHelper.generateLocationPreviewImageUri(placeLocation.latlng);
     });
-    widget.onSelectLocation(coordinates);
+    widget.onSelectLocation(placeLocation);
   }
 
   Future<void> _selectOnMap() async {
-    final selectedLocation = await Navigator.of(context).push<LatLng>(
+    final selectedPlaceLocation =
+        await Navigator.of(context).push<PlaceLocation>(
       MaterialPageRoute(
         builder: (ctx) => const MapScreen(
           isSelecting: true,
         ),
       ),
     );
-    if (selectedLocation == null) {
+    if (selectedPlaceLocation == null) {
       return;
     }
     setState(() {
-      _previewImageUri =
-          LocationHelper.generateLocationPreviewImageUri(selectedLocation);
+      _previewImageUri = LocationHelper.generateLocationPreviewImageUri(
+          selectedPlaceLocation.latlng);
     });
-    widget.onSelectLocation(selectedLocation);
+    widget.onSelectLocation(selectedPlaceLocation);
   }
 }

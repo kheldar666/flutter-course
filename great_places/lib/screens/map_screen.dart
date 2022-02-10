@@ -15,16 +15,16 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  PlaceLocation? _initialLocation;
-  LatLng? _pickedLocation;
+  PlaceLocation? _location;
+
   @override
   void initState() {
     super.initState();
-    _initialLocation = widget.initialLocation;
-    if (_initialLocation == null) {
+    _location = widget.initialLocation;
+    if (_location == null) {
       LocationHelper.getCurrentLocation().then((currentLocation) {
         setState(() {
-          _initialLocation = PlaceLocation(
+          _location = PlaceLocation(
               latitude: currentLocation.latitude!,
               longitude: currentLocation.longitude!);
         });
@@ -41,33 +41,34 @@ class _MapScreenState extends State<MapScreen> {
           actions: [
             if (widget.isSelecting)
               IconButton(
-                  onPressed: _pickedLocation == null
-                      ? null
-                      : () {
-                          Navigator.of(context).pop(_pickedLocation);
-                        },
-                  icon: const Icon(Icons.check)),
+                onPressed: _location == null
+                    ? null
+                    : () {
+                        Navigator.of(context).pop(_location);
+                      },
+                icon: const Icon(Icons.check),
+              ),
           ],
         ),
-        body: _initialLocation == null
+        body: _location == null
             ? const Center(
                 child: CircularProgressIndicator(),
               )
             : GoogleMap(
                 initialCameraPosition: CameraPosition(
                   target: LatLng(
-                    _initialLocation!.latitude,
-                    _initialLocation!.longitude,
+                    _location!.latitude,
+                    _location!.longitude,
                   ),
                   zoom: 16,
                 ),
                 onTap: widget.isSelecting ? _selectLocation : null,
-                markers: _pickedLocation == null
+                markers: _location == null
                     ? {}
                     : {
                         Marker(
                           markerId: MarkerId(DateTime.now.toString()),
-                          position: _pickedLocation!,
+                          position: _location!.latlng,
                         )
                       },
               ),
@@ -77,7 +78,10 @@ class _MapScreenState extends State<MapScreen> {
 
   void _selectLocation(LatLng position) {
     setState(() {
-      _pickedLocation = position;
+      _location = PlaceLocation(
+        latitude: position.latitude,
+        longitude: position.longitude,
+      );
     });
   }
 }

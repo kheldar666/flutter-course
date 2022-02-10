@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:great_places/models/place_location.dart';
 import 'package:great_places/widgets/location_input.dart';
 import 'package:provider/provider.dart';
@@ -73,9 +72,8 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
     _pickedImage = image;
   }
 
-  void _selectLocation(LatLng coordinate) {
-    _pickedLocation = PlaceLocation(
-        latitude: coordinate.latitude, longitude: coordinate.longitude);
+  void _selectLocation(PlaceLocation location) {
+    _pickedLocation = location;
   }
 
   void _savePlace() {
