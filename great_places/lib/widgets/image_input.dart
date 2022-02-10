@@ -19,6 +19,7 @@ class _ImageInputState extends State<ImageInput> {
   Widget build(BuildContext context) {
     var _theme = Theme.of(context);
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Container(
           width: 150,
