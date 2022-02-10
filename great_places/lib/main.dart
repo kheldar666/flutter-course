@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:great_places/custom_theme.dart';
-import 'package:great_places/providers/great_places.dart';
-import 'package:great_places/screens/add_place_screen.dart';
-import 'package:great_places/screens/places_list_screen.dart';
+import '/custom_theme.dart';
+import '/providers/great_places.dart';
+import '/screens/add_place_screen.dart';
+import '/screens/places_list_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {

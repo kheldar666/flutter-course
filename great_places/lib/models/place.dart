@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:great_places/models/place_location.dart';
+import '/models/place_location.dart';
 import 'package:uuid/uuid.dart';
 
 class Place {
