@@ -19,27 +19,37 @@ class PlacesListScreen extends StatelessWidget {
                 icon: const Icon(Icons.add))
           ],
         ),
-        body: Consumer<GreatPlaces>(
-          builder: (
-            ctx,
-            greatPlaces,
-            child,
-          ) =>
-              greatPlaces.places.isNotEmpty
-                  ? ListView.builder(
-                      itemCount: greatPlaces.places.length,
-                      itemBuilder: (ctx, index) => ListTile(
-                        leading: CircleAvatar(
-                          backgroundImage:
-                              FileImage(greatPlaces.places[index].image),
-                        ),
-                        title: Text(greatPlaces.places[index].title),
-                      ),
-                    )
-                  : child!,
-          child: const Center(
-            child: Text('You don\'t have Places yet. Add some !'),
-          ),
+        body: FutureBuilder(
+          future: Provider.of<GreatPlaces>(context, listen: false)
+              .fetchAndSetPlaces(),
+          builder: (ctx, snapshot) => snapshot.connectionState ==
+                  ConnectionState.waiting
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : Consumer<GreatPlaces>(
+                  builder: (
+                    ctx,
+                    greatPlaces,
+                    child,
+                  ) =>
+                      greatPlaces.places.isNotEmpty
+                          ? ListView.builder(
+                              itemCount: greatPlaces.places.length,
+                              itemBuilder: (ctx, index) => ListTile(
+                                leading: CircleAvatar(
+                                  backgroundImage: FileImage(
+                                      greatPlaces.places[index].image),
+                                ),
+                                title: Text(greatPlaces.places[index].title),
+                                onTap: () {},
+                              ),
+                            )
+                          : child!,
+                  child: const Center(
+                    child: Text('You don\'t have Places yet. Add some !'),
+                  ),
+                ),
         ),
       ),
     );
