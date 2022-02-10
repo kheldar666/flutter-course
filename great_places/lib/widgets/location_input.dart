@@ -82,6 +82,7 @@ class _LocationInputState extends State<LocationInput> {
     final selectedPlaceLocation =
         await Navigator.of(context).push<PlaceLocation>(
       MaterialPageRoute(
+        fullscreenDialog: true,
         builder: (ctx) => const MapScreen(
           isSelecting: true,
         ),
