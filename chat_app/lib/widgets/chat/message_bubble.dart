@@ -7,49 +7,65 @@ class MessageBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment:
-          chatMessage.isMine ? MainAxisAlignment.end : MainAxisAlignment.start,
+    return Stack(
+      clipBehavior: Clip.none,
       children: [
-        Container(
-          width: 140,
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-          margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-          decoration: BoxDecoration(
-            color: chatMessage.isMine
-                ? Colors.grey[300]
-                : Theme.of(context).colorScheme.secondary,
-            borderRadius: BorderRadius.only(
-              topLeft: const Radius.circular(12),
-              topRight: const Radius.circular(12),
-              bottomLeft:
-                  chatMessage.isMine ? const Radius.circular(12) : Radius.zero,
-              bottomRight:
-                  chatMessage.isMine ? Radius.zero : const Radius.circular(12),
+        Row(
+          mainAxisAlignment: chatMessage.isMine
+              ? MainAxisAlignment.end
+              : MainAxisAlignment.start,
+          children: [
+            Container(
+              width: 140,
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+              margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+              decoration: BoxDecoration(
+                color: chatMessage.isMine
+                    ? Colors.grey[300]
+                    : Theme.of(context).colorScheme.secondary,
+                borderRadius: BorderRadius.only(
+                  topLeft: const Radius.circular(12),
+                  topRight: const Radius.circular(12),
+                  bottomLeft: chatMessage.isMine
+                      ? const Radius.circular(12)
+                      : Radius.zero,
+                  bottomRight: chatMessage.isMine
+                      ? Radius.zero
+                      : const Radius.circular(12),
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: chatMessage.isMine
+                    ? CrossAxisAlignment.end
+                    : CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    chatMessage.userName,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: chatMessage.isMine
+                            ? Colors.black
+                            : Theme.of(context).textTheme.headline1?.color),
+                  ),
+                  Text(
+                    chatMessage.text,
+                    style: TextStyle(
+                        color: chatMessage.isMine
+                            ? Colors.black
+                            : Theme.of(context).textTheme.headline1?.color),
+                  ),
+                ],
+              ),
             ),
+          ],
+        ),
+        Positioned(
+          child: CircleAvatar(
+            backgroundImage: NetworkImage(chatMessage.imageUrl!),
           ),
-          child: Column(
-            crossAxisAlignment: chatMessage.isMine
-                ? CrossAxisAlignment.end
-                : CrossAxisAlignment.start,
-            children: [
-              Text(
-                chatMessage.userName,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: chatMessage.isMine
-                        ? Colors.black
-                        : Theme.of(context).textTheme.headline1?.color),
-              ),
-              Text(
-                chatMessage.text,
-                style: TextStyle(
-                    color: chatMessage.isMine
-                        ? Colors.black
-                        : Theme.of(context).textTheme.headline1?.color),
-              ),
-            ],
-          ),
+          top: -10,
+          left: chatMessage.isMine ? null : 130,
+          right: chatMessage.isMine ? 130 : null,
         ),
       ],
     );

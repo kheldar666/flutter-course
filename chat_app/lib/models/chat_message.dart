@@ -6,6 +6,7 @@ class ChatMessage {
   String text;
   Timestamp createdAt;
   String userName = '...';
+  String? imageUrl;
 
   ChatMessage(
       {required this.userId, required this.text, required this.createdAt});
@@ -19,6 +20,7 @@ class ChatMessage {
         .get()
         .then((value) {
       userName = value.get('username');
+      imageUrl = value.get('imageUrl');
     });
   }
 
