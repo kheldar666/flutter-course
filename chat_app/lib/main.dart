@@ -34,6 +34,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
+    super.initState();
     registerNotification();
 
     // For handling notification when the app is in background
@@ -51,8 +52,6 @@ class _MyAppState extends State<MyApp> {
 
     // For handling notification when the app is terminated
     checkForInitialMessage();
-
-    super.initState();
   }
 
   void checkForInitialMessage() async {
@@ -85,6 +84,9 @@ class _MyAppState extends State<MyApp> {
     );
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      // Subscribe to a Topic
+      _messaging.subscribeToTopic('chat');
+
       //Reacting to a push notification
       FirebaseMessaging.onMessage.listen((message) {
         var notification = PushNotification(
