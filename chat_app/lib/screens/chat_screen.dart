@@ -1,7 +1,6 @@
 import 'package:chat_app/models/dropdown_menu_options.dart';
 import 'package:chat_app/widgets/chat/messages.dart';
 import 'package:chat_app/widgets/chat/new_message.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -10,8 +9,6 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final chatCollection = FirebaseFirestore.instance.collection('chat');
-
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
